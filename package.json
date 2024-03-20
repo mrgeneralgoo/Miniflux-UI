@@ -7,7 +7,7 @@
     "@arco-design/web-react": "^2.60.1",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/user-event": "^14.0.0",
     "axios": "^1.6.7",
     "canvas-confetti": "^1.9.2",
     "classnames": "^2.5.1",
