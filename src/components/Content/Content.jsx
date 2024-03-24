@@ -20,20 +20,20 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const unreadTotal = useStore((state) => state.unreadTotal);
   const unreadToday = useStore((state) => state.unreadToday);
   const readCount = useStore((state) => state.readCount);
+  const activeContent = useStore((state) => state.activeContent);
   const setUnreadTotal = useStore((state) => state.setUnreadTotal);
   const setUnreadToday = useStore((state) => state.setUnreadToday);
   const setReadCount = useStore((state) => state.setReadCount);
+  const setActiveContent = useStore((state) => state.setActiveContent);
 
   const {
-    activeContent,
-    allEntries,
     entries,
+    filteredEntries,
     filterStatus,
     loading,
     offset,
-    setActiveContent,
-    setAllEntries,
     setEntries,
+    setFilteredEntries,
     setLoading,
     setLoadMoreUnreadVisible,
     setLoadMoreVisible,
@@ -45,9 +45,11 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     updateGroupUnread,
   } = useContext(ContentContext);
 
-  const { toggleEntryStarred, toggleEntryStatus } = useEntryActions();
+  const { handleFetchContent, toggleEntryStarred, toggleEntryStatus } =
+    useEntryActions();
   const {
     handleBKey,
+    handleDKey,
     handleEscapeKey,
     handleLeftKey,
     handleMKey,
@@ -63,53 +65,53 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const cardsRef = useRef(null);
 
   useEffect(() => {
-    setShowArticleDetail(activeContent);
+    setShowArticleDetail(activeContent !== null);
   }, [activeContent]);
 
   const updateLocalEntryStatus = (entries, entryId, status) => {
     return entries.map((e) => (e.id === entryId ? { ...e, status } : e));
   };
 
-  const handleEntryClick = (entry) => {
-    const processEntryClick = async () => {
-      setShowArticleDetail(false);
+  const handleEntryClick = async (entry) => {
+    setShowArticleDetail(false);
 
-      setTimeout(() => {
-        setActiveContent({ ...entry, status: "read" });
-      }, 200);
+    setTimeout(() => {
+      setActiveContent({ ...entry, status: "read" });
+    }, 200);
 
-      if (entry.status === "unread") {
-        const response = await updateEntryStatus(entry, "read");
-        if (response) {
-          updateFeedUnread(entry.feed.id, "read");
-          updateGroupUnread(entry.feed.category.id, "read");
-          setEntries(updateLocalEntryStatus(entries, entry.id, "read"));
-          setAllEntries(updateLocalEntryStatus(allEntries, entry.id, "read"));
-          setUnreadTotal(Math.max(0, unreadTotal - 1));
-          setUnreadCount(Math.max(0, unreadCount - 1));
-          setReadCount(readCount + 1);
-          if (isInLast24Hours(entry.published_at)) {
-            setUnreadToday(Math.max(0, unreadToday - 1));
-          }
+    if (entry.status === "unread") {
+      const response = await updateEntryStatus(entry.id, "read");
+      if (response) {
+        updateFeedUnread(entry.feed.id, "read");
+        updateGroupUnread(entry.feed.category.id, "read");
+        setEntries(updateLocalEntryStatus(entries, entry.id, "read"));
+        setFilteredEntries(
+          updateLocalEntryStatus(filteredEntries, entry.id, "read"),
+        );
+        setUnreadTotal(Math.max(0, unreadTotal - 1));
+        setUnreadCount(Math.max(0, unreadCount - 1));
+        setReadCount(readCount + 1);
+        if (isInLast24Hours(entry.published_at)) {
+          setUnreadToday(Math.max(0, unreadToday - 1));
         }
       }
+    }
 
-      if (entryDetailRef.current) {
-        entryDetailRef.current.setAttribute("tabIndex", "-1");
-        entryDetailRef.current.focus();
-        entryDetailRef.current.scrollTo(0, 0);
-      }
-    };
-
-    processEntryClick();
+    if (entryDetailRef.current) {
+      entryDetailRef.current.setAttribute("tabIndex", "-1");
+      entryDetailRef.current.focus();
+      entryDetailRef.current.scrollTo(0, 0);
+    }
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const keyMap = {
       27: () => handleEscapeKey(entryListRef),
       37: () => handleLeftKey(handleEntryClick),
       39: () => handleRightKey(handleEntryClick),
       66: () => handleBKey(),
+      68: () => handleDKey(handleFetchContent),
       77: () => handleMKey(toggleEntryStatus),
       83: () => handleSKey(toggleEntryStarred),
     };
@@ -121,13 +123,17 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
+    if (showArticleDetail) {
+      document.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.removeEventListener("keydown", handleKeyDown);
+    }
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeContent, entries]);
+  }, [activeContent, filteredEntries, showArticleDetail]);
 
   const fetchEntries = async () => {
     const responseAll = await getEntries();
@@ -135,8 +141,8 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     return { responseAll, responseUnread };
   };
 
-  const processEntries = (responseAll) => {
-    const fetchedArticles = responseAll.data.entries.map(getFirstImage);
+  const processEntries = (response) => {
+    const fetchedArticles = response.data.entries.map(getFirstImage);
 
     const filteredArticles =
       filterStatus === "all"
@@ -152,8 +158,8 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     responseAll,
     responseUnread,
   ) => {
-    setAllEntries(fetchedArticles);
-    setEntries(filteredArticles);
+    setEntries(fetchedArticles);
+    setFilteredEntries(filteredArticles);
 
     setTotal(responseAll.data.total);
     setLoadMoreVisible(fetchedArticles.length < responseAll.data.total);
@@ -182,6 +188,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     }
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     getArticleList();
     setActiveContent(null);

@@ -2,30 +2,38 @@ import { Button, Space, Tooltip } from "@arco-design/web-react";
 import {
   IconArrowLeft,
   IconArrowRight,
+  IconCloudDownload,
   IconMinusCircle,
   IconRecord,
   IconStar,
   IconStarFill,
 } from "@arco-design/web-react/icon";
-import { useContext } from "react";
 
+import useStore from "../../Store";
 import useEntryActions from "../../hooks/useEntryActions";
 import useKeyHandlers from "../../hooks/useKeyHandlers";
-import ContentContext from "../Content/ContentContext";
 
 const ActionButtons = ({ handleEntryClick }) => {
-  const { activeContent } = useContext(ContentContext);
-  const { toggleEntryStarred, toggleEntryStatus } = useEntryActions();
+  const activeContent = useStore((state) => state.activeContent);
+  const { handleFetchContent, toggleEntryStarred, toggleEntryStatus } =
+    useEntryActions();
   const { handleLeftKey, handleRightKey } = useKeyHandlers();
 
-  return activeContent ? (
+  if (!activeContent) {
+    return null;
+  }
+
+  const isUnread = activeContent.status === "unread";
+  const isStarred = activeContent.starred;
+
+  return (
     <div
       className="action-buttons"
       style={{
         position: "fixed",
-        borderRadius: "50%",
         bottom: "20px",
         right: "10px",
+        borderRadius: "50%",
         boxShadow: "0 4px 10px rgba(var(--primary-6), 0.4)",
       }}
     >
@@ -33,11 +41,7 @@ const ActionButtons = ({ handleEntryClick }) => {
         <Tooltip
           mini
           position="left"
-          content={
-            activeContent.status === "unread"
-              ? "Mark as Read"
-              : "Mark as Unread"
-          }
+          content={isUnread ? "Mark as Read" : "Mark as Unread"}
         >
           <Button
             type="primary"
@@ -46,35 +50,37 @@ const ActionButtons = ({ handleEntryClick }) => {
               borderBottom: "1px solid rgb(var(--primary-5))",
               borderRadius: "50% 50% 0 0",
             }}
-            onClick={() => toggleEntryStatus()}
-            icon={
-              activeContent.status === "unread" ? (
-                <IconMinusCircle />
-              ) : (
-                <IconRecord />
-              )
-            }
+            onClick={toggleEntryStatus}
+            icon={isUnread ? <IconMinusCircle /> : <IconRecord />}
           />
         </Tooltip>
-        <Tooltip
-          mini
-          position="left"
-          content={activeContent.starred === false ? "Star" : "Unstar"}
-        >
+        <Tooltip mini position="left" content={isStarred ? "Unstar" : "Star"}>
           <Button
             type="primary"
             size="mini"
             style={{
               borderRadius: "0",
             }}
-            onClick={() => toggleEntryStarred()}
+            onClick={toggleEntryStarred}
             icon={
-              activeContent.starred ? (
+              isStarred ? (
                 <IconStarFill style={{ color: "#ffcd00" }} />
               ) : (
                 <IconStar />
               )
             }
+          />
+        </Tooltip>
+        <Tooltip mini position="left" content="Fetch original article">
+          <Button
+            type="primary"
+            size="mini"
+            style={{
+              borderTop: "1px solid rgb(var(--primary-5))",
+              borderRadius: "0",
+            }}
+            onClick={handleFetchContent}
+            icon={<IconCloudDownload />}
           />
         </Tooltip>
         <Tooltip mini position="left" content="Previous Article">
@@ -103,7 +109,7 @@ const ActionButtons = ({ handleEntryClick }) => {
         </Tooltip>
       </Space>
     </div>
-  ) : null;
+  );
 };
 
 export default ActionButtons;

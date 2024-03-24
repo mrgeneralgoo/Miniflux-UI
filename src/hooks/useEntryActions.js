@@ -2,7 +2,11 @@ import Confetti from "canvas-confetti";
 import { useContext } from "react";
 
 import useStore from "../Store";
-import { updateEntryStarred, updateEntryStatus } from "../apis";
+import {
+  fetchOriginalArticle,
+  toggleEntryStarred as toggleEntryStarredApi,
+  updateEntryStatus,
+} from "../apis";
 import ContentContext from "../components/Content/ContentContext";
 import { isInLast24Hours } from "../utils/Date";
 
@@ -15,14 +19,14 @@ const useEntryActions = () => {
   const setReadCount = useStore((state) => state.setReadCount);
   const starredCount = useStore((state) => state.starredCount);
   const setStarredCount = useStore((state) => state.setStarredCount);
+  const activeContent = useStore((state) => state.activeContent);
+  const setActiveContent = useStore((state) => state.setActiveContent);
 
   const {
-    activeContent,
-    allEntries,
     entries,
-    setActiveContent,
-    setAllEntries,
+    filteredEntries,
     setEntries,
+    setFilteredEntries,
     setUnreadCount,
     unreadCount,
     updateFeedUnread,
@@ -38,27 +42,30 @@ const useEntryActions = () => {
   const updateUI = (newContentStatus, updateFunction) => {
     setActiveContent({ ...activeContent, ...newContentStatus });
     setEntries(updateEntries(entries, activeContent, updateFunction));
-    setAllEntries(updateEntries(allEntries, activeContent, updateFunction));
+    setFilteredEntries(
+      updateEntries(filteredEntries, activeContent, updateFunction),
+    );
   };
 
   const handleToggleStatus = async (newStatus) => {
-    const response = await updateEntryStatus(activeContent);
+    const response = await updateEntryStatus(activeContent.id, newStatus);
     if (response) {
       updateFeedUnread(activeContent.feed.id, newStatus);
       updateGroupUnread(activeContent.feed.category.id, newStatus);
-      setUnreadTotal(
-        newStatus === "read" ? Math.max(0, unreadTotal - 1) : unreadTotal + 1,
-      );
-      setUnreadCount(
-        newStatus === "read" ? Math.max(0, unreadCount - 1) : unreadCount + 1,
-      );
-      setReadCount(
-        newStatus === "read" ? readCount + 1 : Math.max(0, readCount - 1),
-      );
-      if (isInLast24Hours(activeContent.published_at)) {
-        setUnreadToday(
-          newStatus === "read" ? Math.max(0, unreadToday - 1) : unreadToday + 1,
-        );
+      if (newStatus === "read") {
+        setUnreadTotal(Math.max(0, unreadTotal - 1));
+        setUnreadCount(Math.max(0, unreadCount - 1));
+        setReadCount(readCount + 1);
+        if (isInLast24Hours(activeContent.published_at)) {
+          setUnreadToday(Math.max(0, unreadToday - 1));
+        }
+      } else {
+        setUnreadTotal(unreadTotal + 1);
+        setUnreadCount(unreadCount + 1);
+        setReadCount(Math.max(0, readCount - 1));
+        if (isInLast24Hours(activeContent.published_at)) {
+          setUnreadToday(unreadToday + 1);
+        }
       }
       updateUI({ status: newStatus }, (entry) => ({
         ...entry,
@@ -69,7 +76,7 @@ const useEntryActions = () => {
 
   const handleToggleStarred = async () => {
     const newStarred = !activeContent.starred;
-    const response = await updateEntryStarred(activeContent);
+    const response = await toggleEntryStarredApi(activeContent.id);
     if (response) {
       updateUI({ starred: newStarred }, (entry) => ({
         ...entry,
@@ -82,9 +89,18 @@ const useEntryActions = () => {
           spread: 70,
           origin: { x: 1, y: 1 },
         });
-      setStarredCount(
-        newStarred ? starredCount + 1 : Math.max(0, starredCount - 1),
-      );
+      if (newStarred) {
+        setStarredCount(starredCount + 1);
+      } else {
+        setStarredCount(Math.max(0, starredCount - 1));
+      }
+    }
+  };
+
+  const handleFetchContent = async () => {
+    const response = await fetchOriginalArticle(activeContent.id);
+    if (response) {
+      setActiveContent({ ...activeContent, content: response.data.content });
     }
   };
 
@@ -97,7 +113,7 @@ const useEntryActions = () => {
     handleToggleStarred();
   };
 
-  return { toggleEntryStatus, toggleEntryStarred };
+  return { handleFetchContent, toggleEntryStatus, toggleEntryStarred };
 };
 
 export default useEntryActions;

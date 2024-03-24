@@ -9,9 +9,11 @@ import {
 import { IconPlus } from "@arco-design/web-react/icon";
 import { useState } from "react";
 
-import { addGroup, delGroup, editGroup } from "../../apis";
+import useStore from "../../Store";
+import { addGroup, deleteGroup, editGroup } from "../../apis";
 
 const GroupList = ({ groups, loading, setGroups }) => {
+  const initData = useStore((state) => state.initData);
   const [showAddInput, setShowAddInput] = useState(false);
   const [inputAddValue, setInputAddValue] = useState("");
   const [groupModalVisible, setGroupModalVisible] = useState(false);
@@ -28,25 +30,38 @@ const GroupList = ({ groups, loading, setGroups }) => {
           { ...response.data, feedCount: 0 },
         ]);
         setInputAddValue("");
-        Message.success("Success");
+        Message.success("Group added successfully");
+        await initData();
       }
     }
     setInputAddValue("");
     setShowAddInput(false);
   };
 
-  const handleEditGroup = async (group_id, newTitle) => {
+  const handleEditGroup = async (groupId, newTitle) => {
     setGroupModalLoading(true);
-    const response = await editGroup(group_id, newTitle);
+    const response = await editGroup(groupId, newTitle);
     if (response) {
       setGroups(
-        groups.map((group) => (group.id === group_id ? response.data : group)),
+        groups.map((group) => (group.id === groupId ? response.data : group)),
       );
-      Message.success("Success");
+      Message.success("Group updated successfully");
       setGroupModalVisible(false);
+      await initData();
     }
     setGroupModalLoading(false);
     groupForm.resetFields();
+  };
+
+  const handleDeleteGroup = async (groupId) => {
+    const response = await deleteGroup(groupId);
+    if (response.status === 204) {
+      setGroups(groups.filter((group) => group.id !== groupId));
+      Message.success("Group deleted successfully");
+      await initData();
+    } else {
+      Message.error("Failed to delete group");
+    }
   };
 
   return (
@@ -67,16 +82,7 @@ const GroupList = ({ groups, loading, setGroups }) => {
               }}
               onClose={async (event) => {
                 event.stopPropagation();
-                const response = await delGroup(group.id);
-                return new Promise((resolve, reject) => {
-                  if (response.status === 204) {
-                    resolve();
-                    Message.success("Deleted");
-                  } else {
-                    Message.error("Failed");
-                    reject(new Error("Failed to delete group"));
-                  }
-                });
+                await handleDeleteGroup(group.id);
               }}
               style={{
                 marginRight: "10px",

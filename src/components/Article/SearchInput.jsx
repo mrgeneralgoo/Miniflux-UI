@@ -1,30 +1,27 @@
 import { Input, Select } from "@arco-design/web-react";
 import { useContext } from "react";
 
-import UseFilterEntries from "../../hooks/useFilterEntries";
+import useStore from "../../Store";
+import useFilterEntries from "../../hooks/useFilterEntries";
 import ContentContext from "../Content/ContentContext";
 
 const SearchInput = () => {
-  const {
-    activeContent,
-    filterStatus,
-    filterString,
-    filterType,
-    setActiveContent,
-  } = useContext(ContentContext);
+  const { filterStatus, filterString, filterType } = useContext(ContentContext);
+  const activeContent = useStore((state) => state.activeContent);
+  const setActiveContent = useStore((state) => state.setActiveContent);
 
-  const { handleFilter } = UseFilterEntries();
+  const { handleFilter } = useFilterEntries();
 
   return (
     <Input.Search
       allowClear
-      placeholder="filter"
+      placeholder="Search..."
       value={filterString}
       addBefore={
         <Select
-          placeholder="Please select"
-          onChange={(value) => {
-            handleFilter(value, filterStatus, filterString);
+          placeholder="Select type"
+          onChange={(type) => {
+            handleFilter(type, filterStatus, filterString);
           }}
           style={{ width: 100 }}
           value={filterType}
@@ -33,12 +30,8 @@ const SearchInput = () => {
           <Select.Option value="1">Content</Select.Option>
         </Select>
       }
-      onChange={(value) => {
-        if (activeContent) {
-          setActiveContent(null);
-        }
-        handleFilter(filterType, filterStatus, value);
-      }}
+      onFocus={() => activeContent && setActiveContent(null)}
+      onChange={(text) => handleFilter(filterType, filterStatus, text)}
       style={{
         marginBottom: "10px",
         width: "100%",

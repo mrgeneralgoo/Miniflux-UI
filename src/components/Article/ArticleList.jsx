@@ -1,9 +1,11 @@
 import { Button } from "@arco-design/web-react";
 import { IconArrowDown } from "@arco-design/web-react/icon";
 import { forwardRef, useContext } from "react";
+import isURL from "validator/es/lib/isURL";
 
 import useStore from "../../Store";
 import useLoadMore from "../../hooks/useLoadMore";
+import { extractProtocolAndHostname } from "../../utils/URL";
 import ContentContext from "../Content/ContentContext";
 import ArticleCard from "./ArticleCard";
 import ArticleCardMini from "./ArticleCardMini";
@@ -12,8 +14,12 @@ import SearchInput from "./SearchInput";
 
 const ArticleList = forwardRef(
   ({ loading, getEntries, handleEntryClick, cardsRef }, ref) => {
-    const { entries, filterStatus, loadMoreUnreadVisible, loadMoreVisible } =
-      useContext(ContentContext);
+    const {
+      filteredEntries,
+      filterStatus,
+      loadMoreUnreadVisible,
+      loadMoreVisible,
+    } = useContext(ContentContext);
 
     const { loadingMore, handleLoadMore } = useLoadMore();
     const layout = useStore((state) => state.layout);
@@ -34,26 +40,29 @@ const ArticleList = forwardRef(
         <LoadingCards loading={loading} />
         {loading ? null : (
           <div ref={cardsRef}>
-            {entries.map((entry) =>
-              layout === "small" ? (
-                <ArticleCardMini
+            {filteredEntries.map((entry) => {
+              if (!isURL(entry.feed.site_url)) {
+                entry.feed.site_url = extractProtocolAndHostname(
+                  entry.feed.feed_url,
+                );
+              }
+
+              const ArticleComponent =
+                layout === "small" ? ArticleCardMini : ArticleCard;
+              return (
+                <ArticleComponent
                   key={entry.id}
                   entry={entry}
                   handleEntryClick={handleEntryClick}
                 />
-              ) : (
-                <ArticleCard
-                  key={entry.id}
-                  entry={entry}
-                  handleEntryClick={handleEntryClick}
-                />
-              ),
-            )}
+              );
+            })}
           </div>
         )}
         {!loading &&
-          ((filterStatus === "all" && loadMoreVisible) ||
-            (filterStatus === "unread" && loadMoreUnreadVisible)) && (
+          (filterStatus === "all"
+            ? loadMoreVisible
+            : loadMoreUnreadVisible) && (
             <Button
               onClick={() => handleLoadMore(getEntries)}
               loading={loadingMore}

@@ -1,10 +1,12 @@
 import { useContext } from "react";
 
+import useStore from "../Store";
 import ContentContext from "../components/Content/ContentContext";
 
 const useKeyHandlers = () => {
-  const { activeContent, setActiveContent, entries } =
-    useContext(ContentContext);
+  const { filteredEntries } = useContext(ContentContext);
+  const activeContent = useStore((state) => state.activeContent);
+  const setActiveContent = useStore((state) => state.setActiveContent);
 
   // go back to entry list
   const handleEscapeKey = (entryListRef) => {
@@ -20,11 +22,11 @@ const useKeyHandlers = () => {
 
   // go to previous entry
   const handleLeftKey = (handleEntryClick) => {
-    const currentIndex = entries.findIndex(
+    const currentIndex = filteredEntries.findIndex(
       (entry) => entry.id === activeContent?.id,
     );
     if (currentIndex > 0) {
-      const prevEntry = entries[currentIndex - 1];
+      const prevEntry = filteredEntries[currentIndex - 1];
       handleEntryClick(prevEntry);
       const card = document.querySelector(".card-custom-selected-style");
       if (card) {
@@ -35,11 +37,11 @@ const useKeyHandlers = () => {
 
   // go to next entry
   const handleRightKey = (handleEntryClick) => {
-    const currentIndex = entries.findIndex(
+    const currentIndex = filteredEntries.findIndex(
       (entry) => entry.id === activeContent?.id,
     );
-    if (currentIndex < entries.length - 1) {
-      const nextEntry = entries[currentIndex + 1];
+    if (currentIndex < filteredEntries.length - 1) {
+      const nextEntry = filteredEntries[currentIndex + 1];
       handleEntryClick(nextEntry);
       const card = document.querySelector(".card-custom-selected-style");
       if (card) {
@@ -52,6 +54,13 @@ const useKeyHandlers = () => {
   const handleBKey = () => {
     if (activeContent) {
       window.open(activeContent.url, "_blank");
+    }
+  };
+
+  // fetch original article
+  const handleDKey = (handleFetchContent) => {
+    if (activeContent) {
+      handleFetchContent();
     }
   };
 
@@ -74,6 +83,7 @@ const useKeyHandlers = () => {
     handleLeftKey,
     handleRightKey,
     handleBKey,
+    handleDKey,
     handleMKey,
     handleSKey,
   };

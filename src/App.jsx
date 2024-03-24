@@ -23,6 +23,7 @@ const App = () => {
     applyColor(getConfig("themeColor") || "Blue");
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     initData();
     initTheme();
@@ -34,7 +35,7 @@ const App = () => {
       className="app"
       style={{ display: "flex", backgroundColor: "var(--color-bg-1)" }}
     >
-      <Header theme={theme} />
+      <Header />
       <Sidebar />
       <Main />
     </div>

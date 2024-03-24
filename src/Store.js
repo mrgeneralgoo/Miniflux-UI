@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { create } from "zustand";
 
 import {
@@ -11,6 +10,24 @@ import {
 } from "./apis";
 import { applyColor } from "./utils/Colors";
 import { getConfig, setConfig } from "./utils/Config";
+
+const calculateUnread = (currentUnread, status) => {
+  if (status === "read") {
+    return Math.max(0, currentUnread - 1);
+  }
+  return currentUnread + 1;
+};
+
+const updateUnreadCount = (items, itemId, status) => {
+  return items.map((item) =>
+    item.id === itemId
+      ? {
+          ...item,
+          unread: calculateUnread(item.unread, status),
+        }
+      : item,
+  );
+};
 
 const useStore = create((set, get) => ({
   feeds: [],
@@ -27,7 +44,9 @@ const useStore = create((set, get) => ({
   theme: getConfig("theme") || "light",
   layout: getConfig("layout") || "large",
   fontSize: getConfig("fontSize") || 1.05,
+  showFeedIcon: getConfig("showFeedIcon") || true,
   collapsed: window.innerWidth <= 992,
+  activeContent: null,
 
   setUnreadTotal: (unreadTotal) => {
     set({ unreadTotal: unreadTotal });
@@ -41,6 +60,9 @@ const useStore = create((set, get) => ({
   setReadCount: (readCount) => {
     set({ readCount: readCount });
   },
+  setActiveContent: (activeContent) => {
+    set({ activeContent: activeContent });
+  },
 
   initData: async () => {
     set({ loading: true });
@@ -50,7 +72,7 @@ const useStore = create((set, get) => ({
       unreadResponse,
       historyResponse,
       starredResponse,
-      todayResponse,
+      todayUnreadResponse,
     ] = await Promise.all([
       getFeeds(),
       getGroups(),
@@ -66,17 +88,26 @@ const useStore = create((set, get) => ({
       groupResponse &&
       historyResponse &&
       starredResponse &&
-      todayResponse
+      todayUnreadResponse
     ) {
       const unreadInfo = unreadResponse.data.unreads;
       const unreadTotal = Object.values(unreadInfo).reduce(
         (acc, cur) => acc + cur,
         0,
       );
+
+      set({ unreadTotal });
+
       const feedsWithUnread = feedResponse.data.map((feed) => ({
         ...feed,
         unread: unreadInfo[feed.id] || 0,
       }));
+
+      set({
+        feeds: feedsWithUnread.sort((a, b) =>
+          a.title.localeCompare(b.title, "en"),
+        ),
+      });
 
       const groupsWithUnread = groupResponse.data.map((group) => {
         let unreadCount = 0;
@@ -96,52 +127,29 @@ const useStore = create((set, get) => ({
         };
       });
 
-      const readCount = historyResponse.data.total;
-      const starredCount = starredResponse.data.total;
-      const unreadToday = todayResponse.data.total;
+      set({
+        groups: groupsWithUnread.sort((a, b) =>
+          a.title.localeCompare(b.title, "en"),
+        ),
+      });
 
-      set({ feeds: _.orderBy(feedsWithUnread, ["title"], ["asc"]) });
-      set({ groups: _.orderBy(groupsWithUnread, ["title"], ["asc"]) });
-      set({ unreadTotal });
-      set({ readCount });
-      set({ starredCount });
-      set({ unreadToday });
+      set({ readCount: historyResponse.data.total });
+      set({ starredCount: starredResponse.data.total });
+      set({ unreadToday: todayUnreadResponse.data.total });
       set({ loading: false });
     }
   },
 
   updateFeedUnread: (feedId, status) => {
-    set((state) => {
-      const updatedFeeds = state.feeds.map((feed) =>
-        feed.id === feedId
-          ? {
-              ...feed,
-              unread:
-                status === "read"
-                  ? Math.max(0, feed.unread - 1)
-                  : feed.unread + 1,
-            }
-          : feed,
-      );
-      return { feeds: updatedFeeds };
-    });
+    set((state) => ({
+      feeds: updateUnreadCount(state.feeds, feedId, status),
+    }));
   },
 
   updateGroupUnread: (groupId, status) => {
-    set((state) => {
-      const updatedGroups = state.groups.map((group) =>
-        group.id === groupId
-          ? {
-              ...group,
-              unread:
-                status === "read"
-                  ? Math.max(0, group.unread - 1)
-                  : group.unread + 1,
-            }
-          : group,
-      );
-      return { groups: updatedGroups };
-    });
+    set((state) => ({
+      groups: updateUnreadCount(state.groups, groupId, status),
+    }));
   },
 
   toggleTheme: () => {
@@ -167,6 +175,11 @@ const useStore = create((set, get) => ({
   setFontSize: (sizeStr) => {
     set({ fontSize: sizeStr });
     setConfig("fontSize", sizeStr);
+  },
+
+  setShowFeedIcon: (showFeedIcon) => {
+    set({ showFeedIcon: showFeedIcon });
+    setConfig("showFeedIcon", showFeedIcon);
   },
 
   setVisible: (modalName, visible) => {

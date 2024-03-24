@@ -10,8 +10,8 @@ import {
 import { useState } from "react";
 
 import useStore from "../../Store";
-import dark from "../../assets/dark.png";
-import light from "../../assets/light.png";
+import darkThemePreview from "../../assets/dark.png";
+import lightThemePreview from "../../assets/light.png";
 import { applyColor, colors, getColorValue } from "../../utils/Colors";
 import { getConfig, setConfig } from "../../utils/Config";
 import "./Appearance.css";
@@ -23,6 +23,8 @@ const Appearance = () => {
   const layout = useStore((state) => state.layout);
   const fontSize = useStore((state) => state.fontSize);
   const setFontSize = useStore((state) => state.setFontSize);
+  const showFeedIcon = useStore((state) => state.showFeedIcon);
+  const setShowFeedIcon = useStore((state) => state.setShowFeedIcon);
   const [themeColor, setThemeColor] = useState(
     getConfig("themeColor") || "Blue",
   );
@@ -42,25 +44,22 @@ const Appearance = () => {
           defaultValue={theme}
           onChange={() => toggleTheme()}
         >
-          {["light", "dark"].map((item) => {
+          {["light", "dark"].map((mode) => {
             return (
-              <Radio key={item} value={item}>
+              <Radio key={mode} value={mode}>
                 {({ checked }) => {
                   return (
                     <div
                       className={`custom-radio-card ${checked ? "custom-radio-card-checked" : ""}`}
                     >
                       <img
-                        src={item === "light" ? light : dark}
-                        alt={item}
-                        style={{
-                          height: "100%",
-                          objectFit: "cover",
-                          borderRadius: "4px 4px 0 0",
-                          borderLeft: "1px solid var(--color-border-2)",
-                          borderTop: "1px solid var(--color-border-2)",
-                          borderRight: "1px solid var(--color-border-2)",
-                        }}
+                        className="theme-preview"
+                        src={
+                          mode === "light"
+                            ? lightThemePreview
+                            : darkThemePreview
+                        }
+                        alt={mode}
                       />
                     </div>
                   );
@@ -71,13 +70,7 @@ const Appearance = () => {
         </Radio.Group>
       </div>
       <Divider />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="setting-row">
         <div>
           <Typography.Title heading={6} style={{ marginTop: 0 }}>
             Accent color
@@ -142,6 +135,29 @@ const Appearance = () => {
           <Switch
             checked={layout === "small"}
             onChange={() => toggleLayout()}
+          />
+        </div>
+      </div>
+      <Divider />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <div>
+          <Typography.Title heading={6} style={{ marginTop: 0 }}>
+            Show feed icon
+          </Typography.Title>
+          <Typography.Text type="secondary">
+            Show feed icon in feed list and article list
+          </Typography.Text>
+        </div>
+        <div>
+          <Switch
+            checked={showFeedIcon}
+            onChange={() => setShowFeedIcon(!showFeedIcon)}
           />
         </div>
       </div>
