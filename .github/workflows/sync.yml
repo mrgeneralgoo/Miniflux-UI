@@ -1,0 +1,59 @@
+name: Upstream Sync
+
+# Grant permissions to write to the repository
+permissions:
+  contents: write
+
+# Trigger the workflow on a schedule (daily at midnight) or manually
+on:
+  schedule:
+    - cron: "0 0 * * *" # Run every day at midnight
+  workflow_dispatch:
+
+jobs:
+
+  sync_latest_from_upstream:
+    name: Sync latest commits from upstream repo
+    runs-on: ubuntu-latest
+
+    steps:
+    # Check out the repository
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Set up Node.js environment
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 'latest'
+
+    # Install required dependencies
+    - name: Install dependencies
+      run: |
+        npm install -g npm-check-updates
+        rm -rf upstream
+
+    # Check out the upstream repository
+    - name: Sync upstream repository
+      uses: actions/checkout@v4
+      with:
+        repository: electh/ReactFlux
+        path: upstream
+
+    # Run custom processing script
+    - name: Custom process
+      working-directory: ./upstream
+      run: |
+        rm -rf .git
+        chmod +x custom.sh
+        ./update.sh
+
+    # Commit and push changes
+    - name: Commit changes
+      run: |
+        date > generated.txt
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add .
+        git commit -m "Sync with upstream repo"
+        git push
