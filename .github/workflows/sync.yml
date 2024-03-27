@@ -51,7 +51,7 @@ jobs:
     # Commit and push changes
     - name: Commit changes
       run: |
-        date > generated.txt
+        date +"%Y-%m-%d %H:%M:%S" > generated.txt
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
