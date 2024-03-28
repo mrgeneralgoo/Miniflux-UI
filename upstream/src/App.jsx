@@ -6,28 +6,44 @@ import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { applyColor } from "./utils/Colors";
-import { getConfig } from "./utils/Config";
 
 const App = () => {
   const initData = useStore((state) => state.initData);
   const theme = useStore((state) => state.theme);
-
-  const initTheme = () => {
-    if (theme === "dark") {
-      document.body.setAttribute("arco-theme", "dark");
-      document.body.style.colorScheme = "dark";
-    } else {
-      document.body.removeAttribute("arco-theme");
-      document.body.style.colorScheme = "light";
-    }
-    applyColor(getConfig("themeColor") || "Blue");
-  };
+  const isSysDarkMode = useStore((state) => state.isSysDarkMode);
+  const setIsSysDarkMode = useStore((state) => state.setIsSysDarkMode);
+  const color = useStore((state) => state.color);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     initData();
-    initTheme();
+
+    const handleDarkModeChange = (event) => {
+      setIsSysDarkMode(event.matches);
+    };
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    mediaQuery.addEventListener("change", handleDarkModeChange);
+
+    // 在组件卸载时清除监听器
+    return () => {
+      mediaQuery.removeEventListener("change", handleDarkModeChange);
+    };
   }, []);
+
+  useEffect(() => {
+    const applyTheme = (isDarkMode) => {
+      document.body.setAttribute("arco-theme", isDarkMode ? "dark" : "light");
+      document.body.style.colorScheme = isDarkMode ? "dark" : "light";
+    };
+
+    applyTheme(theme === "system" ? isSysDarkMode : theme === "dark");
+  }, [isSysDarkMode, theme]);
+
+  useEffect(() => {
+    applyColor(color);
+    // }, [color, isSysDarkMode, theme]);
+  }, [color]);
 
   return (
     <div

@@ -8,6 +8,8 @@ import {
   Tooltip,
 } from "@arco-design/web-react";
 import {
+  IconCheck,
+  IconDesktop,
   IconGithub,
   IconMenu,
   IconMoonFill,
@@ -40,6 +42,18 @@ const Header = () => {
     Message.success("logout");
   };
 
+  let themeIcon;
+  switch (theme) {
+    case "dark":
+      themeIcon = <IconMoonFill />;
+      break;
+    case "light":
+      themeIcon = <IconSunFill />;
+      break;
+    default:
+      themeIcon = <IconDesktop />;
+  }
+
   return (
     <div className="header">
       <div
@@ -58,7 +72,7 @@ const Header = () => {
       </div>
       <div className="button-group" style={{ marginRight: "10px" }}>
         <Space size={16}>
-          <Tooltip content="Add feed" mini>
+          <Tooltip content="Add a feed" mini>
             <Button
               shape="circle"
               size="small"
@@ -75,12 +89,34 @@ const Header = () => {
               window.open("https://github.com/electh/ReactFlux", "_blank")
             }
           />
-          <Button
-            shape="circle"
-            size="small"
-            icon={theme === "dark" ? <IconSunFill /> : <IconMoonFill />}
-            onClick={toggleTheme}
-          />
+          <Dropdown
+            droplist={
+              <Menu defaultSelectedKeys={[theme]} className="theme-menu">
+                {["light", "dark", "system"].map((themeOption) => (
+                  <Menu.Item
+                    className={theme === themeOption ? "selected-menu" : ""}
+                    key={themeOption}
+                    onClick={() => toggleTheme(themeOption)}
+                    style={{
+                      display: "flex",
+                      width: 100,
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    {themeOption.charAt(0).toUpperCase() + themeOption.slice(1)}
+                    {theme === themeOption && (
+                      <IconCheck style={{ marginLeft: 8 }} />
+                    )}
+                  </Menu.Item>
+                ))}
+              </Menu>
+            }
+            trigger="hover"
+            position="bottom"
+          >
+            <Button shape="circle" size="small" icon={themeIcon} />
+          </Dropdown>
           <Dropdown
             droplist={
               <Menu>

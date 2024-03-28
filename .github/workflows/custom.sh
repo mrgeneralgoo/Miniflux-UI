@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # 1. inject script
 cat <<'END_SCRIPT' > inject_script.js
 <!-- Google tag (gtag.js) -->
