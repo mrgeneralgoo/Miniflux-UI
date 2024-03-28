@@ -20,4 +20,4 @@ rm index.html.bak inject_script.js
 # 2. upgrades package.json dependencies to the latest versions
 rm -rf package-lock.json pnpm-lock.yaml
 ncu --install always -p npm -u
-ncu --install always -p pnpm -u
+pnpm import package-lock.json
