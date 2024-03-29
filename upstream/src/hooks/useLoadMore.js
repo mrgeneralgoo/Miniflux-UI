@@ -1,9 +1,12 @@
 import { useContext, useState } from "react";
 
+import useStore from "../Store.js";
 import ContentContext from "../components/Content/ContentContext";
-import { filterEntries } from "../utils/Filter";
+import { filterEntries } from "../utils/filter";
 
 const useLoadMore = () => {
+  const pageSize = useStore((state) => state.pageSize);
+
   const {
     entries,
     filterStatus,
@@ -36,9 +39,9 @@ const useLoadMore = () => {
     setLoadingMore(true);
 
     try {
-      const response = await getEntries(offset + 100);
+      const response = await getEntries(offset + pageSize);
       if (response?.data?.entries) {
-        setOffset((current) => current + 100);
+        setOffset((current) => current + pageSize);
         const newArticlesWithImage = response.data.entries.map(getFirstImage);
         const updatedAllArticles = [
           ...new Map(

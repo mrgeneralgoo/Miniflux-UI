@@ -8,7 +8,7 @@ import {
   getTodayEntries,
   getUnreadInfo,
 } from "./apis";
-import { getConfig, setConfig } from "./utils/Config";
+import { getConfig } from "./utils/config";
 
 const calculateUnreadCount = (currentCount, status) => {
   if (status === "read") {
@@ -44,19 +44,25 @@ const useStore = create((set, get) => ({
   unreadToday: 0,
   starredCount: 0,
   readCount: 0,
+  hiddenFeedIds: [],
+  hiddenGroupIds: [],
+  orderBy: getConfig("orderBy"),
+  orderDirection: getConfig("orderDirection"),
+  pageSize: getConfig("pageSize"),
+  showAllFeeds: getConfig("showAllFeeds"),
   loading: true,
   visible: {
     settings: false,
     addFeed: false,
   },
-  theme: getConfig("theme") || "system",
-  layout: getConfig("layout") || "large",
-  fontSize: getConfig("fontSize") || 1.05,
-  showFeedIcon: getConfig("showFeedIcon") || true,
+  theme: getConfig("theme"),
+  layout: getConfig("layout"),
+  fontSize: getConfig("fontSize"),
+  showFeedIcon: getConfig("showFeedIcon"),
   collapsed: window.innerWidth <= 992,
   activeContent: null,
   isSysDarkMode: window.matchMedia("(prefers-color-scheme: dark)").matches,
-  color: getConfig("themeColor") || "Blue",
+  color: getConfig("themeColor"),
 
   setUnreadTotal: (updater) =>
     set((state) => ({ unreadTotal: updater(state.unreadTotal) })),
@@ -66,6 +72,11 @@ const useStore = create((set, get) => ({
     set((state) => ({ starredCount: updater(state.starredCount) })),
   setReadCount: (updater) =>
     set((state) => ({ readCount: updater(state.readCount) })),
+  setOrderBy: (value) => set({ orderBy: value }),
+  setOrderDirection: (value) => set({ orderDirection: value }),
+  setPageSize: (value) => set({ pageSize: value }),
+  toggleShowAllFeeds: () =>
+    set((state) => ({ showAllFeeds: !state.showAllFeeds })),
   setActiveContent: (activeContent) => {
     set({ activeContent: activeContent });
   },
@@ -82,32 +93,48 @@ const useStore = create((set, get) => ({
     const [
       feedResponse,
       groupResponse,
-      unreadResponse,
       historyResponse,
       starredResponse,
       todayUnreadResponse,
+      unreadResponse,
     ] = await Promise.all([
       getFeeds(),
       getGroups(),
-      getUnreadInfo(),
       getHistoryEntries(),
       getStarredEntries(),
       getTodayEntries(0, "unread"),
+      getUnreadInfo(),
     ]);
 
     if (
       feedResponse &&
-      unreadResponse &&
       groupResponse &&
       historyResponse &&
       starredResponse &&
-      todayUnreadResponse
+      todayUnreadResponse &&
+      unreadResponse
     ) {
+      const hiddenFeedIds = feedResponse.data
+        .filter((feed) => feed.hide_globally || feed.category.hide_globally)
+        .map((feed) => feed.id);
+      const hiddenGroupIds = groupResponse.data
+        .filter((group) => group.hide_globally)
+        .map((group) => group.id);
+
+      set({ hiddenFeedIds });
+      set({ hiddenGroupIds });
+
       const unreadInfo = unreadResponse.data.unreads;
-      const unreadTotal = Object.values(unreadInfo).reduce(
-        (acc, cur) => acc + cur,
-        0,
-      );
+
+      const unreadTotal = Object.keys(unreadInfo).reduce((acc, id) => {
+        if (
+          get().showAllFeeds ||
+          !hiddenFeedIds.includes(Number.parseInt(id))
+        ) {
+          return acc + unreadInfo[id];
+        }
+        return acc;
+      }, 0);
 
       set({ unreadTotal });
 
@@ -165,34 +192,21 @@ const useStore = create((set, get) => ({
     }));
   },
 
-  toggleTheme: (value) => {
-    set({ theme: value });
-    setConfig("theme", value);
-  },
-
   toggleLayout: () => {
     const newLayout = get().layout === "large" ? "small" : "large";
     set({ layout: newLayout });
-    setConfig("layout", newLayout);
   },
 
-  setFontSize: (sizeStr) => {
-    set({ fontSize: sizeStr });
-    setConfig("fontSize", sizeStr);
-  },
+  setFontSize: (sizeStr) => set({ fontSize: sizeStr }),
 
-  setShowFeedIcon: (showFeedIcon) => {
-    set({ showFeedIcon: showFeedIcon });
-    setConfig("showFeedIcon", showFeedIcon);
-  },
+  toggleShowFeedIcon: () =>
+    set((state) => ({ showFeedIcon: !state.showFeedIcon })),
 
   setVisible: (modalName, visible) => {
     set((state) => ({ visible: { ...state.visible, [modalName]: visible } }));
   },
 
-  setCollapsed: (collapsed) => {
-    set({ collapsed: collapsed });
-  },
+  toggleCollapsed: () => set((state) => ({ collapsed: !state.collapsed })),
 }));
 
 export default useStore;

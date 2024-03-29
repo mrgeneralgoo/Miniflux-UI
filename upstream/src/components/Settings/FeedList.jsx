@@ -17,8 +17,8 @@ import React, { useEffect, useState } from "react";
 
 import useStore from "../../Store";
 import { deleteFeed, editFeed, refreshFeed } from "../../apis";
-import { generateRelativeTime } from "../../utils/Date";
-import { includesIgnoreCase } from "../../utils/Filter";
+import { generateRelativeTime } from "../../utils/date";
+import { includesIgnoreCase } from "../../utils/filter";
 
 const getSortedFeedsByErrorCount = (feeds) => {
   return feeds.slice().sort((a, b) => {
@@ -107,7 +107,7 @@ const FeedList = ({
     });
   };
 
-  const isMobileView = screenWidth <= 700;
+  const isMobileView = screenWidth <= 768;
   const columns = [
     {
       title: "Title",
@@ -197,7 +197,7 @@ const FeedList = ({
           </button>
           <Popconfirm
             position="left"
-            focusLocka
+            focusLock
             title="Unfollow？"
             onOk={async () => {
               await handleDeleteFeed(record);

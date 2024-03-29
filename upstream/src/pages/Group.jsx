@@ -1,27 +1,39 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
+import useStore from "../Store.js";
 import { apiClient } from "../apis/axios";
+import { buildEntriesUrl } from "../apis/index.js";
 import Content from "../components/Content/Content";
 import { ContentProvider } from "../components/Content/ContentContext";
 
 const Group = () => {
-  const { c_id } = useParams();
-
+  const { id: groupId } = useParams();
+  const orderBy = useStore((state) => state.orderBy);
+  const orderDirection = useStore((state) => state.orderDirection);
+  const pageSize = useStore((state) => state.pageSize);
   const getGroupEntries = async (offset = 0, status = null) => {
-    const base_url = `/v1/categories/${c_id}/entries?order=published_at&direction=desc&offset=${offset}`;
-    const url = status ? `${base_url}&status=${status}` : base_url;
+    const baseParams = {
+      baseUrl: `/v1/categories/${groupId}/entries`,
+      orderField: orderBy,
+      direction: orderDirection,
+      offset,
+      limit: pageSize,
+      status,
+    };
+
+    const url = buildEntriesUrl(baseParams);
     return apiClient.get(url);
   };
 
   const markGroupAsRead = async () => {
-    return apiClient.put(`/v1/categories/${c_id}/mark-all-as-read`);
+    return apiClient.put(`/v1/categories/${groupId}/mark-all-as-read`);
   };
 
   return (
     <ContentProvider>
       <Content
-        info={{ from: "group", id: c_id }}
+        info={{ from: "group", id: groupId }}
         getEntries={getGroupEntries}
         markAllAsRead={markGroupAsRead}
       />
