@@ -11,16 +11,17 @@ import { Outlet } from "react-router-dom";
 
 import useStore from "../../Store";
 import { addFeed } from "../../apis";
+import { includesIgnoreCase } from "../../utils/filter.js";
 import { isMobileWidth } from "../../utils/viewport.js";
 import SettingsTabs from "../Settings/SettingsTabs";
 import "./Main.css";
 
-const SettingsModal = ({
-  activeContent,
-  setActiveContent,
-  setVisible,
-  visible,
-}) => {
+const SettingsModal = () => {
+  const activeContent = useStore((state) => state.activeContent);
+  const setActiveContent = useStore((state) => state.setActiveContent);
+  const setVisible = useStore((state) => state.setVisible);
+  const visible = useStore((state) => state.visible);
+
   const [modalWidth, setModalWidth] = useState("720px");
   const [modalTop, setModalTop] = useState("10%");
 
@@ -62,14 +63,13 @@ const SettingsModal = ({
   );
 };
 
-const AddFeedModal = ({
-  activeContent,
-  setActiveContent,
-  setVisible,
-  visible,
-}) => {
-  const initData = useStore((state) => state.initData);
+const AddFeedModal = () => {
+  const activeContent = useStore((state) => state.activeContent);
   const groups = useStore((state) => state.groups);
+  const initData = useStore((state) => state.initData);
+  const setActiveContent = useStore((state) => state.setActiveContent);
+  const setVisible = useStore((state) => state.setVisible);
+  const visible = useStore((state) => state.visible);
 
   const [feedModalLoading, setFeedModalLoading] = useState(false);
   const [feedForm] = Form.useForm();
@@ -122,7 +122,7 @@ const AddFeedModal = ({
         }}
       >
         <Form.Item label="Feed URL" field="url" rules={[{ required: true }]}>
-          <Input placeholder="Please input feed URL" />
+          <Input placeholder="Please input a feed URL" />
         </Form.Item>
         <Form.Item
           label="Group"
@@ -130,7 +130,13 @@ const AddFeedModal = ({
           field="group"
           rules={[{ required: true }]}
         >
-          <Select placeholder="Please select">
+          <Select
+            placeholder="Please select a category"
+            showSearch
+            filterOption={(inputValue, option) =>
+              includesIgnoreCase(option.props.children, inputValue)
+            }
+          >
             {groups.map((group) => (
               <Select.Option key={group.id} value={group.id}>
                 {group.title}
@@ -154,11 +160,6 @@ const AddFeedModal = ({
 };
 
 const Main = () => {
-  const visible = useStore((state) => state.visible);
-  const setVisible = useStore((state) => state.setVisible);
-  const activeContent = useStore((state) => state.activeContent);
-  const setActiveContent = useStore((state) => state.setActiveContent);
-
   const [adjustedHeight, setAdjustedHeight] = useState(0);
 
   useEffect(() => {
@@ -178,18 +179,8 @@ const Main = () => {
   return (
     <div className="main" style={{ height: `${adjustedHeight}px` }}>
       <Outlet />
-      <SettingsModal
-        activeContent={activeContent}
-        setActiveContent={setActiveContent}
-        setVisible={setVisible}
-        visible={visible}
-      />
-      <AddFeedModal
-        activeContent={activeContent}
-        setActiveContent={setActiveContent}
-        setVisible={setVisible}
-        visible={visible}
-      />
+      <SettingsModal />
+      <AddFeedModal />
     </div>
   );
 };

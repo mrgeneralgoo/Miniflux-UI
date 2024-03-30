@@ -1,5 +1,7 @@
 const defaultConfig = {
   color: "Blue",
+  showStatus: "all",
+  homePage: "all",
   orderBy: "published_at",
   orderDirection: "desc",
   pageSize: 100,
@@ -12,7 +14,7 @@ const defaultConfig = {
 
 const getConfig = (name) => {
   const config = JSON.parse(localStorage.getItem("config")) || {};
-  const hasProperty = Object.prototype.hasOwnProperty.call(config, name);
+  const hasProperty = Object.hasOwn(config, name);
   return hasProperty ? config[name] : defaultConfig[name] || null;
 };
 

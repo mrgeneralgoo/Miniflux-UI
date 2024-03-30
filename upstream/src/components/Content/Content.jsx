@@ -1,5 +1,11 @@
 import { Message } from "@arco-design/web-react";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { CSSTransition } from "react-transition-group";
 
 import useStore from "../../Store";
@@ -63,6 +69,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const [showArticleDetail, setShowArticleDetail] = useState(false);
   const [isFilteredEntriesUpdated, setIsFilteredEntriesUpdated] =
     useState(false);
+  const [isShowAllFeedsUpdated, setIsShowAllFeedsUpdated] = useState(false);
 
   const entryListRef = useRef(null);
   const entryDetailRef = useRef(null);
@@ -74,38 +81,38 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
+    setIsShowAllFeedsUpdated(true);
+  }, [showAllFeeds]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
     if (info.from === "history") {
       return;
     }
     setTimeout(() => {
-      getArticleList();
+      refreshArticleList();
     }, 200);
   }, [orderBy]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setTimeout(() => {
-      getArticleList();
+      refreshArticleList();
     }, 200);
   }, [orderDirection]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!showAllFeeds && hiddenFeedIds) {
-      setFilteredEntries((entries) => {
-        return entries.filter(
-          (entry) => !hiddenFeedIds.includes(entry.feed.id),
-        );
-      });
-      setIsFilteredEntriesUpdated(true);
+      setFilteredEntries((entries) =>
+        entries.filter((entry) => !hiddenFeedIds.includes(entry.feed.id)),
+      );
+    } else if (isShowAllFeedsUpdated) {
+      setFilteredEntries(() => filterArticles(entries));
+      setIsShowAllFeedsUpdated(false);
     }
-  }, [entries, hiddenFeedIds, showAllFeeds]);
-
-  useEffect(() => {
-    if (isFilteredEntriesUpdated) {
-      setIsFilteredEntriesUpdated(false);
-    }
-  }, [isFilteredEntriesUpdated]);
+    setIsFilteredEntriesUpdated(true);
+  }, [hiddenFeedIds, showAllFeeds]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -143,7 +150,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     }
   }, [total, unreadCount]);
 
-  const handleEntryClick = async (entry) => {
+  const handleEntryClick = useCallback(async (entry) => {
     setShowArticleDetail(false);
 
     setTimeout(() => {
@@ -166,7 +173,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       entryDetailRef.current.focus();
       entryDetailRef.current.scrollTo(0, 0);
     }
-  };
+  });
 
   const {
     handleBKey,
@@ -176,7 +183,12 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     handleMKey,
     handleRightKey,
     handleSKey,
-  } = useKeyHandlers(handleEntryClick, getEntries, isFilteredEntriesUpdated);
+  } = useKeyHandlers(
+    handleEntryClick,
+    getEntries,
+    isFilteredEntriesUpdated,
+    setIsFilteredEntriesUpdated,
+  );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -257,17 +269,21 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     }
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    getArticleList();
-    setActiveContent(null);
+  const refreshArticleList = async () => {
+    await getArticleList();
     if (entryListRef.current) {
       entryListRef.current.scrollTo(0, 0);
     }
+    setOffset(0);
+  };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    refreshArticleList();
+    setActiveContent(null);
     if (entryDetailRef.current) {
       entryDetailRef.current.scrollTo(0, 0);
     }
-    setOffset(0);
   }, [info]);
 
   return (
@@ -296,7 +312,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
         </CSSTransition>
         <FooterPanel
           info={info}
-          getArticleList={getArticleList}
+          refreshArticleList={refreshArticleList}
           markAllAsRead={markAllAsRead}
           ref={entryListRef}
         />
@@ -314,11 +330,13 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
         handleEntryClick={handleEntryClick}
         getEntries={getEntries}
         isFilteredEntriesUpdated={isFilteredEntriesUpdated}
+        setIsFilteredEntriesUpdated={setIsFilteredEntriesUpdated}
       />
       <ActionButtonsMobile
         handleEntryClick={handleEntryClick}
         getEntries={getEntries}
         isFilteredEntriesUpdated={isFilteredEntriesUpdated}
+        setIsFilteredEntriesUpdated={setIsFilteredEntriesUpdated}
       />
     </>
   );
