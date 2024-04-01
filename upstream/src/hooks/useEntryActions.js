@@ -21,36 +21,18 @@ const useEntryActions = () => {
   const updateFeedUnread = useStore((state) => state.updateFeedUnreadCount);
   const updateGroupUnread = useStore((state) => state.updateGroupUnreadCount);
 
-  const {
-    entries,
-    filteredEntries,
-    filterStatus,
-    setEntries,
-    setFilteredEntries,
-    setUnreadCount,
-    setUnreadEntries,
-    unreadEntries,
-  } = useContext(ContentContext);
+  const { setEntries, setFilteredEntries, setUnreadCount, setUnreadEntries } =
+    useContext(ContentContext);
 
-  const updateEntries = (entries, entry, updateFunction) => {
-    return entries.map((e) => (e.id === entry.id ? updateFunction(e) : e));
-  };
-
-  const updateUI = (entry, newContentStatus, updateFunction) => {
-    setActiveContent({ ...entry, ...newContentStatus });
-    if (filterStatus === "all") {
-      setEntries(updateEntries(entries, entry, updateFunction));
-    } else {
-      setUnreadEntries(updateEntries(unreadEntries, entry, updateFunction));
-    }
-    setFilteredEntries(updateEntries(filteredEntries, entry, updateFunction));
-  };
+  const updateEntries = (entries, entry) =>
+    entries.map((e) => (e.id === entry.id ? entry : e));
 
   const handleEntryStatusUpdate = (entry, newStatus) => {
-    const { feed } = entry;
-    const feedId = feed.id;
-    const groupId = feed.category.id;
-    const isInLast24Hours = checkIsInLast24Hours(entry.published_at);
+    const {
+      id: feedId,
+      category: { id: groupId },
+    } = entry.feed;
+    const isRecent = checkIsInLast24Hours(entry.published_at);
 
     updateFeedUnread(feedId, newStatus);
     updateGroupUnread(groupId, newStatus);
@@ -59,22 +41,25 @@ const useEntryActions = () => {
       setUnreadTotal((current) => Math.max(0, current - 1));
       setUnreadCount((current) => Math.max(0, current - 1));
       setReadCount((current) => current + 1);
-      if (isInLast24Hours) {
+      if (isRecent) {
         setUnreadToday((current) => Math.max(0, current - 1));
       }
     } else {
       setUnreadTotal((current) => current + 1);
       setUnreadCount((current) => current + 1);
       setReadCount((current) => Math.max(0, current - 1));
-      if (isInLast24Hours) {
+      if (isRecent) {
         setUnreadToday((current) => current + 1);
       }
     }
 
-    updateUI(entry, { status: newStatus }, (entry) => ({
-      ...entry,
-      status: newStatus,
-    }));
+    const updatedEntry = { ...entry, status: newStatus };
+    setActiveContent(updatedEntry);
+    setEntries((prevEntries) => updateEntries(prevEntries, updatedEntry));
+    setUnreadEntries((prevEntries) => updateEntries(prevEntries, updatedEntry));
+    setFilteredEntries((prevEntries) =>
+      updateEntries(prevEntries, updatedEntry),
+    );
   };
 
   const handleEntryStarredUpdate = (entry, newStarred) => {
@@ -90,10 +75,13 @@ const useEntryActions = () => {
       setStarredCount((current) => Math.max(0, current - 1));
     }
 
-    updateUI(entry, { starred: newStarred }, (entry) => ({
-      ...entry,
-      starred: newStarred,
-    }));
+    const updatedEntry = { ...entry, starred: newStarred };
+    setActiveContent(updatedEntry);
+    setEntries((prevEntries) => updateEntries(prevEntries, updatedEntry));
+    setUnreadEntries((prevEntries) => updateEntries(prevEntries, updatedEntry));
+    setFilteredEntries((prevEntries) =>
+      updateEntries(prevEntries, updatedEntry),
+    );
   };
 
   const handleToggleStatus = async () => {
@@ -135,19 +123,11 @@ const useEntryActions = () => {
       });
   };
 
-  const toggleEntryStatus = () => {
-    handleToggleStatus();
-  };
-
-  const toggleEntryStarred = () => {
-    handleToggleStarred();
-  };
-
   return {
     handleEntryStatusUpdate,
     handleFetchContent,
-    toggleEntryStarred,
-    toggleEntryStatus,
+    handleToggleStarred,
+    handleToggleStatus,
   };
 };
 

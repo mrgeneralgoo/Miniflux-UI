@@ -60,10 +60,9 @@ const FeedList = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setShowFeeds(getSortedFeedsByErrorCount(feeds));
-  }, feeds);
+  }, [feeds]);
 
   const handleSelectFeed = (record) => {
     setSelectedFeedId(record.key);
@@ -229,11 +228,11 @@ const FeedList = () => {
         );
         Message.success("Feed updated successfully");
         setFeedModalVisible(false);
+        feedForm.resetFields();
       })
       .catch(() => {
         Message.error("Failed to update feed");
       });
-    feedForm.resetFields();
   };
 
   return (
