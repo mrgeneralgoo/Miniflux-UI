@@ -1,5 +1,5 @@
-const includesIgnoreCase = (str, searchValue) => {
-  return str.toLowerCase().includes(searchValue.toLowerCase());
+const includesIgnoreCase = (text, searchText) => {
+  return text.toLowerCase().includes(searchText.toLowerCase());
 };
 
 const filterEntries = (entries, filterType, filterStatus, filterString) => {
@@ -22,4 +22,17 @@ const filterEntries = (entries, filterType, filterStatus, filterString) => {
       );
 };
 
-export { includesIgnoreCase, filterEntries };
+const filterEntriesByVisibility = (
+  entries,
+  info,
+  showAllFeeds,
+  hiddenFeedIds,
+) => {
+  const isVisible = (entry) =>
+    showAllFeeds || !hiddenFeedIds.includes(entry.feed.id);
+  return info.from === "all" || info.from === "today"
+    ? entries.filter(isVisible)
+    : entries;
+};
+
+export { includesIgnoreCase, filterEntries, filterEntriesByVisibility };

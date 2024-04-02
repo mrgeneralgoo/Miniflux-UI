@@ -6,13 +6,9 @@ import { scrollToElement } from "../utils/scroll.js";
 import { isMobileWidth } from "../utils/viewport.js";
 import useLoadMore from "./useLoadMore.js";
 
-const useKeyHandlers = (
-  handleEntryClick,
-  getEntries,
-  isFilteredEntriesUpdated,
-  setIsFilteredEntriesUpdated,
-) => {
+const useKeyHandlers = (info, handleEntryClick, getEntries) => {
   const {
+    entryDetailRef,
     filteredEntries,
     filterStatus,
     loadMoreUnreadVisible,
@@ -42,10 +38,9 @@ const useKeyHandlers = (
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (checkNext && !isLoading && isFilteredEntriesUpdated) {
-      handleRightKey();
+    if (checkNext && !isLoading) {
+      handleRightKey(info);
       setCheckNext(false);
-      setIsFilteredEntriesUpdated(false);
     }
   }, [isLoading, checkNext]);
 
@@ -58,6 +53,9 @@ const useKeyHandlers = (
     if (entryListRef.current) {
       entryListRef.current.setAttribute("tabIndex", "-1");
       entryListRef.current.focus();
+    }
+    if (entryDetailRef.current) {
+      entryDetailRef.current.scrollTo(0, 0);
     }
   };
 
@@ -74,7 +72,7 @@ const useKeyHandlers = (
   };
 
   // go to next entry
-  const handleRightKey = () => {
+  const handleRightKey = (info) => {
     if (isLoading) {
       return;
     }
@@ -89,7 +87,7 @@ const useKeyHandlers = (
       ((filterStatus === "all" && loadMoreVisible) || loadMoreUnreadVisible)
     ) {
       setIsLoading(true);
-      handleLoadMore(getEntries)
+      handleLoadMore(info, getEntries)
         .then(() => setCheckNext(true))
         .finally(() => setIsLoading(false));
       return;
