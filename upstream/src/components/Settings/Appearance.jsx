@@ -1,6 +1,5 @@
 import {
   Divider,
-  Radio,
   Slider,
   Space,
   Switch,
@@ -10,16 +9,11 @@ import {
 import React from "react";
 
 import useStore from "../../Store";
-import darkThemePreview from "../../assets/dark.png";
-import lightThemePreview from "../../assets/light.png";
-import systemThemePreview from "../../assets/system.png";
 import { applyColor, colors, getColorValue } from "../../utils/colors";
 import { setConfig } from "../../utils/config";
 import "./Appearance.css";
 
 const Appearance = () => {
-  const theme = useStore((state) => state.theme);
-  const setTheme = useStore((state) => state.setTheme);
   const toggleLayout = useStore((state) => state.toggleLayout);
   const layout = useStore((state) => state.layout);
   const fontSize = useStore((state) => state.fontSize);
@@ -28,6 +22,8 @@ const Appearance = () => {
   const toggleShowFeedIcon = useStore((state) => state.toggleShowFeedIcon);
   const themeColor = useStore((state) => state.themeColor);
   const setThemeColor = useStore((state) => state.setThemeColor);
+  const articleWidth = useStore((state) => state.articleWidth);
+  const setArticleWidth = useStore((state) => state.setArticleWidth);
 
   return (
     <>
@@ -37,49 +33,6 @@ const Appearance = () => {
       <Typography.Text type="secondary">
         Customize your UI theme
       </Typography.Text>
-      <div>
-        <Radio.Group
-          className="theme-selector"
-          defaultValue={theme}
-          name="card-radio-group"
-          onChange={(value) => {
-            setTheme(value);
-            setConfig("theme", value);
-          }}
-        >
-          {["light", "dark", "system"].map((mode) => (
-            <Tooltip
-              key={mode}
-              content={mode.charAt(0).toUpperCase() + mode.slice(1)}
-            >
-              <Radio value={mode}>
-                {({ checked }) => {
-                  const themePreviewSrc = {
-                    light: lightThemePreview,
-                    dark: darkThemePreview,
-                    system: systemThemePreview,
-                  }[mode];
-
-                  return (
-                    <div
-                      className={`custom-radio-card ${
-                        checked ? "custom-radio-card-checked" : ""
-                      }`}
-                    >
-                      <img
-                        className="theme-preview"
-                        src={themePreviewSrc}
-                        alt={mode}
-                      />
-                    </div>
-                  );
-                }}
-              </Radio>
-            </Tooltip>
-          ))}
-        </Radio.Group>
-      </div>
-      <Divider />
       <div className="setting-row">
         <div>
           <Typography.Title heading={6} style={{ marginTop: 0 }}>
@@ -172,12 +125,12 @@ const Appearance = () => {
           <Space>
             <Typography.Text style={{ fontSize: "0.75rem" }}>A</Typography.Text>
             <Slider
-              className="font-size-slider"
               formatTooltip={(value) => `${value}rem`}
               max={1.25}
               min={0.75}
               showTicks
               step={0.05}
+              style={{ width: 200 }}
               value={fontSize}
               onChange={(value) => {
                 setFontSize(value);
@@ -185,6 +138,36 @@ const Appearance = () => {
               }}
             />
             <Typography.Text style={{ fontSize: "1.25rem" }}>A</Typography.Text>
+          </Space>
+        </div>
+      </div>
+      <Divider />
+      <div className="setting-row">
+        <div>
+          <Typography.Title heading={6} style={{ marginTop: 0 }}>
+            Article width
+          </Typography.Title>
+          <Typography.Text type="secondary">
+            Adjust article width
+          </Typography.Text>
+        </div>
+        <div>
+          <Space>
+            <Typography.Text>60%</Typography.Text>
+            <Slider
+              formatTooltip={(value) => `${value}%`}
+              max={90}
+              min={60}
+              showTicks
+              step={10}
+              style={{ width: 200 }}
+              value={articleWidth}
+              onChange={(value) => {
+                setArticleWidth(value);
+                setConfig("bodyWidth", value);
+              }}
+            />
+            <Typography.Text>90%</Typography.Text>
           </Space>
         </div>
       </div>

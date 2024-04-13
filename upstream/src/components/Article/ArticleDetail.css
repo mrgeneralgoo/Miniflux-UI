@@ -1,6 +1,7 @@
 .article-header {
   padding-top: 20px;
   text-align: center;
+  margin: 0 auto;
 }
 
 .article-title, .article-meta, .article-date {
@@ -26,10 +27,10 @@
   font-size: 0.75rem;
 }
 
-.article-top-bar {
-  display: flex;
-  justify-content: flex-end;
-  padding: 0 20px;
+.scroll-container {
+  width: 100%;
+  height: calc(100% - 48px);
+  overflow-y: auto;
 }
 
 .article-body * {
@@ -40,7 +41,6 @@
   line-height: 1.8;
   margin: 0 auto;
   overflow-wrap: break-word;
-  padding-bottom: 72px;
 }
 
 .article-content h1,
@@ -80,9 +80,10 @@ p {
 /* 文章内容文本样式 */
 .article-content {
   color: var(--color-text-2);
-  flex: 1;
   overflow-x: hidden;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 /* 文章内容链接样式 */
