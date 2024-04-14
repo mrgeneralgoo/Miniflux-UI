@@ -8,9 +8,9 @@ import "react-photo-view/dist/react-photo-view.css";
 import { Link, useNavigate } from "react-router-dom";
 
 import useStore from "../../Store";
-import { useScreenWidth } from "../../hooks/useScreenWidth.js";
-import { extractAllImageSrc } from "../../utils/images.js";
-import ActionButtons from "./ActionButtons.jsx";
+import { useScreenWidth } from "../../hooks/useScreenWidth";
+import { extractAllImageSrc } from "../../utils/images";
+import ActionButtons from "./ActionButtons";
 import "./ArticleDetail.css";
 
 const CustomLink = ({ url, text }) => {
@@ -39,12 +39,12 @@ const ImageWithButton = ({ node, index, togglePhotoSlider }) => {
   const isMobileView = screenWidth <= 768;
 
   return (
-    <div
-      style={{ textAlign: "center", position: "relative" }}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
-      <div style={{ display: "inline-block", position: "relative" }}>
+    <div style={{ textAlign: "center", position: "relative" }}>
+      <div
+        style={{ display: "inline-block", position: "relative" }}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
         <img {...node.attribs} alt={node.attribs.alt} />
         <Button
           icon={<IconImage />}
@@ -56,12 +56,31 @@ const ImageWithButton = ({ node, index, togglePhotoSlider }) => {
             opacity: isMobileView || isHovering ? 1 : 0,
             transition: "opacity 0.3s",
           }}
-          onClick={() => togglePhotoSlider(index)}
+          onClick={(event) => {
+            event.preventDefault();
+            togglePhotoSlider(index);
+          }}
         />
       </div>
     </div>
   );
 };
+
+const getHtmlParserOptions = (imageSources, togglePhotoSlider) => ({
+  replace: (node) => {
+    if (node.type === "tag" && node.name === "img") {
+      const index = imageSources.findIndex((src) => src === node.attribs.src);
+      return (
+        <ImageWithButton
+          node={node}
+          index={index}
+          togglePhotoSlider={togglePhotoSlider}
+        />
+      );
+    }
+    return node;
+  },
+});
 
 const ArticleDetail = forwardRef(
   (
@@ -100,24 +119,10 @@ const ArticleDetail = forwardRef(
     }
 
     const imageSources = extractAllImageSrc(activeContent.content);
-
-    const htmlParserOptions = {
-      replace: (node) => {
-        if (node.type === "tag" && node.name === "img") {
-          const index = imageSources.findIndex(
-            (src) => src === node.attribs.src,
-          );
-          return (
-            <ImageWithButton
-              node={node}
-              index={index}
-              togglePhotoSlider={togglePhotoSlider}
-            />
-          );
-        }
-        return node;
-      },
-    };
+    const htmlParserOptions = getHtmlParserOptions(
+      imageSources,
+      togglePhotoSlider,
+    );
     const parsedHtml = ReactHtmlParser(
       activeContent.content,
       htmlParserOptions,

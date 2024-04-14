@@ -10,11 +10,7 @@
 
 .card-custom-hover-style .arco-card-body {
   padding: 10px;
-}
-
-.card-custom-hover-style:hover {
-  box-shadow: 0 4px 10px rgb(var(--gray-3));
-  transform: translateY(-4px);
+  width: 100%;
 }
 
 .card-custom-hover-style img {
@@ -39,6 +35,44 @@
 
 .article-card {
   margin-bottom: 10px;
+  scroll-snap-type: x mandatory;
+  user-select: none;
+  overflow-x: hidden;
+}
+
+.swipe-card {
+  display: flex;
+  min-width: calc(100% + 108px);
+  scroll-snap-align: start;
+}
+
+.swipe-action,
+.swipe-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swipe-action {
+  flex: 0 0 54px;
+}
+
+.swipe-content {
+  flex: 1;
+}
+
+.swipe-action.left {
+  background-color: rgb(var(--primary-5));
+  justify-content: flex-end;
+}
+
+.swipe-action.right {
+  background-color: rgb(var(--primary-5));
+  justify-content: flex-start;
+}
+
+.swipe-action svg {
+  padding: 0 20px;
 }
 
 .article-card-mini-content {

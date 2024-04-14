@@ -7,12 +7,12 @@ import { updateEntryStatus } from "../../apis";
 import useEntryActions from "../../hooks/useEntryActions";
 import useKeyHandlers from "../../hooks/useKeyHandlers";
 import useLoadMore from "../../hooks/useLoadMore";
-import { filterEntriesByVisibility } from "../../utils/filter.js";
+import { filterEntriesByVisibility } from "../../utils/filter";
 import ArticleDetail from "../Article/ArticleDetail";
 import ArticleList from "../Article/ArticleList";
 import "./Content.css";
 import ContentContext from "./ContentContext";
-import FooterPanel from "./FooterPanel.jsx";
+import FooterPanel from "./FooterPanel";
 import "./Transition.css";
 
 const Content = ({ info, getEntries, markAllAsRead }) => {
@@ -63,19 +63,14 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     handleEntryStatusUpdate,
   } = useEntryActions();
 
-  const { getFirstImage } = useLoadMore(info);
+  const { parseFirstImage } = useLoadMore(info);
 
-  const [showArticleDetail, setShowArticleDetail] = useState(false);
   const [isFilteredEntriesUpdated, setIsFilteredEntriesUpdated] =
     useState(false);
   const [isFirstRenderCompleted, setIsFirstRenderCompleted] = useState(false);
 
   const entryListRef = useRef(null);
   const cardsRef = useRef(null);
-
-  useEffect(() => {
-    setShowArticleDetail(activeContent !== null);
-  }, [activeContent]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -150,7 +145,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   }, [total, unreadCount]);
 
   const handleEntryClick = async (entry) => {
-    setShowArticleDetail(false);
+    setActiveContent(null);
 
     setTimeout(() => {
       setActiveContent({ ...entry, status: "read" });
@@ -192,8 +187,8 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       39: () => handleRightKey(info),
       66: () => handleBKey(),
       68: () => handleDKey(handleFetchContent),
-      77: () => handleMKey(handleToggleStatus),
-      83: () => handleSKey(handleToggleStarred),
+      77: () => handleMKey(() => handleToggleStatus(activeContent)),
+      83: () => handleSKey(() => handleToggleStarred(activeContent)),
     };
 
     const handleKeyDown = (event) => {
@@ -203,7 +198,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       }
     };
 
-    if (showArticleDetail) {
+    if (activeContent) {
       document.addEventListener("keydown", handleKeyDown);
     } else {
       document.removeEventListener("keydown", handleKeyDown);
@@ -212,7 +207,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [activeContent, filteredEntries, showArticleDetail]);
+  }, [activeContent, filteredEntries]);
 
   const updateUI = (articles, articlesUnread, responseAll, responseUnread) => {
     setEntries(articles);
@@ -241,8 +236,8 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
 
   const handleResponses = (responseAll, responseUnread) => {
     if (responseAll?.data?.entries && responseUnread?.data?.total >= 0) {
-      const articles = responseAll.data.entries.map(getFirstImage);
-      const articlesUnread = responseUnread.data.entries.map(getFirstImage);
+      const articles = responseAll.data.entries.map(parseFirstImage);
+      const articlesUnread = responseUnread.data.entries.map(parseFirstImage);
       updateUI(articles, articlesUnread, responseAll, responseUnread);
     }
   };
@@ -317,7 +312,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
         />
       </div>
       <CSSTransition
-        in={showArticleDetail}
+        in={activeContent != null}
         timeout={200}
         nodeRef={entryDetailRef}
         classNames="fade"

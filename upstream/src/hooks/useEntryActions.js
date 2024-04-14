@@ -60,7 +60,9 @@ const useEntryActions = () => {
     }
 
     const updatedEntry = { ...entry, status: newStatus };
-    setActiveContent(updatedEntry);
+    if (activeContent) {
+      setActiveContent(updatedEntry);
+    }
     setEntries((prev) => updateEntries(prev, updatedEntry));
     setUnreadEntries((prev) => updateEntries(prev, updatedEntry));
     setFilteredEntries((prev) => updateEntries(prev, updatedEntry));
@@ -80,36 +82,38 @@ const useEntryActions = () => {
     }
 
     const updatedEntry = { ...entry, starred: newStarred };
-    setActiveContent(updatedEntry);
+    if (activeContent) {
+      setActiveContent(updatedEntry);
+    }
     setEntries((prev) => updateEntries(prev, updatedEntry));
     setUnreadEntries((prev) => updateEntries(prev, updatedEntry));
     setFilteredEntries((prev) => updateEntries(prev, updatedEntry));
   };
 
-  const handleToggleStatus = async () => {
-    const prevStatus = activeContent.status;
+  const handleToggleStatus = async (entry) => {
+    const prevStatus = entry.status;
     const newStatus = prevStatus === "read" ? "unread" : "read";
-    handleEntryStatusUpdate(activeContent, newStatus);
+    handleEntryStatusUpdate(entry, newStatus);
 
-    updateEntryStatus(activeContent.id, newStatus).catch(() => {
+    updateEntryStatus(entry.id, newStatus).catch(() => {
       Message.error(
         `Failed to mark entry as ${newStatus}, please try again later`,
       );
-      handleEntryStatusUpdate(activeContent, prevStatus);
+      handleEntryStatusUpdate(entry, prevStatus);
     });
   };
 
-  const handleToggleStarred = async () => {
-    const newStarred = !activeContent.starred;
-    handleEntryStarredUpdate(activeContent, newStarred);
+  const handleToggleStarred = async (entry) => {
+    const newStarred = !entry.starred;
+    handleEntryStarredUpdate(entry, newStarred);
 
-    toggleEntryStarredApi(activeContent.id).catch(() => {
+    toggleEntryStarredApi(entry.id).catch(() => {
       Message.error(
         `Failed to ${
           newStarred ? "star" : "unstar"
         } entry, please try again later`,
       );
-      handleEntryStarredUpdate(activeContent, !newStarred);
+      handleEntryStarredUpdate(entry, !newStarred);
     });
   };
 
