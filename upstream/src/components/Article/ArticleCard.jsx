@@ -5,8 +5,8 @@ import {
   IconStar,
   IconStarFill,
 } from "@arco-design/web-react/icon";
+import { animated, useSpring } from "@react-spring/web";
 import classNames from "classnames";
-import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSwipeable } from "react-swipeable";
@@ -54,7 +54,7 @@ const ArticleCardContent = ({ entry, showFeedIcon, mini }) => {
   });
 
   return (
-    <div className={contentClass}>
+    <div className={contentClass} style={{ width: "calc(100% - 32px)" }}>
       <div style={{ padding: mini ? "0 8px 0 0" : "0 0 8px 0" }}>
         <RenderImage entry={entry} isThumbnail={mini} />
       </div>
@@ -87,18 +87,21 @@ const ArticleCard = ({ entry, handleEntryClick, mini }) => {
   const { handleToggleStarred, handleToggleStatus } = useEntryActions();
 
   const [swipeOffset, setSwipeOffset] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const swipeThreshold = 50;
-  const actionContainerWidth = 54;
+  const swipeThreshold = 100;
+  const initialDampingFactor = 0.5;
 
   const isStarred = entry.starred;
   const isUnread = entry.status === "unread";
 
   const handlers = useSwipeable({
+    preventScrollOnSwipe: true,
+    delta: swipeThreshold / 2,
     onSwiping: (eventData) => {
       const newOffset =
-        Math.min(Math.abs(eventData.deltaX), swipeThreshold) *
-        Math.sign(eventData.deltaX);
+        Math.min(
+          Math.abs(eventData.deltaX * initialDampingFactor),
+          swipeThreshold,
+        ) * Math.sign(eventData.deltaX);
       setSwipeOffset(newOffset);
     },
     onSwiped: (eventData) => {
@@ -140,29 +143,12 @@ const ArticleCard = ({ entry, handleEntryClick, mini }) => {
     },
   });
 
+  const styles = useSpring({ x: swipeOffset });
+
   return (
-    <div
-      {...handlers}
-      className="article-card"
-      style={{ visibility: isVisible ? "visible" : "hidden" }}
-      key={entry.id}
-    >
+    <div {...handlers} className="article-card" key={entry.id}>
       <div ref={ref}>
-        <motion.div
-          className="swipe-card"
-          style={{ x: swipeOffset }}
-          initial={{ x: actionContainerWidth }}
-          animate={{ x: swipeOffset }}
-          transition={{ type: "tween" }}
-          onAnimationComplete={() => setIsVisible(true)}
-        >
-          <div className="swipe-action left">
-            {isStarred ? (
-              <IconStarFill style={{ color: "#ffcd00" }} />
-            ) : (
-              <IconStar />
-            )}
-          </div>
+        <animated.div className="swipe-card" style={styles}>
           <Card
             className={classNames(
               "swipe-content",
@@ -187,10 +173,19 @@ const ArticleCard = ({ entry, handleEntryClick, mini }) => {
               }
             />
           </Card>
+        </animated.div>
+        <div className="swipe-actions">
+          <div className="swipe-action left">
+            {isStarred ? (
+              <IconStarFill style={{ color: "#ffcd00" }} />
+            ) : (
+              <IconStar />
+            )}
+          </div>
           <div className="swipe-action right">
             {isUnread ? <IconMinusCircle /> : <IconRecord />}
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
