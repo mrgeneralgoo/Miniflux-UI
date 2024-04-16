@@ -3,6 +3,7 @@ import { IconCheck, IconRefresh } from "@arco-design/web-react/icon";
 import React, { forwardRef, useContext, useEffect } from "react";
 
 import useStore from "../../Store";
+import { useConfigAtom } from "../../hooks/useConfigAtom";
 import useFilterEntries from "../../hooks/useFilterEntries";
 import ContentContext from "./ContentContext";
 
@@ -26,7 +27,8 @@ const FooterPanel = forwardRef(
 
     /*menu 数据初始化函数 */
     const initData = useStore((state) => state.initData);
-    const showStatus = useStore((state) => state.showStatus);
+    const { config } = useConfigAtom();
+    const { showStatus } = config;
 
     const handleMarkAllAsRead = async () => {
       markAllAsRead()
@@ -48,6 +50,13 @@ const FooterPanel = forwardRef(
           Message.error("Failed to mark all as read");
         });
     };
+
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    useEffect(() => {
+      if (info.from === "history") {
+        setFilterStatus("all");
+      }
+    }, []);
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
