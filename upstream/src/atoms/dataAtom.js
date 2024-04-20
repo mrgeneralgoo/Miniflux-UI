@@ -1,5 +1,7 @@
 import { atom } from "jotai";
+import isURL from "validator/es/lib/isURL";
 import { atomWithRefreshAndDefault } from "../utils/atom";
+import { extractProtocolAndHostname } from "../utils/url";
 import { configAtom } from "./configAtom";
 
 export const isAppDataReadyAtom = atom(false);
@@ -14,35 +16,26 @@ export const unreadInfoAtom = atomWithRefreshAndDefault(
   },
 );
 
-export const unreadTodayRefreshAtom = atom(0);
-export const unreadTodayDataAtom = atom({});
-export const unreadTodayAtom = atomWithRefreshAndDefault(
+const createAtomSet = () => {
+  const refreshAtom = atom(0);
+  const dataAtom = atom({});
+  const countAtom = atomWithRefreshAndDefault(refreshAtom, (get) => {
+    const data = get(dataAtom);
+    return data.total ?? 0;
+  });
+
+  return [refreshAtom, dataAtom, countAtom];
+};
+
+export const [
   unreadTodayRefreshAtom,
-  (get) => {
-    const data = get(unreadTodayDataAtom);
-    return data.total ?? 0;
-  },
-);
-
-export const starredRefreshAtom = atom(0);
-export const starredDataAtom = atom({});
-export const starredCountAtom = atomWithRefreshAndDefault(
-  starredRefreshAtom,
-  (get) => {
-    const data = get(starredDataAtom);
-    return data.total ?? 0;
-  },
-);
-
-export const historyRefreshAtom = atom(0);
-export const historyDataAtom = atom({});
-export const historyCountAtom = atomWithRefreshAndDefault(
-  historyRefreshAtom,
-  (get) => {
-    const data = get(historyDataAtom);
-    return data.total ?? 0;
-  },
-);
+  unreadTodayDataAtom,
+  unreadTodayCountAtom,
+] = createAtomSet();
+export const [starredRefreshAtom, starredDataAtom, starredCountAtom] =
+  createAtomSet();
+export const [historyRefreshAtom, historyDataAtom, historyCountAtom] =
+  createAtomSet();
 
 export const feedsRefreshAtom = atom(0);
 export const feedsDataAtom = atom([]);
@@ -57,6 +50,7 @@ export const feedsWithUnreadAtom = atomWithRefreshAndDefault(
     }));
   },
 );
+
 export const feedsAtom = atom((get) => {
   const feedsWithUnread = get(feedsWithUnreadAtom);
   return feedsWithUnread.sort((a, b) => a.title.localeCompare(b.title, "en"));
@@ -102,6 +96,7 @@ export const hiddenCategoryIdsAtom = atom((get) => {
 export const hiddenFeedIdsAtom = atom((get) => {
   const hiddenCategoryIds = get(hiddenCategoryIdsAtom);
   const feeds = get(feedsAtom);
+
   return feeds
     .filter(
       (feed) =>
@@ -110,14 +105,36 @@ export const hiddenFeedIdsAtom = atom((get) => {
     .map((feed) => feed.id);
 });
 
+export const filteredFeedsAtom = atom((get) => {
+  const { showAllFeeds } = get(configAtom);
+  const hiddenFeedIds = get(hiddenFeedIdsAtom);
+  const feeds = get(feedsAtom);
+  return feeds.filter(
+    (feed) => showAllFeeds || !hiddenFeedIds.includes(feed.id),
+  );
+});
+
+export const feedsGroupedByIdAtom = atom((get) => {
+  const feeds = get(filteredFeedsAtom);
+  return feeds.reduce((groupedFeeds, feed) => {
+    if (!isURL(feed.site_url)) {
+      feed.site_url = extractProtocolAndHostname(feed.feed_url);
+    }
+    const { id } = feed.category;
+    if (!groupedFeeds[id]) {
+      groupedFeeds[id] = [];
+    }
+    groupedFeeds[id].push(feed);
+    return groupedFeeds;
+  }, {});
+});
+
 export const unreadTotalAtom = atom((get) => {
   const unreadInfo = get(unreadInfoAtom);
-  const config = get(configAtom);
-  const { showAllFeeds } = config;
-  const hiddenFeedIds = get(hiddenFeedIdsAtom);
+  const filteredFeeds = get(filteredFeedsAtom);
 
   return Object.entries(unreadInfo).reduce((acc, [id, count]) => {
-    if (showAllFeeds || !hiddenFeedIds.includes(Number(id))) {
+    if (filteredFeeds.some((feed) => feed.id === Number(id))) {
       return acc + count;
     }
     return acc;
