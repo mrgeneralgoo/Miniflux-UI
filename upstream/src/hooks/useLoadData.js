@@ -2,8 +2,10 @@ import { useAtom, useSetAtom } from "jotai";
 
 import { useEffect } from "react";
 import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 import {
   getCategories,
+  getFeedIcon,
   getFeeds,
   getHistoryEntries,
   getStarredEntries,
@@ -29,7 +31,7 @@ import {
 const createDataSyncHook = (dataAtom, refreshAtom, fetchFunc) => (key) => {
   const setData = useSetAtom(dataAtom);
   const triggerRefresh = useSetAtom(refreshAtom);
-  const { data } = useSWR(key, fetchFunc, { revalidateOnFocus: false });
+  const { data } = useSWR(key, fetchFunc);
 
   useEffect(() => {
     if (data) {
@@ -69,6 +71,9 @@ const useCategoriesSync = createDataSyncHook(
   categoriesRefreshAtom,
   () => getCategories(),
 );
+
+export const useFeedIcon = (feedId) =>
+  useSWRImmutable(`/v1/feeds/${feedId}/icon`, () => getFeedIcon(feedId));
 
 export const useLoadData = () => {
   const [isAppDataReady, setIsAppDataReady] = useAtom(isAppDataReadyAtom);
