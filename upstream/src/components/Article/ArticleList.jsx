@@ -1,27 +1,28 @@
 import { Button } from "@arco-design/web-react";
 import { IconArrowDown } from "@arco-design/web-react/icon";
-import { forwardRef, useContext } from "react";
-import isURL from "validator/lib/isURL";
+import { forwardRef } from "react";
 
 import useLoadMore from "../../hooks/useLoadMore";
-import { extractProtocolAndHostname } from "../../utils/url";
-import ContentContext from "../Content/ContentContext";
 import ArticleCard from "./ArticleCard";
 import LoadingCards from "./LoadingCards";
 import SearchAndSortBar from "./SearchAndSortBar";
 
 import { useAtomValue } from "jotai";
 import { configAtom } from "../../atoms/configAtom";
+import {
+  filterStatusAtom,
+  filteredEntriesAtom,
+  loadMoreUnreadVisibleAtom,
+  loadMoreVisibleAtom,
+} from "../../atoms/contentAtom";
 import "./ArticleList.css";
 
 const ArticleList = forwardRef(
   ({ info, loading, getEntries, handleEntryClick, cardsRef }, ref) => {
-    const {
-      filteredEntries,
-      filterStatus,
-      loadMoreUnreadVisible,
-      loadMoreVisible,
-    } = useContext(ContentContext);
+    const filteredEntries = useAtomValue(filteredEntriesAtom);
+    const filterStatus = useAtomValue(filterStatusAtom);
+    const loadMoreUnreadVisible = useAtomValue(loadMoreUnreadVisibleAtom);
+    const loadMoreVisible = useAtomValue(loadMoreVisibleAtom);
 
     const { loadingMore, handleLoadMore } = useLoadMore();
     const config = useAtomValue(configAtom);
@@ -36,12 +37,6 @@ const ArticleList = forwardRef(
           {loading ? null : (
             <div ref={cardsRef}>
               {filteredEntries.map((entry) => {
-                if (!isURL(entry.feed.site_url)) {
-                  entry.feed.site_url = extractProtocolAndHostname(
-                    entry.feed.feed_url,
-                  );
-                }
-
                 return (
                   <ArticleCard
                     key={entry.id}

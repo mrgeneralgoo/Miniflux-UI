@@ -1,28 +1,30 @@
 import { Button, Message, Popconfirm, Radio } from "@arco-design/web-react";
 import { IconCheck, IconRefresh } from "@arco-design/web-react/icon";
-import { forwardRef, useContext, useEffect } from "react";
+import { forwardRef, useEffect } from "react";
 
 import useFilterEntries from "../../hooks/useFilterEntries";
-import ContentContext from "./ContentContext";
 
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { configAtom } from "../../atoms/configAtom";
+import {
+  entriesAtom,
+  filterStatusAtom,
+  filteredEntriesAtom,
+  loadingAtom,
+  unreadCountAtom,
+  unreadEntriesAtom,
+} from "../../atoms/contentAtom";
 import { useLoadData } from "../../hooks/useLoadData";
 import "./FooterPanel.css";
 
 const FooterPanel = forwardRef(
   ({ info, refreshArticleList, markAllAsRead }, ref) => {
-    const {
-      entries,
-      filteredEntries,
-      filterStatus,
-      loading,
-      setEntries,
-      setFilteredEntries,
-      setUnreadCount,
-      setUnreadEntries,
-      unreadEntries,
-    } = useContext(ContentContext);
+    const [entries, setEntries] = useAtom(entriesAtom);
+    const [unreadEntries, setUnreadEntries] = useAtom(unreadEntriesAtom);
+    const filterStatus = useAtomValue(filterStatusAtom);
+    const loading = useAtomValue(loadingAtom);
+    const setFilteredEntries = useSetAtom(filteredEntriesAtom);
+    const setUnreadCount = useSetAtom(unreadCountAtom);
 
     const { setFilterStatus } = useFilterEntries(info);
 
@@ -36,11 +38,13 @@ const FooterPanel = forwardRef(
         await markAllAsRead();
         Message.success("Marked all as read successfully");
         loadData();
-        setEntries(entries.map((entry) => ({ ...entry, status: "read" })));
+        setEntries((prev) =>
+          prev.map((entry) => ({ ...entry, status: "read" })),
+        );
         setUnreadEntries([]);
         if (filterStatus === "all") {
-          setFilteredEntries(
-            filteredEntries.map((entry) => ({ ...entry, status: "read" })),
+          setFilteredEntries((prev) =>
+            prev.map((entry) => ({ ...entry, status: "read" })),
           );
         } else {
           setFilteredEntries([]);
@@ -51,19 +55,13 @@ const FooterPanel = forwardRef(
       }
     };
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
-      if (info.from === "history") {
+      if (["starred", "history"].includes(info.from)) {
         setFilterStatus("all");
-      }
-    }, []);
-
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    useEffect(() => {
-      if (info.from !== "history") {
+      } else {
         setFilterStatus(showStatus);
       }
-    }, [showStatus]);
+    }, [info, setFilterStatus, showStatus]);
 
     const handleRadioChange = (value) => {
       if (ref.current) {
@@ -90,14 +88,14 @@ const FooterPanel = forwardRef(
         )}
         <Radio.Group
           disabled={info.from === "history"}
-          name="lang"
           onChange={(value) => handleRadioChange(value)}
+          options={[
+            { label: "ALL", value: "all" },
+            { label: "UNREAD", value: "unread" },
+          ]}
           type="button"
-          value={info.from === "history" ? "all" : filterStatus}
-        >
-          <Radio value="all">ALL</Radio>
-          <Radio value="unread">UNREAD</Radio>
-        </Radio.Group>
+          value={filterStatus}
+        />
 
         <Button
           icon={<IconRefresh />}

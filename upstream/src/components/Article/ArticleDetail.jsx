@@ -2,17 +2,17 @@ import { Button, Divider, Tag, Typography } from "@arco-design/web-react";
 import { IconEmpty, IconImage } from "@arco-design/web-react/icon";
 import dayjs from "dayjs";
 import ReactHtmlParser from "html-react-parser";
-import { forwardRef, useContext, useState } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
+import { forwardRef, useState } from "react";
 import { PhotoSlider } from "react-photo-view";
-import "react-photo-view/dist/react-photo-view.css";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useAtomValue } from "jotai";
-import useStore from "../../Store";
+import "react-photo-view/dist/react-photo-view.css";
 import { configAtom } from "../../atoms/configAtom";
+import { isArticleFocusedAtom } from "../../atoms/contentAtom";
+import { useActiveContent } from "../../hooks/useActiveContent";
 import { useScreenWidth } from "../../hooks/useScreenWidth";
 import { extractAllImageSrc } from "../../utils/images";
-import contentContext from "../Content/ContentContext";
 import ActionButtons from "./ActionButtons";
 import "./ArticleDetail.css";
 
@@ -96,10 +96,10 @@ const ArticleDetail = forwardRef(
     ref,
   ) => {
     const navigate = useNavigate();
-    const activeContent = useStore((state) => state.activeContent);
+    const { activeContent } = useActiveContent();
     const config = useAtomValue(configAtom);
     const { articleWidth, fontSize } = config;
-    const { setIsArticleFocused } = useContext(contentContext);
+    const setIsArticleFocused = useSetAtom(isArticleFocusedAtom);
     const [isPhotoSliderVisible, setIsPhotoSliderVisible] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
 

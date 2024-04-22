@@ -1,33 +1,38 @@
 import { Message } from "@arco-design/web-react";
 import Confetti from "canvas-confetti";
-import { useContext } from "react";
 
 import { useSetAtom } from "jotai";
-import useStore from "../Store";
 import {
   getOriginalContent,
   toggleEntryStarred,
   updateEntriesStatus,
 } from "../apis";
 import {
+  entriesAtom,
+  filteredEntriesAtom,
+  unreadCountAtom,
+  unreadEntriesAtom,
+} from "../atoms/contentAtom";
+import {
   historyCountAtom,
   starredCountAtom,
   unreadInfoAtom,
   unreadTodayCountAtom,
 } from "../atoms/dataAtom";
-import ContentContext from "../components/Content/ContentContext";
 import { checkIsInLast24Hours } from "../utils/date";
+import { useActiveContent } from "./useActiveContent";
 
 const useEntryActions = () => {
   const setUnreadInfo = useSetAtom(unreadInfoAtom);
   const setUnreadTodayCount = useSetAtom(unreadTodayCountAtom);
   const setHistoryCount = useSetAtom(historyCountAtom);
   const setStarredCount = useSetAtom(starredCountAtom);
-  const activeContent = useStore((state) => state.activeContent);
-  const setActiveContent = useStore((state) => state.setActiveContent);
+  const { activeContent, setActiveContent } = useActiveContent();
 
-  const { setEntries, setFilteredEntries, setUnreadCount, setUnreadEntries } =
-    useContext(ContentContext);
+  const setEntries = useSetAtom(entriesAtom);
+  const setFilteredEntries = useSetAtom(filteredEntriesAtom);
+  const setUnreadCount = useSetAtom(unreadCountAtom);
+  const setUnreadEntries = useSetAtom(unreadEntriesAtom);
 
   const updateEntries = (entries, updatedEntry) =>
     entries.map((entry) =>

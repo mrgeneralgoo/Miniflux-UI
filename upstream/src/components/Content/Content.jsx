@@ -1,12 +1,26 @@
 import { Message } from "@arco-design/web-react";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 
-import { useAtomValue } from "jotai";
-import useStore from "../../Store";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { updateEntriesStatus } from "../../apis";
 import { configAtom } from "../../atoms/configAtom";
+import {
+  entriesAtom,
+  filterStatusAtom,
+  filteredEntriesAtom,
+  isArticleFocusedAtom,
+  loadMoreUnreadVisibleAtom,
+  loadMoreVisibleAtom,
+  loadingAtom,
+  offsetAtom,
+  totalAtom,
+  unreadCountAtom,
+  unreadEntriesAtom,
+  unreadOffsetAtom,
+} from "../../atoms/contentAtom";
 import { hiddenFeedIdsAtom, isAppDataReadyAtom } from "../../atoms/dataAtom";
+import { useActiveContent } from "../../hooks/useActiveContent";
 import useEntryActions from "../../hooks/useEntryActions";
 import useKeyHandlers from "../../hooks/useKeyHandlers";
 import { useLoadData } from "../../hooks/useLoadData";
@@ -15,13 +29,11 @@ import { filterEntriesByVisibility } from "../../utils/filter";
 import ArticleDetail from "../Article/ArticleDetail";
 import ArticleList from "../Article/ArticleList";
 import "./Content.css";
-import ContentContext from "./ContentContext";
 import FooterPanel from "./FooterPanel";
 import "./Transition.css";
 
 const Content = ({ info, getEntries, markAllAsRead }) => {
-  const activeContent = useStore((state) => state.activeContent);
-  const setActiveContent = useStore((state) => state.setActiveContent);
+  const { activeContent, setActiveContent } = useActiveContent();
 
   const hiddenFeedIds = useAtomValue(hiddenFeedIdsAtom);
   const isAppDataReady = useAtomValue(isAppDataReadyAtom);
@@ -29,26 +41,18 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const config = useAtomValue(configAtom);
   const { orderBy, orderDirection, showAllFeeds } = config;
 
-  const {
-    entries,
-    entryDetailRef,
-    filteredEntries,
-    filterStatus,
-    isArticleFocused,
-    loading,
-    setEntries,
-    setFilteredEntries,
-    setIsArticleFocused,
-    setLoading,
-    setLoadMoreUnreadVisible,
-    setLoadMoreVisible,
-    setOffset,
-    setTotal,
-    setUnreadCount,
-    setUnreadEntries,
-    setUnreadOffset,
-    unreadEntries,
-  } = useContext(ContentContext);
+  const [entries, setEntries] = useAtom(entriesAtom);
+  const [filteredEntries, setFilteredEntries] = useAtom(filteredEntriesAtom);
+  const [isArticleFocused, setIsArticleFocused] = useAtom(isArticleFocusedAtom);
+  const [loading, setLoading] = useAtom(loadingAtom);
+  const [unreadEntries, setUnreadEntries] = useAtom(unreadEntriesAtom);
+  const filterStatus = useAtomValue(filterStatusAtom);
+  const setLoadMoreUnreadVisible = useSetAtom(loadMoreUnreadVisibleAtom);
+  const setLoadMoreVisible = useSetAtom(loadMoreVisibleAtom);
+  const setOffset = useSetAtom(offsetAtom);
+  const setTotal = useSetAtom(totalAtom);
+  const setUnreadCount = useSetAtom(unreadCountAtom);
+  const setUnreadOffset = useSetAtom(unreadOffsetAtom);
 
   const {
     handleFetchContent,
@@ -65,6 +69,9 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
 
   const entryListRef = useRef(null);
   const cardsRef = useRef(null);
+
+  // 文章详情页的引用
+  const entryDetailRef = useRef(null);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -133,7 +140,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const keyMap = {
-      27: () => handleEscapeKey(entryListRef),
+      27: () => handleEscapeKey(entryListRef, entryDetailRef),
       37: () => handleLeftKey(),
       39: () => handleRightKey(info),
       66: () => handleBKey(),
@@ -160,25 +167,27 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     };
   }, [activeContent, filteredEntries, isArticleFocused]);
 
-  const updateUI = (articles, articlesUnread, responseAll, responseUnread) => {
-    setEntries(articles);
-    setUnreadEntries(articlesUnread);
-
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
     if (filterStatus === "all") {
       setFilteredEntries(
-        filterEntriesByVisibility(articles, info, showAllFeeds, hiddenFeedIds),
+        filterEntriesByVisibility(entries, info, showAllFeeds, hiddenFeedIds),
       );
     } else {
       setFilteredEntries(
         filterEntriesByVisibility(
-          articlesUnread,
+          unreadEntries,
           info,
           showAllFeeds,
           hiddenFeedIds,
         ),
       );
     }
+  }, [filterStatus, entries, unreadEntries]);
 
+  const updateUI = (articles, articlesUnread, responseAll, responseUnread) => {
+    setEntries(articles);
+    setUnreadEntries(articlesUnread);
     setTotal(responseAll.data.total);
     setLoadMoreVisible(articles.length < responseAll.data.total);
     setUnreadCount(responseUnread.data.total);

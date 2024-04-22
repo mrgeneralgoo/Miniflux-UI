@@ -1,23 +1,25 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Message } from "@arco-design/web-react";
-import useStore from "../Store";
-import ContentContext from "../components/Content/ContentContext";
+import { useAtomValue } from "jotai";
+import {
+  filterStatusAtom,
+  filteredEntriesAtom,
+  loadMoreUnreadVisibleAtom,
+  loadMoreVisibleAtom,
+} from "../atoms/contentAtom";
 import { scrollToElement } from "../utils/scroll";
+import { useActiveContent } from "./useActiveContent";
 import useLoadMore from "./useLoadMore";
 import { useScreenWidth } from "./useScreenWidth";
 
 const useKeyHandlers = (info, handleEntryClick, getEntries) => {
-  const {
-    entryDetailRef,
-    filteredEntries,
-    filterStatus,
-    loadMoreUnreadVisible,
-    loadMoreVisible,
-  } = useContext(ContentContext);
+  const filteredEntries = useAtomValue(filteredEntriesAtom);
+  const filterStatus = useAtomValue(filterStatusAtom);
+  const loadMoreUnreadVisible = useAtomValue(loadMoreUnreadVisibleAtom);
+  const loadMoreVisible = useAtomValue(loadMoreVisibleAtom);
 
-  const activeContent = useStore((state) => state.activeContent);
-  const setActiveContent = useStore((state) => state.setActiveContent);
+  const { activeContent, setActiveContent } = useActiveContent();
 
   const { handleLoadMore } = useLoadMore();
 
@@ -48,7 +50,7 @@ const useKeyHandlers = (info, handleEntryClick, getEntries) => {
   }, [isLoading, checkNext]);
 
   // go back to entry list
-  const handleEscapeKey = (entryListRef) => {
+  const handleEscapeKey = (entryListRef, entryDetailRef) => {
     if (!activeContent) {
       return;
     }
