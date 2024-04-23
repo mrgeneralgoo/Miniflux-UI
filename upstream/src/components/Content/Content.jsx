@@ -7,8 +7,6 @@ import { updateEntriesStatus } from "../../apis";
 import { configAtom } from "../../atoms/configAtom";
 import {
   entriesAtom,
-  filterStatusAtom,
-  filteredEntriesAtom,
   isArticleFocusedAtom,
   loadMoreUnreadVisibleAtom,
   loadMoreVisibleAtom,
@@ -19,13 +17,13 @@ import {
   unreadEntriesAtom,
   unreadOffsetAtom,
 } from "../../atoms/contentAtom";
-import { hiddenFeedIdsAtom, isAppDataReadyAtom } from "../../atoms/dataAtom";
+import { isAppDataReadyAtom } from "../../atoms/dataAtom";
 import { useActiveContent } from "../../hooks/useActiveContent";
 import useEntryActions from "../../hooks/useEntryActions";
+import { useFetchData } from "../../hooks/useFetchData";
+import useFilterEntries from "../../hooks/useFilterEntries";
 import useKeyHandlers from "../../hooks/useKeyHandlers";
-import { useLoadData } from "../../hooks/useLoadData";
 import useLoadMore from "../../hooks/useLoadMore";
-import { filterEntriesByVisibility } from "../../utils/filter";
 import ArticleDetail from "../Article/ArticleDetail";
 import ArticleList from "../Article/ArticleList";
 import "./Content.css";
@@ -35,24 +33,23 @@ import "./Transition.css";
 const Content = ({ info, getEntries, markAllAsRead }) => {
   const { activeContent, setActiveContent } = useActiveContent();
 
-  const hiddenFeedIds = useAtomValue(hiddenFeedIdsAtom);
   const isAppDataReady = useAtomValue(isAppDataReadyAtom);
-  const { loadData } = useLoadData();
+  const { fetchData } = useFetchData();
   const config = useAtomValue(configAtom);
-  const { orderBy, orderDirection, showAllFeeds } = config;
+  const { orderBy, orderDirection } = config;
 
-  const [entries, setEntries] = useAtom(entriesAtom);
-  const [filteredEntries, setFilteredEntries] = useAtom(filteredEntriesAtom);
   const [isArticleFocused, setIsArticleFocused] = useAtom(isArticleFocusedAtom);
   const [loading, setLoading] = useAtom(loadingAtom);
-  const [unreadEntries, setUnreadEntries] = useAtom(unreadEntriesAtom);
-  const filterStatus = useAtomValue(filterStatusAtom);
+  const setEntries = useSetAtom(entriesAtom);
   const setLoadMoreUnreadVisible = useSetAtom(loadMoreUnreadVisibleAtom);
   const setLoadMoreVisible = useSetAtom(loadMoreVisibleAtom);
   const setOffset = useSetAtom(offsetAtom);
   const setTotal = useSetAtom(totalAtom);
   const setUnreadCount = useSetAtom(unreadCountAtom);
+  const setUnreadEntries = useSetAtom(unreadEntriesAtom);
   const setUnreadOffset = useSetAtom(unreadOffsetAtom);
+
+  const { filteredEntries } = useFilterEntries(info);
 
   const {
     handleFetchContent,
@@ -63,8 +60,6 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
 
   const { parseFirstImage } = useLoadMore(info);
 
-  const [isFilteredEntriesUpdated, setIsFilteredEntriesUpdated] =
-    useState(false);
   const [isFirstRenderCompleted, setIsFirstRenderCompleted] = useState(false);
 
   const entryListRef = useRef(null);
@@ -85,22 +80,6 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   useEffect(() => {
     refreshArticleList();
   }, [info, orderDirection]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    setFilteredEntries(() => {
-      if (["all", "today", "category"].includes(info.from) && !showAllFeeds) {
-        const targetEntries = filterStatus === "all" ? entries : unreadEntries;
-        return targetEntries.filter(
-          (entry) => !hiddenFeedIds.includes(entry.feed.id),
-        );
-      }
-
-      return filterStatus === "all" ? entries : unreadEntries;
-    });
-
-    setIsFilteredEntriesUpdated(true);
-  }, [filterStatus, hiddenFeedIds, showAllFeeds]);
 
   const handleEntryClick = async (entry) => {
     setActiveContent(null);
@@ -167,24 +146,6 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     };
   }, [activeContent, filteredEntries, isArticleFocused]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    if (filterStatus === "all") {
-      setFilteredEntries(
-        filterEntriesByVisibility(entries, info, showAllFeeds, hiddenFeedIds),
-      );
-    } else {
-      setFilteredEntries(
-        filterEntriesByVisibility(
-          unreadEntries,
-          info,
-          showAllFeeds,
-          hiddenFeedIds,
-        ),
-      );
-    }
-  }, [filterStatus, entries, unreadEntries]);
-
   const updateUI = (articles, articlesUnread, responseAll, responseUnread) => {
     setEntries(articles);
     setUnreadEntries(articlesUnread);
@@ -205,11 +166,14 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const getArticleList = async () => {
     setLoading(true);
     try {
-      const responseAll = await getEntries();
       if (info.from === "history") {
+        const responseAll = await getEntries();
         handleResponses(responseAll, responseAll);
       } else {
-        const responseUnread = await getEntries(0, "unread");
+        const [responseAll, responseUnread] = await Promise.all([
+          getEntries(),
+          getEntries(0, "unread"),
+        ]);
         handleResponses(responseAll, responseUnread);
       }
     } catch (error) {
@@ -226,7 +190,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     setOffset(0);
     setUnreadOffset(0);
     if (!isAppDataReady) {
-      loadData();
+      fetchData();
       return;
     }
     await getArticleList();
@@ -288,8 +252,6 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
           info={info}
           handleEntryClick={handleEntryClick}
           getEntries={getEntries}
-          isFilteredEntriesUpdated={isFilteredEntriesUpdated}
-          setIsFilteredEntriesUpdated={setIsFilteredEntriesUpdated}
           ref={entryDetailRef}
         />
       </CSSTransition>
