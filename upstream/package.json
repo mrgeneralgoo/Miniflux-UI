@@ -15,7 +15,7 @@
     "@arco-design/web-react": "^2.62.0",
     "@react-spring/web": "^9.7.3",
     "axios": "^1.6.8",
-    "canvas-confetti": "^1.9.2",
+    "canvas-confetti": "^1.9.3",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.11",
     "html-react-parser": "^5.1.10",
@@ -48,7 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "1.7.1",
+    "@biomejs/biome": "1.7.2",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.2.1",
