@@ -60,6 +60,7 @@ const Appearance = () => {
                     handleConfigChange({ themeColor: colorName });
                   }
                 }}
+                aria-label={`Change theme color to ${colorName}`}
               />
             </Tooltip>
           ))}
