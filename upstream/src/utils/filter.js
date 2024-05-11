@@ -2,23 +2,25 @@ export const includesIgnoreCase = (text, searchText) => {
   return text.toLowerCase().includes(searchText.toLowerCase());
 };
 
-export const filterEntries = (
-  entries,
-  filterType,
-  filterStatus,
-  filterString,
-) => {
+export const filterEntries = (entries, filterType, filterString) => {
   if (!filterString) {
     return entries;
   }
 
-  const isRelevantEntry = (entry) => {
-    const textToCheck = filterType === "0" ? entry.title : entry.content;
-    return (
-      includesIgnoreCase(textToCheck, filterString) &&
-      (filterStatus === "all" || entry.status === filterStatus)
-    );
+  const getRelevantText = (entry) => {
+    if (filterType === "0") {
+      return entry.title;
+    }
+    if (filterType === "1") {
+      return entry.content;
+    }
+    if (filterType === "2") {
+      return entry.author;
+    }
   };
+
+  const isRelevantEntry = (entry) =>
+    includesIgnoreCase(getRelevantText(entry), filterString);
 
   return entries.filter(isRelevantEntry);
 };
