@@ -9,8 +9,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 import "react-photo-view/dist/react-photo-view.css";
 import { configAtom } from "../../atoms/configAtom";
-import { isArticleFocusedAtom } from "../../atoms/contentAtom";
+import {
+  filterStringAtom,
+  filterTypeAtom,
+  isArticleFocusedAtom,
+} from "../../atoms/contentAtom";
 import { useActiveContent } from "../../hooks/useActiveContent";
+import useKeyHandlers from "../../hooks/useKeyHandlers";
 import { useScreenWidth } from "../../hooks/useScreenWidth";
 import { extractImageSources } from "../../utils/images";
 import ActionButtons from "./ActionButtons";
@@ -95,6 +100,21 @@ const ArticleDetail = forwardRef(
     const [isPhotoSliderVisible, setIsPhotoSliderVisible] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
+    const setFilterString = useSetAtom(filterStringAtom);
+    const setFilterType = useSetAtom(filterTypeAtom);
+
+    const { handleEscapeKey } = useKeyHandlers(
+      info,
+      handleEntryClick,
+      getEntries,
+    );
+
+    const filterByAuthor = () => {
+      setFilterType("author");
+      setFilterString(activeContent.author);
+      handleEscapeKey(entryListRef, ref);
+    };
+
     const togglePhotoSlider = (index) => {
       setSelectedIndex(index);
       setIsPhotoSliderVisible((prev) => !prev);
@@ -162,7 +182,12 @@ const ArticleDetail = forwardRef(
                   text={activeContent.feed.title}
                 />
               </Typography.Text>
-              <Typography.Text>{` - ${activeContent.author}`}</Typography.Text>
+              <Typography.Text
+                onClick={filterByAuthor}
+                style={{ cursor: "pointer" }}
+              >
+                {` - ${activeContent.author}`}
+              </Typography.Text>
               <Typography.Text>
                 <Tag
                   size="small"
