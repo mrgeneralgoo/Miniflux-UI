@@ -1,6 +1,5 @@
-import { Button } from "@arco-design/web-react";
-import { IconArrowDown } from "@arco-design/web-react/icon";
-import { forwardRef } from "react";
+import { Spin } from "@arco-design/web-react";
+import { forwardRef, useEffect } from "react";
 
 import useLoadMore from "../../hooks/useLoadMore";
 import ArticleCard from "./ArticleCard";
@@ -8,6 +7,7 @@ import LoadingCards from "./LoadingCards";
 import SearchAndSortBar from "./SearchAndSortBar";
 
 import { useAtomValue } from "jotai";
+import { useInView } from "react-intersection-observer";
 import { configAtom } from "../../atoms/configAtom";
 import {
   filterStatusAtom,
@@ -28,6 +28,45 @@ const ArticleList = forwardRef(
     const { loadingMore, handleLoadMore } = useLoadMore();
     const { layout } = useAtomValue(configAtom);
     const isCompactLayout = layout === "small";
+
+    const { ref: loadMoreRef, inView } = useInView({
+      skip: !loadMoreVisible && !loadMoreUnreadVisible,
+    });
+
+    useEffect(() => {
+      let interval;
+      if (
+        inView &&
+        !loading &&
+        !loadingMore &&
+        (loadMoreVisible || loadMoreUnreadVisible)
+      ) {
+        const executeLoadMore = async () => {
+          await handleLoadMore(info, getEntries);
+        };
+
+        executeLoadMore();
+
+        interval = setInterval(executeLoadMore, 1000);
+      } else if (interval) {
+        clearInterval(interval);
+      }
+
+      return () => {
+        if (interval) {
+          clearInterval(interval);
+        }
+      };
+    }, [
+      inView,
+      loading,
+      loadingMore,
+      loadMoreVisible,
+      loadMoreUnreadVisible,
+      handleLoadMore,
+      info,
+      getEntries,
+    ]);
 
     return (
       <>
@@ -52,14 +91,10 @@ const ArticleList = forwardRef(
             (filterStatus === "all"
               ? loadMoreVisible
               : loadMoreUnreadVisible) && (
-              <Button
-                className="load-more-button"
-                loading={loadingMore}
-                long={true}
-                onClick={() => handleLoadMore(info, getEntries)}
-              >
-                {!loadingMore && <IconArrowDown />}Load more
-              </Button>
+              <div className="load-more-container" ref={loadMoreRef}>
+                <Spin loading={loadingMore} style={{ paddingRight: "10px" }} />
+                Loading more ...
+              </div>
             )}
         </div>
       </>
