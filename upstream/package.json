@@ -14,7 +14,7 @@
     "@arco-design/color": "^0.4.0",
     "@arco-design/web-react": "^2.62.1",
     "@react-spring/web": "^9.7.3",
-    "axios": "^1.6.8",
+    "axios": "^1.7.0",
     "canvas-confetti": "^1.9.3",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.11",
