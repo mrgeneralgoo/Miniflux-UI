@@ -75,7 +75,7 @@
   margin-left: -32px;
   margin-right: -12px;
   border-radius: 8px;
-  padding: 8px 12px 8px 32px
+  padding: 8px 12px 8px 42px
 }
 
 .feed-icon-sidebar {
@@ -118,4 +118,22 @@
 
 .category-title:hover {
   background-color: var(--color-neutral-3);
+}
+
+.active-subMenu {
+  background-color: var(--color-neutral-3);
+  color: rgb(var(--primary-6)) !important;
+}
+
+.inactive-subMenu {
+  color: var(--color-text-2);
+}
+
+.sidebar .arco-btn-secondary:not(.arco-btn-disabled) {
+  background-color: transparent;
+}
+
+.arco-icon-hover.arco-collapse-item-icon-hover::before {
+  width: 32px;
+  height: 32px;
 }
