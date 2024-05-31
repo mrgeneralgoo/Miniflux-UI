@@ -12,8 +12,8 @@ import { filterStringAtom, filterTypeAtom } from "../../atoms/contentAtom";
 import { useScreenWidth } from "../../hooks/useScreenWidth";
 import "./SearchAndSortBar.css";
 
-const SearchAndSortBar = () => {
-  const { isMobileView } = useScreenWidth();
+const SearchAndSortBar = ({ entryListRef }) => {
+  const { belowMd } = useScreenWidth();
 
   const config = useAtomValue(configAtom);
   const { updateConfig } = useConfig();
@@ -33,13 +33,23 @@ const SearchAndSortBar = () => {
     setFilterString("");
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    const element = document.querySelector(".card-custom-selected-style");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (entryListRef.current) {
+      entryListRef.current.scrollTo(0, 0);
+    }
+  }, [filterType, filterString]);
+
   return (
     <div className="search-and-sort-bar">
       <Input.Search
         allowClear
         onChange={setFilterString}
         placeholder="Search..."
-        style={{ width: isMobileView ? "100%" : 278, marginLeft: 8 }}
+        style={{ width: belowMd ? "100%" : 278, marginLeft: 8 }}
         value={filterString}
         addBefore={
           <Select

@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 
+import { Layout } from "@arco-design/web-react";
 import { useAtomValue } from "jotai";
 import "./App.css";
 import { configAtom } from "./atoms/configAtom";
 import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import Sidebar from "./components/Sidebar/Sidebar";
+import { useScreenWidth } from "./hooks/useScreenWidth";
 
 const App = () => {
   const { theme } = useAtomValue(configAtom);
   const [isSystemDark, setIsSystemDark] = useState(
     window.matchMedia("(prefers-color-scheme: dark)").matches,
   );
+  const { belowLg } = useScreenWidth();
 
   useEffect(() => {
     const handleDarkModeChange = (event) => {
@@ -41,7 +44,17 @@ const App = () => {
 
   return (
     <div className="app">
-      <Sidebar />
+      {!belowLg ? (
+        <Layout.Sider
+          breakpoint="lg"
+          className="sidebar"
+          collapsible={false}
+          trigger={null}
+          width={240}
+        >
+          <Sidebar />
+        </Layout.Sider>
+      ) : null}
       <Header />
       <Main />
     </div>

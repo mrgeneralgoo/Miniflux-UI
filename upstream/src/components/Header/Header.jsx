@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  Drawer,
   Dropdown,
   Menu,
   Message,
@@ -26,23 +27,32 @@ import { useNavigate } from "react-router-dom";
 import { useAtom, useSetAtom } from "jotai";
 import { applyColor } from "../../utils/colors";
 
+import { useEffect, useState } from "react";
 import { authAtom } from "../../atoms/authAtom";
 import { configAtom } from "../../atoms/configAtom";
-import { useCollapsed } from "../../hooks/useCollapsed";
 import { useConfig } from "../../hooks/useConfig";
 import { useModalToggle } from "../../hooks/useModalToggle";
+import { useScreenWidth } from "../../hooks/useScreenWidth";
 import { defaultConfig } from "../../utils/config";
+import Sidebar from "../Sidebar/Sidebar";
 import "./Header.css";
 
 const Header = () => {
   const navigate = useNavigate();
   const { setAddFeedModalVisible, setSettingsModalVisible } = useModalToggle();
-  const { toggleCollapsed } = useCollapsed();
 
   const [config, setConfig] = useAtom(configAtom);
   const setAuth = useSetAtom(authAtom);
   const { showAllFeeds, theme } = config;
   const { updateConfig } = useConfig();
+  const { belowLg } = useScreenWidth();
+  const [sideVisible, setSideVisible] = useState(false);
+
+  useEffect(() => {
+    if (!belowLg) {
+      setSideVisible(false);
+    }
+  }, [belowLg]);
 
   const toggleShowAllFeeds = () => {
     updateConfig({ showAllFeeds: !showAllFeeds });
@@ -73,20 +83,30 @@ const Header = () => {
     }
   };
 
-  const themeIcon = getThemeIcon(theme);
-
   return (
     <div className="header">
       <div className="brand">
         <Button
           className="trigger"
-          onClick={toggleCollapsed}
+          onClick={() => setSideVisible(!sideVisible)}
           shape="circle"
           size="small"
         >
-          {<IconMenu />}
+          <IconMenu />
         </Button>
       </div>
+      <Drawer
+        className="sidebar-drawer"
+        visible={sideVisible}
+        title={null}
+        footer={null}
+        closable={false}
+        onCancel={() => setSideVisible(false)}
+        placement="left"
+        width={240}
+      >
+        <Sidebar />
+      </Drawer>
       <div className="button-group">
         <Space size={16}>
           <Tooltip content="Add a feed" mini>
@@ -138,7 +158,7 @@ const Header = () => {
             position="bottom"
           >
             <Button
-              icon={themeIcon}
+              icon={getThemeIcon(theme)}
               shape="circle"
               size="small"
               onClick={toggleTheme}
