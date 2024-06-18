@@ -7,7 +7,7 @@ import {
 } from "@arco-design/web-react/icon";
 import { animated, useSpring } from "@react-spring/web";
 import classNames from "classnames";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSwipeable } from "react-swipeable";
 
@@ -52,7 +52,11 @@ const ArticleCardContent = ({ entry, showFeedIcon, mini, children }) => {
   return (
     <div
       className={contentClass}
-      style={{ width: "100%", boxSizing: "border-box" }}
+      style={{
+        width: "100%",
+        boxSizing: "border-box",
+        opacity: entry.status === "unread" ? 1 : 0.5,
+      }}
     >
       <div
         style={{
@@ -62,12 +66,10 @@ const ArticleCardContent = ({ entry, showFeedIcon, mini, children }) => {
         <RenderImage entry={entry} isThumbnail={mini} />
       </div>
       <div className={mini ? "article-card-mini-content-text" : ""}>
-        <Typography.Text
-          className={entry.status === "unread" ? "title-unread" : "title-read"}
-        >
+        <Typography.Text className="article-card-title">
           {entry.title}
         </Typography.Text>
-        <Typography.Text className="article-info">
+        <Typography.Text className="article-card-info">
           <br />
           {showFeedIcon && (
             <FeedIcon
@@ -155,6 +157,15 @@ const ArticleCard = ({ entry, handleEntryClick, mini, children }) => {
   });
 
   const styles = useSpring({ x: swipeOffset });
+
+  useEffect(() => {
+    if (activeContent) {
+      const element = document.querySelector(".card-custom-selected-style");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [activeContent]);
 
   return (
     <div {...handlers} className="article-card" key={entry.id}>
