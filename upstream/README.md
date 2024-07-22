@@ -1,91 +1,100 @@
-## ReactFlux
+# ReactFlux
 
-### 概述
+Read this in other languages: [English](README.md), [中文](README.cn.md)
 
-Reactflux 是 [Miniflux](https://github.com/miniflux/miniflux) 的第三方 Web 前端，提供了更为友好的阅读体验。
+## Overview
 
-- 现代化的界面
-- 响应式设计
-- 支持黑暗模式和自定义主题色
-- 全文搜索
-- 订阅源及分组管理
-- 快捷键支持
+ReactFlux is a third-party web frontend for [Miniflux](https://github.com/miniflux/miniflux), aimed at providing a more user-friendly reading experience.
 
-### 截图
+Key features include:
 
-![login](images/login.png)
-![layout](images/layout.png)
-![settings](images/settings.png)
+- Modern interface design
+- Responsive layout
+- Support for dark mode and custom themes
+- Article search with Google-like syntax
+- Feed and group management
+- Keyboard shortcuts
+- Automatically mark articles as read when scrolling
+- Batch update the host of filtered subscription URLs (useful for replacing RSSHub instances)
+- Batch refresh recently errored subscriptions
+- De-duplicate articles by title or URL when loading the list
+- Other features waiting for you to discover...
 
-### 演示
+## Screenshots
 
-[hosted instance](https://reactflux.pages.dev/login)
+![Login](images/login.png)
+![Layout](images/layout.png)
+![Settings](images/settings.png)
 
-### 部署
+## Demo
 
-#### Cloudflare Pages
+[Online demo instance](https://reactflux.pages.dev/login)
 
-Reactflux 使用 React 编写，build 之后只是一堆静态网页文件，可以直接使用部署在 Cloudflare Pages 上的演示站。
+## Deployment
 
-或者你可以自行部署在 Cloudflare Pages 上，`框架预设` 选择 `Create React App` 即可。
+### Cloudflare Pages
 
-#### Vercel
+ReactFlux is built with React and generates a set of static web files after building, which can be directly deployed on Cloudflare Pages.
+
+You can also deploy it on Cloudflare Pages yourself by selecting `Framework preset` as `Create React App`.
+
+### Vercel
 
 [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/electh/ReactFlux)
 
-#### Zeabur
+### Zeabur
 
-[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/OKXO3W)
+[![Deploy to Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/OKXO3W)
 
-#### Docker
+### Docker
 
-```
+```bash
 docker run -p 2000:2000 electh/reactflux
 ```
 
-### 配置
+## Configuration
 
-您需要一个可用的 Miniflux 实例来使用本项目，支持以下两种登录方式：
+You need a working Miniflux instance to use this project, and it supports the following two login methods:
 
-1. 使用实例用户名和密码登录（不推荐）；
-2. 使用 Miniflux 的 token 登录，可在“Settings > API Keys > Create a new API key”生成一个。
+1. Log in using the instance username and password (not recommended);
+2. Log in using a Miniflux token, which can be generated in “Settings > API Keys > Create a new API key”.
 
-### 分支说明
+## Branches
 
-main 分支提供了最多的功能，新功能一般会最先出现在本分支上，可能适合绝大多数的桌面设备用户。
+- `main` branch: Provides the most comprehensive features. New features are usually released on this branch first, suitable for most users.
+- `next` branch: Initially created to improve mobile device compatibility, offering better experience and performance for mobile devices while also being compatible with desktop devices. This branch currently lacks features like keyboard shortcuts and will selectively migrate features from the `main` branch.
+- `gh-pages` branch: Used for building and deploying the `main` branch to GitHub Pages.
 
-next 分支最初是为了提高对移动设备的兼容性而创建的，因此为移动设备提供了更好的体验和性能，当然也支持桌面设备的显示，
-但目前缺乏键盘快捷键、等功能，对于 main 分支的后续功能会进行选择性迁移。
+If you want to quickly experience the `next` branch, here is an [online instance](https://arcoflux.pages.dev/login).
 
-如果您想快速体验 next 分支，这里有一个 [实例](https://arcoflux.pages.dev/login)
+## Contributors
 
-### 贡献者
-
-> 感谢所有让这个项目变得更好的贡献者们！
+> Thanks to all the contributors who have made this project possible!
 
 <table>
 <tr>
-    <td>
+    <td align="center">
         <a href="https://github.com/NekoAria">
-            <img src="https://avatars.githubusercontent.com/u/23137034?v=4" width="90;" alt="NekoAria" style="border-radius: 4px"/>
-            <br />
-            <sub><b>NekoAria</b></sub>
-            <br />
-            <sub><b>主要贡献者</b></sub>
+            <img src="https://avatars.githubusercontent.com/u/23137034?v=4" width="90" alt="NekoAria" style="border-radius: 4px"/>
         </a>
+        <br />
+        <sub><b>NekoAria</b></sub>
+        <br />
+        <sub><b> Main Contributor </b></sub>
     </td>
-    <td>
-            <a href="https://github.com/electh">
-                <img src="https://avatars.githubusercontent.com/u/83588235?v=4" width="90;" alt="electh" style="border-radius: 4px"/>
-                <br />
-                <sub><b>electh</b></sub>
-                <br />
-                <sub><b>项目发起人</b></sub>
-            </a>
-        </td>
+    <td align="center">
+        <a href="https://github.com/electh">
+            <img src="https://avatars.githubusercontent.com/u/83588235?v=4" width="90" alt="electh" style="border-radius: 4px"/>
+        </a>
+        <br />
+        <sub><b>electh</b></sub>
+        <br />
+        <sub><b> Project Initiator </b></sub>
+    </td>
 </tr>
 </table>
 
-### 星标历史
+## Star History
 
-[![ 星标历史](https://starchart.cc/electh/ReactFlux.svg)](https://starchart.cc/electh/ReactFlux)
+[![Star History](https://starchart.cc/electh/ReactFlux.svg)](https://starchart.cc/electh/ReactFlux)
+```
