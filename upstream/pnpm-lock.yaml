@@ -1264,8 +1264,8 @@ packages:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
 
-  node-releases@2.0.17:
-    resolution: {integrity: sha512-Ww6ZlOiEQfPfXM45v17oabk77Z7mg5bOt7AjDyzy7RjK9OrLrLC8dyZQoAPEOtFX9SaNf1Tdvr5gRJWdTJj7GA==}
+  node-releases@2.0.18:
+    resolution: {integrity: sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==}
 
   npm-run-path@4.0.1:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
@@ -2340,7 +2340,7 @@ snapshots:
     dependencies:
       caniuse-lite: 1.0.30001643
       electron-to-chromium: 1.4.832
-      node-releases: 2.0.17
+      node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.23.2)
 
   bytes@3.0.0: {}
@@ -2902,7 +2902,7 @@ snapshots:
 
   negotiator@0.6.3: {}
 
-  node-releases@2.0.17: {}
+  node-releases@2.0.18: {}
 
   npm-run-path@4.0.1:
     dependencies:
