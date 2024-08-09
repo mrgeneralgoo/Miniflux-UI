@@ -118,7 +118,7 @@ const Login = () => {
                   handleEnterKeyToSubmit(event, loginForm);
                 }}
               >
-                <Input
+                <Input.Password
                   disabled={loading}
                   placeholder="Please input api token"
                   prefix={<IconLock />}
