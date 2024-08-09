@@ -17,6 +17,8 @@ END_SCRIPT
 sed -i.bak '/<\/script>/r inject_script.js' index.html
 rm index.html.bak inject_script.js
 
+sed -i 's/label="API Token"/label="Password"/' ./src/pages/Login.jsx
+
 # 2. upgrades package.json dependencies to the latest versions
 rm -rf package-lock.json pnpm-lock.yaml
 ncu --install always -p npm -u
