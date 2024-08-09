@@ -17,6 +17,7 @@ END_SCRIPT
 sed -i '/<\/script>/r inject_script.js' index.html
 rm inject_script.js
 
+file="./src/pages/Login.jsx"
 line_number=$(grep -n 'placeholder="Please input api token"' "$file" | cut -d: -f1)
 target_line=$((line_number - 2))
 if [ "$target_line" -gt 0 ]; then
