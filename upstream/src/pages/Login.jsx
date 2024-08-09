@@ -112,7 +112,7 @@ const Login = () => {
             {authMethod === "token" && (
               <Form.Item
                 field="token"
-                label="Password"
+                label="API Token"
                 rules={[{ required: true }]}
                 onKeyDown={(event) => {
                   handleEnterKeyToSubmit(event, loginForm);
