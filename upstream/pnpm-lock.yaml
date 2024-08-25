@@ -1377,8 +1377,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  react-focus-lock@2.12.1:
-    resolution: {integrity: sha512-lfp8Dve4yJagkHiFrC1bGtib3mF2ktqwPJw4/WGcgPW+pJ/AVQA5X2vI7xgp13FcxFEpYBBHpXai/N2DBNC0Jw==}
+  react-focus-lock@2.13.0:
+    resolution: {integrity: sha512-w7aIcTwZwNzUp2fYQDMICy+khFwVmKmOrLF8kNsPS+dz4Oi/oxoVJ2wCMVvX6rWGriM/+mYaTyp1MRmkcs2amw==}
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -1797,7 +1797,7 @@ snapshots:
       number-precision: 1.6.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      react-focus-lock: 2.12.1(@types/react@18.3.4)(react@18.3.1)
+      react-focus-lock: 2.13.0(@types/react@18.3.4)(react@18.3.1)
       react-is: 18.3.1
       react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       resize-observer-polyfill: 1.5.1
@@ -2993,7 +2993,7 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
-  react-focus-lock@2.12.1(@types/react@18.3.4)(react@18.3.1):
+  react-focus-lock@2.13.0(@types/react@18.3.4)(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.25.4
       focus-lock: 1.3.5
