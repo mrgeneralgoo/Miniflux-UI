@@ -13,8 +13,8 @@ import { addCategory, deleteCategory, updateCategory } from "../../apis";
 
 import {
   categoriesAtom,
-  categoriesWithUnreadAtom,
-  feedsWithUnreadAtom,
+  categoriesDataAtom,
+  feedsDataAtom,
 } from "../../atoms/dataAtom";
 
 import { useAtomValue, useSetAtom } from "jotai";
@@ -28,8 +28,8 @@ const CategoryList = () => {
   const [showAddInput, setShowAddInput] = useState(false);
 
   const categories = useAtomValue(categoriesAtom);
-  const setCategories = useSetAtom(categoriesWithUnreadAtom);
-  const setFeeds = useSetAtom(feedsWithUnreadAtom);
+  const setCategories = useSetAtom(categoriesDataAtom);
+  const setFeeds = useSetAtom(feedsDataAtom);
 
   const addNewCategory = async () => {
     if (!inputAddValue.trim()) {
@@ -37,13 +37,11 @@ const CategoryList = () => {
     }
 
     try {
-      const { data } = await addCategory(inputAddValue);
-      setCategories((prevCategories) => [
-        ...prevCategories,
-        { ...data, feedCount: 0 },
-      ]);
+      const data = await addCategory(inputAddValue);
+      setCategories((prevCategories) => [...prevCategories, { ...data }]);
       Message.success("Category added successfully");
-    } catch {
+    } catch (error) {
+      console.error("Failed to add category: ", error);
       Message.error("Failed to add category");
     }
     setInputAddValue("");
@@ -52,11 +50,18 @@ const CategoryList = () => {
 
   const editCategory = async (categoryId, newTitle, hidden) => {
     try {
-      const { data } = await updateCategory(categoryId, newTitle, hidden);
+      const data = await updateCategory(categoryId, newTitle, hidden);
       setFeeds((prevFeeds) =>
         prevFeeds.map((feed) =>
           feed.category.id === categoryId
-            ? { ...feed, category: { ...feed.category, title: newTitle } }
+            ? {
+                ...feed,
+                category: {
+                  ...feed.category,
+                  title: newTitle,
+                  hide_globally: hidden,
+                },
+              }
             : feed,
         ),
       );
@@ -74,19 +79,20 @@ const CategoryList = () => {
     categoryForm.resetFields();
   };
 
-  const removeCategory = async (categoryId) => {
+  const removeCategory = async (category) => {
     try {
-      const response = await deleteCategory(categoryId);
+      const response = await deleteCategory(category.id);
       if (response.status === 204) {
         setCategories((prevCategories) =>
-          prevCategories.filter((category) => category.id !== categoryId),
+          prevCategories.filter((c) => c.id !== category.id),
         );
-        Message.success("Category deleted successfully");
+        Message.success(`Deleted category: ${category.title}`);
       } else {
-        Message.error("Failed to delete category");
+        Message.error(`Failed to delete category: ${category.title}`);
       }
-    } catch {
-      Message.error("Failed to delete category");
+    } catch (error) {
+      console.error(`Failed to delete category: ${category.title}`, error);
+      Message.error(`Failed to delete category: ${category.title}`);
     }
   };
 
@@ -108,7 +114,7 @@ const CategoryList = () => {
             }}
             onClose={async (event) => {
               event.stopPropagation();
-              await removeCategory(category.id);
+              await removeCategory(category);
             }}
           >
             {category.title}

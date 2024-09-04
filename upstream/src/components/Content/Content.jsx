@@ -6,6 +6,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { updateEntriesStatus } from "../../apis";
 import { configAtom } from "../../atoms/configAtom";
 import {
+  activeContentAtom,
   entriesAtom,
   filteredEntriesAtom,
   infoFromAtom,
@@ -20,7 +21,6 @@ import {
   unreadOffsetAtom,
 } from "../../atoms/contentAtom";
 import { isAppDataReadyAtom } from "../../atoms/dataAtom";
-import { useActiveContent } from "../../hooks/useActiveContent";
 import useEntryActions from "../../hooks/useEntryActions";
 import { useFetchData } from "../../hooks/useFetchData";
 import useKeyHandlers from "../../hooks/useKeyHandlers";
@@ -32,7 +32,7 @@ import FooterPanel from "./FooterPanel";
 import "./Transition.css";
 
 const Content = ({ info, getEntries, markAllAsRead }) => {
-  const { activeContent, setActiveContent } = useActiveContent();
+  const [activeContent, setActiveContent] = useAtom(activeContentAtom);
 
   const isAppDataReady = useAtomValue(isAppDataReadyAtom);
   const { fetchData } = useFetchData();
@@ -189,7 +189,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       }
       handleResponses(responseAll, responseUnread);
     } catch (error) {
-      console.error("Error fetching articles:", error);
+      console.error("Error fetching articles: ", error);
     } finally {
       setLoading(false);
     }
@@ -202,7 +202,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     setOffset(0);
     setUnreadOffset(0);
     if (!isAppDataReady) {
-      fetchData();
+      await fetchData();
       return;
     }
     await getArticleList();

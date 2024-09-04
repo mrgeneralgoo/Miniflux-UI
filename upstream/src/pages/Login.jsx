@@ -9,13 +9,14 @@ import {
 } from "@arco-design/web-react";
 import useForm from "@arco-design/web-react/es/Form/useForm";
 import { IconHome, IconLock, IconUser } from "@arco-design/web-react/icon";
-import { fetch } from "ofetch";
+import { ofetch } from "ofetch";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import background from "../imgs/background.jpg";
 
 import { useSetAtom } from "jotai";
 import { authAtom } from "../atoms/authAtom";
+import useTheme from "../hooks/useTheme";
 import { isValidAuth } from "../utils/auth";
 import {
   handleEnterKeyToSubmit,
@@ -23,6 +24,7 @@ import {
 } from "../utils/form";
 
 const Login = () => {
+  useTheme();
   const [loginForm] = useForm();
   const [loading, setLoading] = useState(false);
   const [authMethod, setAuthMethod] = useState("token");
@@ -34,14 +36,14 @@ const Login = () => {
     setLoading(true);
     const { server, token, username, password } = loginForm.getFieldsValue();
     try {
-      const response = await fetch("v1/me", {
+      const response = await ofetch.raw("v1/me", {
         baseURL: server,
         headers: token
           ? { "X-Auth-Token": token }
           : { Authorization: `Basic ${btoa(`${username}:${password}`)}` },
       });
       if (response.status === 200) {
-        Message.success("Success");
+        Message.success("Login successfully");
         setAuth({ server, token, username, password });
         navigate("/");
       }
