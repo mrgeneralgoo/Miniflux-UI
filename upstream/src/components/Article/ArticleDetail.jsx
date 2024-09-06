@@ -2,21 +2,21 @@ import { Button, Divider, Tag, Typography } from "@arco-design/web-react";
 import { IconEmpty, IconFullscreen } from "@arco-design/web-react/icon";
 import dayjs from "dayjs";
 import ReactHtmlParser from "html-react-parser";
-import { useAtomValue, useSetAtom } from "jotai";
 import { forwardRef, useEffect, useState } from "react";
 import { PhotoSlider } from "react-photo-view";
 import { Link, useNavigate } from "react-router-dom";
 
 import "react-photo-view/dist/react-photo-view.css";
-import { configAtom } from "../../atoms/configAtom";
-import {
-  activeContentAtom,
-  filterStringAtom,
-  filterTypeAtom,
-  isArticleFocusedAtom,
-} from "../../atoms/contentAtom";
+import { useSnapshot } from "valtio";
 import { usePhotoSlider } from "../../hooks/usePhotoSlider";
 import { useScreenWidth } from "../../hooks/useScreenWidth";
+import { configState } from "../../store/configState";
+import {
+  contentState,
+  setFilterString,
+  setFilterType,
+  setIsArticleFocused,
+} from "../../store/contentState";
 import { extractImageSources } from "../../utils/images";
 import ActionButtons from "./ActionButtons";
 import "./ArticleDetail.css";
@@ -46,17 +46,15 @@ const ImageOverlayButton = ({
   togglePhotoSlider,
   isLinkWrapper = false,
 }) => {
-  const config = useAtomValue(configAtom);
-  const { fontSize } = config;
+  const { fontSize } = useSnapshot(configState);
 
   const [isHovering, setIsHovering] = useState(false);
   const [isIcon, setIsIcon] = useState(false);
-  const { belowMd } = useScreenWidth();
+  const { isBelowMedium } = useScreenWidth();
 
   useEffect(() => {
-    const imgSrc = isLinkWrapper
-      ? node.children[0].attribs.src
-      : node.attribs.src;
+    const imgNode = isLinkWrapper ? node.children[0] : node;
+    const imgSrc = imgNode.attribs.src;
     const img = new Image();
     img.src = imgSrc;
     img.onload = () => setIsIcon(img.width <= 64 && img.height <= 64);
@@ -67,7 +65,7 @@ const ImageOverlayButton = ({
   const renderImage = () => (
     <img
       {...imgNode.attribs}
-      alt={imgNode.attribs.alt}
+      alt={imgNode.attribs.alt ?? "image"}
       style={
         isIcon
           ? {
@@ -116,7 +114,7 @@ const ImageOverlayButton = ({
             right: 10,
             color: "white",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
-            opacity: belowMd || isHovering ? 1 : 0,
+            opacity: isBelowMedium || isHovering ? 1 : 0,
             transition: "opacity 0.3s",
           }}
           onClick={(event) => {
@@ -131,14 +129,11 @@ const ImageOverlayButton = ({
 
 const getHtmlParserOptions = (imageSources, togglePhotoSlider) => ({
   replace: (node) => {
-    if (node.type === "tag" && node.name === "a") {
-      if (
-        node.children.length > 0 &&
-        node.children[0].type === "tag" &&
-        node.children[0].name === "img"
-      ) {
+    if (node.type === "tag" && node.name === "a" && node.children.length > 0) {
+      const imgNode = node.children[0];
+      if (imgNode.type === "tag" && imgNode.name === "img") {
         const index = imageSources.findIndex(
-          (src) => src === node.children[0].attribs.src,
+          (src) => src === imgNode.attribs.src,
         );
         return (
           <ImageOverlayButton
@@ -165,7 +160,9 @@ const getHtmlParserOptions = (imageSources, togglePhotoSlider) => ({
 
 const ArticleDetail = forwardRef(({ handleEntryClick, entryListRef }, ref) => {
   const navigate = useNavigate();
-  const activeContent = useAtomValue(activeContentAtom);
+  const { articleWidth, fontSize } = useSnapshot(configState);
+  const { activeContent } = useSnapshot(contentState);
+
   const {
     isPhotoSliderVisible,
     setIsPhotoSliderVisible,
@@ -173,14 +170,7 @@ const ArticleDetail = forwardRef(({ handleEntryClick, entryListRef }, ref) => {
     setSelectedIndex,
   } = usePhotoSlider();
 
-  const config = useAtomValue(configAtom);
-  const { articleWidth, fontSize } = config;
-  const setIsArticleFocused = useSetAtom(isArticleFocusedAtom);
-
-  const setFilterString = useSetAtom(filterStringAtom);
-  const setFilterType = useSetAtom(filterTypeAtom);
-
-  const filterByAuthor = () => {
+  const handleAuthorFilter = () => {
     setFilterType("author");
     setFilterString(activeContent.author);
   };
@@ -223,8 +213,7 @@ const ArticleDetail = forwardRef(({ handleEntryClick, entryListRef }, ref) => {
     togglePhotoSlider,
   );
   const parsedHtml = ReactHtmlParser(activeContent.content, htmlParserOptions);
-  const categoryId = activeContent.feed.category.id;
-  const categoryTitle = activeContent.feed.category.title;
+  const { id: categoryId, title: categoryTitle } = activeContent.feed.category;
 
   return (
     <div
@@ -252,7 +241,7 @@ const ArticleDetail = forwardRef(({ handleEntryClick, entryListRef }, ref) => {
               />
             </Typography.Text>
             <Typography.Text
-              onClick={filterByAuthor}
+              onClick={handleAuthorFilter}
               style={{ cursor: "pointer" }}
             >
               {` - ${activeContent.author}`}
@@ -260,13 +249,8 @@ const ArticleDetail = forwardRef(({ handleEntryClick, entryListRef }, ref) => {
             <Typography.Text>
               <Tag
                 size="small"
-                onClick={() => {
-                  navigate(`/category/${categoryId}`);
-                }}
-                style={{
-                  marginLeft: "10px",
-                  cursor: "pointer",
-                }}
+                style={{ marginLeft: "10px", cursor: "pointer" }}
+                onClick={() => navigate(`/category/${categoryId}`)}
               >
                 {categoryTitle}
               </Tag>

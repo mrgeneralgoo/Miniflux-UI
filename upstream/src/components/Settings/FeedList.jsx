@@ -25,53 +25,57 @@ import {
 import { generateRelativeTime, getUTCDate } from "../../utils/date";
 import { includesIgnoreCase } from "../../utils/filter";
 
-import { atom, useAtomValue, useSetAtom } from "jotai";
-import { categoriesAtom, feedsDataAtom } from "../../atoms/dataAtom";
+import { proxy, snapshot, useSnapshot } from "valtio";
 import { useScreenWidth } from "../../hooks/useScreenWidth";
+import { configState } from "../../store/configState";
+import { dataState, setFeedsData } from "../../store/dataState";
 import { sleep } from "../../utils/time";
+import { createSetter } from "../../utils/valtio";
 import "./FeedList.css";
 
 const { Paragraph } = Typography;
 
-const filterStringAtom = atom("");
-
-const filteredFeedsAtom = atom((get) => {
-  const feeds = get(feedsDataAtom);
-  const filterString = get(filterStringAtom);
-  return [...feeds]
-    .sort((a, b) => {
-      if (a.disabled && !b.disabled) {
-        return 1;
-      }
-      if (!a.disabled && b.disabled) {
-        return -1;
-      }
-      return 0;
-    })
-    .sort((a, b) => b.parsing_error_count - a.parsing_error_count)
-    .filter(
-      (feed) =>
-        includesIgnoreCase(feed.title, filterString) ||
-        includesIgnoreCase(feed.site_url, filterString) ||
-        includesIgnoreCase(feed.feed_url, filterString),
-    );
+const state = proxy({
+  filterString: "",
+  get filteredFeeds() {
+    const { feedsData } = snapshot(dataState);
+    const { filterString } = this;
+    return [...feedsData]
+      .sort((a, b) => {
+        if (a.disabled && !b.disabled) {
+          return 1;
+        }
+        if (!a.disabled && b.disabled) {
+          return -1;
+        }
+        return 0;
+      })
+      .sort((a, b) => b.parsing_error_count - a.parsing_error_count)
+      .filter(
+        (feed) =>
+          includesIgnoreCase(feed.title, filterString) ||
+          includesIgnoreCase(feed.site_url, filterString) ||
+          includesIgnoreCase(feed.feed_url, filterString),
+      );
+  },
+  get tableData() {
+    const { filteredFeeds } = this;
+    return filteredFeeds.map((feed) => ({
+      category: feed.category,
+      checked_at: feed.checked_at,
+      crawler: feed.crawler,
+      disabled: feed.disabled,
+      feed_url: feed.feed_url,
+      hidden: feed.hide_globally,
+      key: feed.id,
+      parsing_error_count: feed.parsing_error_count,
+      site_url: feed.site_url,
+      title: feed.title,
+    }));
+  },
 });
 
-const tableDataAtom = atom((get) => {
-  const feeds = get(filteredFeedsAtom);
-  return feeds.map((feed) => ({
-    category: feed.category,
-    checked_at: feed.checked_at,
-    crawler: feed.crawler,
-    disabled: feed.disabled,
-    feed_url: feed.feed_url,
-    hidden: feed.hide_globally,
-    key: feed.id,
-    parsing_error_count: feed.parsing_error_count,
-    site_url: feed.site_url,
-    title: feed.title,
-  }));
-});
+const setFilterString = createSetter(state, "filterString");
 
 const updateFeedStatus = (feed, isSuccessful, targetFeedId = null) => {
   if (targetFeedId === null || targetFeedId === feed.id) {
@@ -85,22 +89,21 @@ const updateFeedStatus = (feed, isSuccessful, targetFeedId = null) => {
 };
 
 const FeedList = () => {
+  const { showDetailedRelativeTime } = useSnapshot(configState);
+  const { categories } = useSnapshot(dataState);
+  const { filteredFeeds, tableData } = useSnapshot(state);
+
   const [bulkUpdateModalVisible, setBulkUpdateModalVisible] = useState(false);
   const [feedForm] = Form.useForm();
   const [feedModalVisible, setFeedModalVisible] = useState(false);
   const [newHost, setNewHost] = useState("");
-  const [selectedFeed, setSelectedFeed] = useState({});
+  const [selectedFeed, setSelectedFeed] = useState(null);
 
-  const categories = useAtomValue(categoriesAtom);
-  const filteredFeeds = useAtomValue(filteredFeedsAtom);
-  const setFeeds = useSetAtom(feedsDataAtom);
-  const setFilterString = useSetAtom(filterStringAtom);
-  const tableData = useAtomValue(tableDataAtom);
-  const { belowMd } = useScreenWidth();
+  const { isBelowMedium } = useScreenWidth();
 
   useEffect(() => {
     setFilterString("");
-  }, [setFilterString]);
+  }, []);
 
   const handleSelectFeed = (feed) => {
     setSelectedFeed(feed);
@@ -124,26 +127,29 @@ const FeedList = () => {
     try {
       const response = await refreshFunc();
       const isSuccessful = response.status === 204;
-      const message = isSuccessful ? "Refreshed" : "Failed to refresh";
 
       if (displayMessage) {
-        isSuccessful ? Message.success(message) : Message.error(message);
+        isSuccessful
+          ? Message.success("Refreshed")
+          : Message.error("Failed to refresh");
       }
 
-      setFeeds((feeds) => feeds.map((feed) => feedUpdater(feed, isSuccessful)));
+      setFeedsData((feeds) =>
+        feeds.map((feed) => feedUpdater(feed, isSuccessful)),
+      );
       return isSuccessful;
     } catch (error) {
       if (displayMessage) {
         Message.error("Failed to refresh");
       }
-      setFeeds((feeds) => feeds.map((feed) => feedUpdater(feed, false)));
+      setFeedsData((feeds) => feeds.map((feed) => feedUpdater(feed, false)));
       return false;
     }
   };
 
   const refreshSingleFeed = async (feed, displayMessage = true) => {
     const feedId = feed.id || feed.key;
-    return await handleFeedRefresh(
+    return handleFeedRefresh(
       () => refreshFeed(feedId),
       (feed, isSuccessful) => updateFeedStatus(feed, isSuccessful, feedId),
       displayMessage,
@@ -152,14 +158,19 @@ const FeedList = () => {
 
   const bulkUpdateFeedHosts = async () => {
     try {
-      for (const feed of filteredFeeds) {
-        const oldHost = new URL(feed.feed_url).hostname;
-        const newURL = feed.feed_url.replace(oldHost, newHost);
-        const data = await updateFeed(feed.id, { feedUrl: newURL });
-        setFeeds((feeds) =>
-          feeds.map((f) => (f.id === feed.id ? { ...f, ...data } : f)),
-        );
-      }
+      const updatedFeeds = await Promise.all(
+        filteredFeeds.map(async (feed) => {
+          const oldHost = new URL(feed.feed_url).hostname;
+          const newURL = feed.feed_url.replace(oldHost, newHost);
+          const data = await updateFeed(feed.id, { feedUrl: newURL });
+          return { ...feed, ...data };
+        }),
+      );
+
+      setFeedsData((feeds) =>
+        feeds.map((feed) => updatedFeeds.find((f) => f.id === feed.id) || feed),
+      );
+
       Message.success("Bulk update successfully");
       setBulkUpdateModalVisible(false);
     } catch (error) {
@@ -175,55 +186,50 @@ const FeedList = () => {
       await handleFeedRefresh(refreshAllFeed, updateFeedStatus);
     };
 
-    const handleRefreshErrorFeeds = async () => {
+    const refreshErrorFeeds = async () => {
       setVisible(false);
       const errorFeeds = filteredFeeds.filter(
         (feed) => feed.parsing_error_count > 0,
       );
       Message.success("Starting refresh of error feeds, please wait");
 
-      let successCount = 0;
-      let failureCount = 0;
-
-      for (const feed of errorFeeds) {
-        const isSuccessful = await refreshSingleFeed(feed, false);
-        if (isSuccessful) {
-          successCount++;
-        } else {
-          failureCount++;
-        }
-        await sleep(500);
-      }
+      const results = await Promise.all(
+        errorFeeds.map(async (feed) => {
+          const isSuccessful = await refreshSingleFeed(feed, false);
+          await sleep(500);
+          return isSuccessful;
+        }),
+      );
+      const successCount = results.filter(Boolean).length;
+      const failureCount = results.length - successCount;
 
       Message.success(
         `Feeds refreshed. Success: ${successCount}, Failure: ${failureCount}`,
       );
     };
 
-    const handleCancel = () => setVisible(false);
-
-    const showModal = () => setVisible(true);
+    const closeModal = () => setVisible(false);
 
     return (
       <>
-        <Button icon={<IconRefresh />} shape="circle" onClick={showModal} />
+        <Button
+          icon={<IconRefresh />}
+          shape="circle"
+          onClick={() => setVisible(true)}
+        />
         <Modal
           className="edit-modal"
-          onCancel={handleCancel}
+          onCancel={closeModal}
           title="Refresh Feeds"
           visible={visible}
           footer={[
-            <Button key="cancel" onClick={handleCancel}>
+            <Button key="cancel" onClick={closeModal}>
               Cancel
             </Button>,
-            <Button
-              key="error"
-              onClick={handleRefreshErrorFeeds}
-              type="outline"
-            >
+            <Button key="error" type="outline" onClick={refreshErrorFeeds}>
               Error Feeds
             </Button>,
-            <Button key="all" onClick={refreshAllFeeds} type="primary">
+            <Button key="all" type="primary" onClick={refreshAllFeeds}>
               All Feeds
             </Button>,
           ]}
@@ -238,7 +244,7 @@ const FeedList = () => {
     try {
       const response = await deleteFeed(feed.key);
       if (response.status === 204) {
-        setFeeds((feeds) => feeds.filter((f) => f.id !== feed.key));
+        setFeedsData((feeds) => feeds.filter((f) => f.id !== feed.key));
         Message.success(`Unfollowed feed: ${feed.title}`);
       } else {
         Message.error(`Failed to unfollow feed: ${feed.title}`);
@@ -256,10 +262,8 @@ const FeedList = () => {
       sorter: (a, b) => a.title.localeCompare(b.title, "en"),
       render: (title, feed) => {
         const parsingErrorCount = feed.parsing_error_count;
-        let displayText = title;
-        if (feed.disabled) {
-          displayText = `🚫 ${title}`;
-        } else if (parsingErrorCount > 0) {
+        let displayText = feed.disabled ? `🚫 ${title}` : title;
+        if (parsingErrorCount > 0) {
           displayText = `⚠️ ${title}`;
         }
 
@@ -285,7 +289,7 @@ const FeedList = () => {
       },
     },
 
-    !belowMd && {
+    !isBelowMedium && {
       title: "Feed URL",
       dataIndex: "feed_url",
       sorter: (a, b) => a.feed_url.localeCompare(b.feed_url, "en"),
@@ -300,20 +304,20 @@ const FeedList = () => {
       title: "Category",
       dataIndex: "category.title",
       sorter: (a, b) => a.category.title.localeCompare(b.category.title, "en"),
-      render: (col) => (
+      render: (category) => (
         <Typography.Ellipsis expandable={false} showTooltip={true}>
-          <Tag>{col}</Tag>
+          <Tag>{category}</Tag>
         </Typography.Ellipsis>
       ),
     },
 
-    !belowMd && {
+    !isBelowMedium && {
       title: "Checked at",
       dataIndex: "checked_at",
       sorter: (a, b) => a.checked_at.localeCompare(b.checked_at, "en"),
-      render: (col) => (
+      render: (checkedAt) => (
         <Typography.Ellipsis expandable={false}>
-          {generateRelativeTime(col)}
+          {generateRelativeTime(checkedAt, showDetailedRelativeTime)}
         </Typography.Ellipsis>
       ),
     },
@@ -359,7 +363,7 @@ const FeedList = () => {
   const editFeed = async (feedId, newDetails) => {
     try {
       const data = await updateFeed(feedId, newDetails);
-      setFeeds((feeds) =>
+      setFeedsData((feeds) =>
         feeds.map((feed) => (feed.id === feedId ? { ...feed, ...data } : feed)),
       );
       Message.success("Feed updated successfully");
@@ -404,8 +408,8 @@ const FeedList = () => {
         >
           <Button
             icon={<IconEdit />}
-            onClick={() => setBulkUpdateModalVisible(true)}
             shape="circle"
+            onClick={() => setBulkUpdateModalVisible(true)}
           />
           <Modal
             className="edit-modal"

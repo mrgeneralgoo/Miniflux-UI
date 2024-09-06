@@ -2,50 +2,46 @@ import { Button, Message, Popconfirm, Radio } from "@arco-design/web-react";
 import { IconCheck, IconRefresh } from "@arco-design/web-react/icon";
 import { forwardRef, useEffect } from "react";
 
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useSnapshot } from "valtio";
 import {
-  entriesAtom,
-  filterStatusAtom,
-  filterStringAtom,
-  filterTypeAtom,
-  loadingAtom,
-  unreadCountAtom,
-  unreadEntriesAtom,
-} from "../../atoms/contentAtom";
-import { useFetchData } from "../../hooks/useFetchData";
+  contentState,
+  setEntries,
+  setFilterStatus,
+  setFilterString,
+  setFilterType,
+  setUnreadCount,
+  setUnreadEntries,
+} from "../../store/contentState";
+import { fetchData } from "../../store/dataState";
 import "./FooterPanel.css";
+
+const updateAllEntriesAsRead = () => {
+  setEntries((prev) => prev.map((entry) => ({ ...entry, status: "read" })));
+  setUnreadEntries((prev) =>
+    prev.map((entry) => ({
+      ...entry,
+      status: "read",
+    })),
+  );
+  setUnreadCount(0);
+};
 
 const FooterPanel = forwardRef(
   ({ info, refreshArticleList, markAllAsRead }, ref) => {
-    const loading = useAtomValue(loadingAtom);
-    const setEntries = useSetAtom(entriesAtom);
-    const setUnreadEntries = useSetAtom(unreadEntriesAtom);
-    const setFilterString = useSetAtom(filterStringAtom);
-    const setFilterType = useSetAtom(filterTypeAtom);
-    const setUnreadCount = useSetAtom(unreadCountAtom);
-    const [filterStatus, setFilterStatus] = useAtom(filterStatusAtom);
-
-    /*menu 数据初始化函数 */
-    const { fetchData } = useFetchData();
+    const { filterStatus, loading } = useSnapshot(contentState);
 
     const handleMarkAllAsRead = async () => {
       try {
         await markAllAsRead();
         await fetchData();
-        setEntries((prev) =>
-          prev.map((entry) => ({ ...entry, status: "read" })),
-        );
-        setUnreadEntries((prev) =>
-          prev.map((entry) => ({ ...entry, status: "read" })),
-        );
-        setUnreadCount(0);
-        Message.success("Marked all as read successfully");
+        updateAllEntriesAsRead();
+        Message.success("All articles marked as read");
       } catch (error) {
         Message.error("Failed to mark all as read");
       }
     };
 
-    const handleRadioChange = (value) => {
+    const handleFilterChange = (value) => {
       if (ref.current) {
         ref.current.scrollTo(0, 0);
       }
@@ -71,7 +67,7 @@ const FooterPanel = forwardRef(
         )}
         <Radio.Group
           disabled={info.from === "history"}
-          onChange={(value) => handleRadioChange(value)}
+          onChange={handleFilterChange}
           options={[
             { label: "ALL", value: "all" },
             { label: "UNREAD", value: "unread" },
@@ -79,7 +75,6 @@ const FooterPanel = forwardRef(
           type="button"
           value={filterStatus}
         />
-
         <Button
           icon={<IconRefresh />}
           loading={loading}

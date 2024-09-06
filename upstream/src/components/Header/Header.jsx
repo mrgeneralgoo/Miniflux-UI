@@ -26,74 +26,69 @@ import {
 } from "@arco-design/web-react/icon";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { useAtom, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { authAtom } from "../../atoms/authAtom";
-import { configAtom } from "../../atoms/configAtom";
-import { isAppDataReadyAtom } from "../../atoms/dataAtom";
-import { useConfig } from "../../hooks/useConfig";
+import { useSnapshot } from "valtio";
 import { useModalToggle } from "../../hooks/useModalToggle";
 import { useScreenWidth } from "../../hooks/useScreenWidth";
-import { defaultConfig } from "../../utils/config";
+import { resetAuth } from "../../store/authState";
+import {
+  configState,
+  resetConfig,
+  updateConfig,
+} from "../../store/configState";
+import { setIsAppDataReady } from "../../store/dataState";
 import Sidebar from "../Sidebar/Sidebar";
 import "./Header.css";
 
 const Header = () => {
+  const { showAllFeeds, theme } = useSnapshot(configState);
+
   const navigate = useNavigate();
-  const path = useLocation().pathname;
+  const currentPath = useLocation().pathname;
   const { setAddFeedModalVisible, setSettingsModalVisible } = useModalToggle();
+  const { isBelowLarge } = useScreenWidth();
 
-  const [config, setConfig] = useAtom(configAtom);
-  const setAuth = useSetAtom(authAtom);
-  const setIsAppDataReady = useSetAtom(isAppDataReadyAtom);
-  const { showAllFeeds, theme } = config;
-  const { updateConfig } = useConfig();
-  const { belowLg } = useScreenWidth();
-
-  const [sideVisible, setSideVisible] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
   const [resetModalVisible, setResetModalVisible] = useState(false);
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
 
   useEffect(() => {
-    if (!belowLg) {
-      setSideVisible(false);
+    if (!isBelowLarge) {
+      setSidebarVisible(false);
     }
-  }, [belowLg]);
+  }, [isBelowLarge]);
 
   useEffect(() => {
-    path && setSideVisible(false);
-  }, [path]);
+    if (currentPath) {
+      setSidebarVisible(false);
+    }
+  }, [currentPath]);
 
-  const toggleShowAllFeeds = () => {
+  const handleToggleFeedsVisibility = () => {
     updateConfig({ showAllFeeds: !showAllFeeds });
   };
 
-  const toggleTheme = () => {
+  const handleToggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     updateConfig({ theme: newTheme });
   };
 
   const handleResetSettings = () => {
-    setConfig(defaultConfig);
+    resetConfig();
     setResetModalVisible(false);
   };
 
   const handleLogout = () => {
-    setAuth({});
+    resetAuth();
     setIsAppDataReady(false);
     navigate("/login");
-    Message.success("Logout");
+    Message.success("Successfully logged out");
   };
 
-  const getThemeIcon = (theme) => {
-    switch (theme) {
-      case "dark":
-        return <IconMoonFill />;
-      case "system":
-        return <IconDesktop />;
-      default:
-        return <IconSunFill />;
-    }
+  const getThemeIcon = () => {
+    if (theme === "dark") return <IconMoonFill />;
+    if (theme === "system") return <IconDesktop />;
+    return <IconSunFill />;
   };
 
   return (
@@ -101,7 +96,7 @@ const Header = () => {
       <div className="brand">
         <Button
           className="trigger"
-          onClick={() => setSideVisible(!sideVisible)}
+          onClick={() => setSidebarVisible(!sidebarVisible)}
           shape="circle"
           size="small"
         >
@@ -110,11 +105,11 @@ const Header = () => {
       </div>
       <Drawer
         className="sidebar-drawer"
-        visible={sideVisible}
+        visible={sidebarVisible}
         title={null}
         footer={null}
         closable={false}
-        onCancel={() => setSideVisible(false)}
+        onCancel={() => setSidebarVisible(false)}
         placement="left"
         width={240}
       >
@@ -139,7 +134,7 @@ const Header = () => {
               shape="circle"
               size="small"
               icon={showAllFeeds ? <IconEye /> : <IconEyeInvisible />}
-              onClick={toggleShowAllFeeds}
+              onClick={handleToggleFeedsVisibility}
             />
           </Tooltip>
           <Button
@@ -171,10 +166,10 @@ const Header = () => {
             position="bottom"
           >
             <Button
-              icon={getThemeIcon(theme)}
+              icon={getThemeIcon()}
               shape="circle"
               size="small"
-              onClick={toggleTheme}
+              onClick={handleToggleTheme}
             />
           </Dropdown>
           <Dropdown

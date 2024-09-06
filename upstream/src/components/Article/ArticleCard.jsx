@@ -11,10 +11,10 @@ import { useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSwipeable } from "react-swipeable";
 
-import { useAtomValue } from "jotai";
-import { configAtom } from "../../atoms/configAtom";
-import { activeContentAtom } from "../../atoms/contentAtom";
+import { useSnapshot } from "valtio";
 import useEntryActions from "../../hooks/useEntryActions";
+import { configState } from "../../store/configState";
+import { contentState } from "../../store/contentState";
 import { generateRelativeTime } from "../../utils/date";
 import FeedIcon from "../ui/FeedIcon";
 import "./ArticleCard.css";
@@ -44,6 +44,7 @@ const RenderImage = ({ entry, isThumbnail }) => {
 };
 
 const ArticleCardContent = ({ entry, showFeedIcon, mini, children }) => {
+  const { showDetailedRelativeTime } = useSnapshot(configState);
   const contentClass = classNames({
     "article-card-mini-content": mini,
     "article-card-mini-content-padding": mini && showFeedIcon,
@@ -79,7 +80,7 @@ const ArticleCardContent = ({ entry, showFeedIcon, mini, children }) => {
           )}
           {entry.feed.title}
           <br />
-          {generateRelativeTime(entry.published_at)}
+          {generateRelativeTime(entry.published_at, showDetailedRelativeTime)}
         </Typography.Text>
         {entry.starred && <IconStarFill className="icon-starred" />}
       </div>
@@ -89,9 +90,8 @@ const ArticleCardContent = ({ entry, showFeedIcon, mini, children }) => {
 };
 
 const ArticleCard = ({ entry, handleEntryClick, mini, children }) => {
-  const activeContent = useAtomValue(activeContentAtom);
-  const config = useAtomValue(configAtom);
-  const { markReadOnScroll, showFeedIcon } = config;
+  const { markReadOnScroll, showFeedIcon } = useSnapshot(configState);
+  const { activeContent } = useSnapshot(contentState);
 
   const isSelected = activeContent && entry.id === activeContent.id;
 

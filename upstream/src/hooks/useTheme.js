@@ -1,37 +1,37 @@
-import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import { configAtom } from "../atoms/configAtom";
+import { useSnapshot } from "valtio";
+import { configState } from "../store/configState";
 import { applyColor } from "../utils/colors";
 
 const useTheme = () => {
-  const { theme, themeColor } = useAtomValue(configAtom);
+  const { theme, themeColor } = useSnapshot(configState);
   const [isSystemDark, setIsSystemDark] = useState(
     window.matchMedia("(prefers-color-scheme: dark)").matches,
   );
 
   useEffect(() => {
-    const handleDarkModeChange = (event) => {
-      setIsSystemDark(event.matches);
-    };
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    mediaQuery.addEventListener("change", handleDarkModeChange);
+    const updateSystemDarkMode = (event) => setIsSystemDark(event.matches);
+
+    mediaQuery.addEventListener("change", updateSystemDarkMode);
 
     // 在组件卸载时清除监听器
-    return () => mediaQuery.removeEventListener("change", handleDarkModeChange);
+    return () => mediaQuery.removeEventListener("change", updateSystemDarkMode);
   }, []);
 
   useEffect(() => {
-    applyColor(themeColor);
-    const applyTheme = (isDarkMode) => {
-      const themeValue = isDarkMode ? "dark" : "light";
-      document.body.setAttribute("arco-theme", themeValue);
-      document.body.style.colorScheme = themeValue;
+    const applyColorScheme = (isDarkMode) => {
+      const themeMode = isDarkMode ? "dark" : "light";
+      document.body.setAttribute("arco-theme", themeMode);
+      document.body.style.colorScheme = themeMode;
     };
 
+    applyColor(themeColor);
+
     if (theme === "system") {
-      applyTheme(isSystemDark);
+      applyColorScheme(isSystemDark);
     } else {
-      applyTheme(theme === "dark");
+      applyColorScheme(theme === "dark");
     }
   }, [isSystemDark, theme, themeColor]);
 };

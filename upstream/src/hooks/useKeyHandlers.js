@@ -1,53 +1,50 @@
 import { useEffect, useState } from "react";
 
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useSnapshot } from "valtio";
 import {
-  activeContentAtom,
-  filterStatusAtom,
-  filteredEntriesAtom,
-  isArticleFocusedAtom,
-  loadMoreUnreadVisibleAtom,
-  loadMoreVisibleAtom,
-} from "../atoms/contentAtom";
+  contentState,
+  setActiveContent,
+  setIsArticleFocused,
+} from "../store/contentState";
 import { extractImageSources } from "../utils/images";
 import useLoadMore from "./useLoadMore";
 import { usePhotoSlider } from "./usePhotoSlider";
 
 const useKeyHandlers = (handleEntryClick) => {
-  const filteredEntries = useAtomValue(filteredEntriesAtom);
-  const filterStatus = useAtomValue(filterStatusAtom);
-  const loadMoreUnreadVisible = useAtomValue(loadMoreUnreadVisibleAtom);
-  const loadMoreVisible = useAtomValue(loadMoreVisibleAtom);
+  const {
+    activeContent,
+    filteredEntries,
+    filterStatus,
+    loadMoreUnreadVisible,
+    loadMoreVisible,
+  } = useSnapshot(contentState);
 
-  const setIsArticleFocused = useSetAtom(isArticleFocusedAtom);
-
-  const [activeContent, setActiveContent] = useAtom(activeContentAtom);
   const { isPhotoSliderVisible, setIsPhotoSliderVisible, setSelectedIndex } =
     usePhotoSlider();
 
   const { loadingMore } = useLoadMore();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [checkNext, setCheckNext] = useState(false);
-  const [scrollToCard, setScrollToCard] = useState(false);
+  const [shouldLoadNext, setShouldLoadNext] = useState(false);
+  const [shouldScrollToCard, setShouldScrollToCard] = useState(false);
 
   useEffect(() => {
-    if (checkNext && !loadingMore) {
+    if (shouldLoadNext && !loadingMore) {
       setIsLoading(false);
-      setCheckNext(false);
+      setShouldLoadNext(false);
       navigateToNextArticle();
     }
-  }, [checkNext, loadingMore]);
+  }, [shouldLoadNext, loadingMore]);
 
   useEffect(() => {
-    if (scrollToCard) {
+    if (shouldScrollToCard) {
       const card = document.querySelector(".card-custom-selected-style");
       if (card) {
         card.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
-      setScrollToCard(false);
+      setShouldScrollToCard(false);
     }
-  }, [scrollToCard]);
+  }, [shouldScrollToCard]);
 
   const exitDetailView = (entryListRef, entryDetailRef) => {
     if (!activeContent) {
@@ -58,9 +55,7 @@ const useKeyHandlers = (handleEntryClick) => {
       entryListRef.current.setAttribute("tabIndex", "-1");
       entryListRef.current.focus();
     }
-    if (entryDetailRef.current) {
-      entryDetailRef.current.scrollTo(0, 0);
-    }
+    entryDetailRef.current?.scrollTo(0, 0);
   };
 
   const navigateToPreviousArticle = (unread = false) => {
@@ -69,19 +64,15 @@ const useKeyHandlers = (handleEntryClick) => {
     );
 
     if (currentIndex > 0) {
-      let prevEntry;
-      if (unread) {
-        prevEntry = filteredEntries
-          .slice(0, currentIndex)
-          .toReversed()
-          .find((entry) => entry.status === "unread");
-      } else {
-        prevEntry = filteredEntries[currentIndex - 1];
-      }
+      const prevEntry = unread
+        ? filteredEntries
+            .slice(0, currentIndex)
+            .toReversed()
+            .find((entry) => entry.status === "unread")
+        : filteredEntries[currentIndex - 1];
+
       if (prevEntry) {
-        handleEntryClick(prevEntry).then(() => {
-          setScrollToCard(true);
-        });
+        handleEntryClick(prevEntry).then(() => setShouldScrollToCard(true));
       }
     }
   };
@@ -101,32 +92,24 @@ const useKeyHandlers = (handleEntryClick) => {
       ((filterStatus === "all" && loadMoreVisible) || loadMoreUnreadVisible)
     ) {
       setIsLoading(true);
-      setCheckNext(true);
+      setShouldLoadNext(true);
       return;
     }
 
     if (currentIndex === -1) {
-      const entryList = document.querySelector(".entry-list");
-      if (entryList) {
-        entryList.scrollTo(0, 0);
-      }
+      document.querySelector(".entry-list")?.scrollTo(0, 0);
+      return;
     }
 
-    if (currentIndex < filteredEntries.length - 1) {
-      let nextEntry;
-      if (unread) {
-        nextEntry = filteredEntries
+    const nextEntry = unread
+      ? filteredEntries
           .slice(currentIndex + 1)
-          .find((entry) => entry.status === "unread");
-      } else {
-        nextEntry = filteredEntries[currentIndex + 1];
-      }
-      if (nextEntry) {
-        handleEntryClick(nextEntry).then(() => {
-          setScrollToCard(true);
-        });
-        setCheckNext(false);
-      }
+          .find((entry) => entry.status === "unread")
+      : filteredEntries[currentIndex + 1];
+
+    if (nextEntry) {
+      handleEntryClick(nextEntry).then(() => setShouldScrollToCard(true));
+      setShouldLoadNext(false);
     }
   };
 
@@ -155,17 +138,18 @@ const useKeyHandlers = (handleEntryClick) => {
   };
 
   const openPhotoSlider = () => {
-    if (activeContent) {
-      const imageSources = extractImageSources(activeContent.content);
-      if (imageSources.length === 0) {
-        return;
-      }
-      if (!isPhotoSliderVisible) {
-        setSelectedIndex(0);
-        setIsPhotoSliderVisible(true);
-        setIsArticleFocused(false);
-      }
+    if (!activeContent) {
+      return;
     }
+
+    const imageSources = extractImageSources(activeContent.content);
+    if (!imageSources.length || isPhotoSliderVisible) {
+      return;
+    }
+
+    setSelectedIndex(0);
+    setIsPhotoSliderVisible(true);
+    setIsArticleFocused(false);
   };
 
   return {
