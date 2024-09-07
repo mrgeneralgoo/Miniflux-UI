@@ -1,35 +1,44 @@
 import { Spin } from "@arco-design/web-react";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { forwardRef, useEffect } from "react";
+import { forwardRef } from "react";
 
 import useLoadMore from "../../hooks/useLoadMore";
 import ArticleCard from "./ArticleCard";
 import LoadingCards from "./LoadingCards";
 import SearchAndSortBar from "./SearchAndSortBar";
 
+import { useStore } from "@nanostores/react";
 import { useInView } from "react-intersection-observer";
-import { useSnapshot } from "valtio";
-import { configState } from "../../store/configState";
-import { contentState } from "../../store/contentState";
+import {
+  contentState,
+  filteredEntriesState,
+  loadMoreUnreadVisibleState,
+  loadMoreVisibleState,
+} from "../../store/contentState";
+import { settingsState } from "../../store/settingsState";
 import Ripple from "../ui/Ripple.jsx";
 import "./ArticleList.css";
 
 const ArticleList = forwardRef(
-  ({ loading, getEntries, handleEntryClick, cardsRef }, ref) => {
-    const { layout } = useSnapshot(configState);
+  ({ getEntries, handleEntryClick, cardsRef }, ref) => {
+    const { layout } = useStore(settingsState);
     const isCompactLayout = layout === "small";
 
-    const {
-      filteredEntries,
-      filterStatus,
-      loadMoreUnreadVisible,
-      loadMoreVisible,
-    } = useSnapshot(contentState);
+    const { filterStatus, loading } = useStore(contentState);
+    const filteredEntries = useStore(filteredEntriesState);
+    const loadMoreUnreadVisible = useStore(loadMoreUnreadVisibleState);
+    const loadMoreVisible = useStore(loadMoreVisibleState);
 
     const { loadingMore, handleLoadMore } = useLoadMore();
 
-    const { ref: loadMoreRef, inView } = useInView({
+    const { ref: loadMoreRef } = useInView({
       skip: !(loadMoreVisible || loadMoreUnreadVisible),
+      onChange: async (inView) => {
+        if (!inView || loading || loadingMore) {
+          return;
+        }
+        await handleLoadMore(getEntries);
+      },
     });
 
     const virtualizer = useVirtualizer({
@@ -37,34 +46,13 @@ const ArticleList = forwardRef(
       getScrollElement: () => cardsRef.current,
       estimateSize: () => (isCompactLayout ? 120 : 280),
     });
-
     const virtualItems = virtualizer.getVirtualItems();
-
-    useEffect(() => {
-      if (
-        inView &&
-        !loading &&
-        !loadingMore &&
-        (loadMoreVisible || loadMoreUnreadVisible)
-      ) {
-        const timeoutId = setTimeout(() => handleLoadMore(getEntries), 500);
-        return () => clearTimeout(timeoutId);
-      }
-    }, [
-      inView,
-      loading,
-      loadingMore,
-      loadMoreVisible,
-      loadMoreUnreadVisible,
-      handleLoadMore,
-      getEntries,
-    ]);
 
     return (
       <>
         <SearchAndSortBar />
         <div className="entry-list" ref={ref}>
-          <LoadingCards loading={loading} />
+          <LoadingCards />
           {!loading && (
             <div ref={cardsRef}>
               <div

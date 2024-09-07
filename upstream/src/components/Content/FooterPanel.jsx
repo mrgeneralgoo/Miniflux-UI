@@ -2,7 +2,7 @@ import { Button, Message, Popconfirm, Radio } from "@arco-design/web-react";
 import { IconCheck, IconRefresh } from "@arco-design/web-react/icon";
 import { forwardRef, useEffect } from "react";
 
-import { useSnapshot } from "valtio";
+import { useStore } from "@nanostores/react";
 import {
   contentState,
   setEntries,
@@ -28,7 +28,7 @@ const updateAllEntriesAsRead = () => {
 
 const FooterPanel = forwardRef(
   ({ info, refreshArticleList, markAllAsRead }, ref) => {
-    const { filterStatus, loading } = useSnapshot(contentState);
+    const { filterStatus, loading } = useStore(contentState);
 
     const handleMarkAllAsRead = async () => {
       try {

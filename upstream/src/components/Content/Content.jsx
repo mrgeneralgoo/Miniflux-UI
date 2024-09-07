@@ -2,19 +2,18 @@ import { Message } from "@arco-design/web-react";
 import { useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 
-import { useSnapshot } from "valtio";
+import { useStore } from "@nanostores/react";
 import { updateEntriesStatus } from "../../apis";
 import useEntryActions from "../../hooks/useEntryActions";
 import useKeyHandlers from "../../hooks/useKeyHandlers";
-import { configState } from "../../store/configState";
 import {
   contentState,
+  filteredEntriesState,
   setActiveContent,
   setEntries,
+  setFilterStatus,
   setInfoFrom,
   setIsArticleFocused,
-  setLoadMoreUnreadVisible,
-  setLoadMoreVisible,
   setLoading,
   setOffset,
   setTotal,
@@ -23,6 +22,7 @@ import {
   setUnreadOffset,
 } from "../../store/contentState";
 import { dataState, fetchData } from "../../store/dataState";
+import { settingsState } from "../../store/settingsState";
 import { parseFirstImage } from "../../utils/images";
 import ArticleDetail from "../Article/ArticleDetail";
 import ArticleList from "../Article/ArticleList";
@@ -31,10 +31,11 @@ import FooterPanel from "./FooterPanel";
 import "./Transition.css";
 
 const Content = ({ info, getEntries, markAllAsRead }) => {
-  const { orderBy, orderDirection } = useSnapshot(configState);
-  const { activeContent, filteredEntries, isArticleFocused, loading } =
-    useSnapshot(contentState);
-  const { isAppDataReady } = useSnapshot(dataState);
+  const { activeContent, isArticleFocused, loading } = useStore(contentState);
+  const { isAppDataReady } = useStore(dataState);
+  const { orderBy, orderDirection, pageSize, showStatus } =
+    useStore(settingsState);
+  const filteredEntries = useStore(filteredEntriesState);
 
   const {
     handleFetchContent,
@@ -53,7 +54,10 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (!isInitialRenderComplete || info.from === "history") {
+    if (
+      !isInitialRenderComplete ||
+      ["starred", "history"].includes(info.from)
+    ) {
       return;
     }
     refreshArticleList();
@@ -61,6 +65,11 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
+    if (["starred", "history"].includes(info.from)) {
+      setFilterStatus("all");
+    } else {
+      setFilterStatus(showStatus);
+    }
     setInfoFrom(info.from);
     refreshArticleList();
   }, [info, orderDirection]);
@@ -139,9 +148,9 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     setEntries(articles);
     setUnreadEntries(unreadArticles);
     setTotal(responseAll.total);
-    setLoadMoreVisible(articles.length < responseAll.total);
     setUnreadCount(responseUnread.total);
-    setLoadMoreUnreadVisible(unreadArticles.length < responseUnread.total);
+    setOffset(pageSize);
+    setUnreadOffset(pageSize);
   };
 
   const handleResponses = (responseAll, responseUnread) => {
@@ -208,7 +217,6 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
         >
           <ArticleList
             cardsRef={cardsRef}
-            loading={loading}
             getEntries={getEntries}
             handleEntryClick={handleEntryClick}
             ref={entryListRef}

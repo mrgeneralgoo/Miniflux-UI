@@ -25,21 +25,28 @@ import {
 import { generateRelativeTime, getUTCDate } from "../../utils/date";
 import { includesIgnoreCase } from "../../utils/filter";
 
-import { proxy, snapshot, useSnapshot } from "valtio";
+import { useStore } from "@nanostores/react";
+import { atom, computed } from "nanostores";
 import { useScreenWidth } from "../../hooks/useScreenWidth";
-import { configState } from "../../store/configState";
-import { dataState, setFeedsData } from "../../store/dataState";
+import {
+  categoriesState,
+  dataState,
+  setFeedsData,
+} from "../../store/dataState";
+import { settingsState } from "../../store/settingsState";
+import { createSetter } from "../../utils/nanostores";
 import { sleep } from "../../utils/time";
-import { createSetter } from "../../utils/valtio";
 import "./FeedList.css";
 
 const { Paragraph } = Typography;
 
-const state = proxy({
-  filterString: "",
-  get filteredFeeds() {
-    const { feedsData } = snapshot(dataState);
-    const { filterString } = this;
+const filterStringState = atom("");
+const setFilterString = createSetter(filterStringState);
+
+const filteredFeedsState = computed(
+  [dataState, filterStringState],
+  (data, filterString) => {
+    const { feedsData } = data;
     return [...feedsData]
       .sort((a, b) => {
         if (a.disabled && !b.disabled) {
@@ -58,24 +65,22 @@ const state = proxy({
           includesIgnoreCase(feed.feed_url, filterString),
       );
   },
-  get tableData() {
-    const { filteredFeeds } = this;
-    return filteredFeeds.map((feed) => ({
-      category: feed.category,
-      checked_at: feed.checked_at,
-      crawler: feed.crawler,
-      disabled: feed.disabled,
-      feed_url: feed.feed_url,
-      hidden: feed.hide_globally,
-      key: feed.id,
-      parsing_error_count: feed.parsing_error_count,
-      site_url: feed.site_url,
-      title: feed.title,
-    }));
-  },
-});
+);
 
-const setFilterString = createSetter(state, "filterString");
+const tableDataState = computed(filteredFeedsState, (filteredFeeds) => {
+  return filteredFeeds.map((feed) => ({
+    category: feed.category,
+    checked_at: feed.checked_at,
+    crawler: feed.crawler,
+    disabled: feed.disabled,
+    feed_url: feed.feed_url,
+    hidden: feed.hide_globally,
+    key: feed.id,
+    parsing_error_count: feed.parsing_error_count,
+    site_url: feed.site_url,
+    title: feed.title,
+  }));
+});
 
 const updateFeedStatus = (feed, isSuccessful, targetFeedId = null) => {
   if (targetFeedId === null || targetFeedId === feed.id) {
@@ -89,9 +94,10 @@ const updateFeedStatus = (feed, isSuccessful, targetFeedId = null) => {
 };
 
 const FeedList = () => {
-  const { showDetailedRelativeTime } = useSnapshot(configState);
-  const { categories } = useSnapshot(dataState);
-  const { filteredFeeds, tableData } = useSnapshot(state);
+  const categories = useStore(categoriesState);
+  const { showDetailedRelativeTime } = useStore(settingsState);
+  const filteredFeeds = useStore(filteredFeedsState);
+  const tableData = useStore(tableDataState);
 
   const [bulkUpdateModalVisible, setBulkUpdateModalVisible] = useState(false);
   const [feedForm] = Form.useForm();

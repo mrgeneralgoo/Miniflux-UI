@@ -5,8 +5,9 @@ import {
   Switch,
   Typography,
 } from "@arco-design/web-react";
-import { useSnapshot } from "valtio";
-import { configState, updateConfig } from "../../store/configState";
+import { useStore } from "@nanostores/react";
+import { setFilterStatus } from "../../store/contentState";
+import { settingsState, updateSettings } from "../../store/settingsState";
 import "./General.css";
 
 const General = () => {
@@ -17,7 +18,7 @@ const General = () => {
     pageSize,
     removeDuplicates,
     showStatus,
-  } = useSnapshot(configState);
+  } = useStore(settingsState);
 
   return (
     <>
@@ -35,7 +36,10 @@ const General = () => {
             className="input-select"
             placeholder="Select status"
             value={showStatus}
-            onChange={(value) => updateConfig({ showStatus: value })}
+            onChange={(value) => {
+              updateSettings({ showStatus: value });
+              setFilterStatus(value);
+            }}
           >
             <Select.Option value="all">All</Select.Option>
             <Select.Option value="unread">Unread</Select.Option>
@@ -55,7 +59,7 @@ const General = () => {
         <div>
           <Select
             className="input-select"
-            onChange={(value) => updateConfig({ homePage: value })}
+            onChange={(value) => updateSettings({ homePage: value })}
             placeholder="Select page"
             value={homePage}
           >
@@ -79,7 +83,7 @@ const General = () => {
         <div>
           <Select
             className="input-select"
-            onChange={(value) => updateConfig({ orderBy: value })}
+            onChange={(value) => updateSettings({ orderBy: value })}
             placeholder="Select order"
             value={orderBy}
           >
@@ -104,7 +108,7 @@ const General = () => {
             defaultValue={pageSize}
             min={1}
             mode="button"
-            onChange={(value) => updateConfig({ pageSize: value })}
+            onChange={(value) => updateSettings({ pageSize: value })}
             size="small"
           />
         </div>
@@ -122,7 +126,7 @@ const General = () => {
         <div>
           <Select
             className="input-select"
-            onChange={(value) => updateConfig({ removeDuplicates: value })}
+            onChange={(value) => updateSettings({ removeDuplicates: value })}
             placeholder="Select option"
             value={removeDuplicates}
           >
@@ -147,7 +151,7 @@ const General = () => {
         <div>
           <Switch
             checked={markReadOnScroll}
-            onChange={(value) => updateConfig({ markReadOnScroll: value })}
+            onChange={(value) => updateSettings({ markReadOnScroll: value })}
           />
         </div>
       </div>

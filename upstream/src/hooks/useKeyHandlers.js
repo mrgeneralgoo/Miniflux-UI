@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { useSnapshot } from "valtio";
+import { useStore } from "@nanostores/react";
 import {
   contentState,
+  filteredEntriesState,
+  loadMoreUnreadVisibleState,
+  loadMoreVisibleState,
   setActiveContent,
   setIsArticleFocused,
 } from "../store/contentState";
@@ -11,13 +14,10 @@ import useLoadMore from "./useLoadMore";
 import { usePhotoSlider } from "./usePhotoSlider";
 
 const useKeyHandlers = (handleEntryClick) => {
-  const {
-    activeContent,
-    filteredEntries,
-    filterStatus,
-    loadMoreUnreadVisible,
-    loadMoreVisible,
-  } = useSnapshot(contentState);
+  const { activeContent, filterStatus } = useStore(contentState);
+  const filteredEntries = useStore(filteredEntriesState);
+  const loadMoreUnreadVisible = useStore(loadMoreUnreadVisibleState);
+  const loadMoreVisible = useStore(loadMoreVisibleState);
 
   const { isPhotoSliderVisible, setIsPhotoSliderVisible, setSelectedIndex } =
     usePhotoSlider();
@@ -26,7 +26,6 @@ const useKeyHandlers = (handleEntryClick) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [shouldLoadNext, setShouldLoadNext] = useState(false);
-  const [shouldScrollToCard, setShouldScrollToCard] = useState(false);
 
   useEffect(() => {
     if (shouldLoadNext && !loadingMore) {
@@ -37,14 +36,13 @@ const useKeyHandlers = (handleEntryClick) => {
   }, [shouldLoadNext, loadingMore]);
 
   useEffect(() => {
-    if (shouldScrollToCard) {
+    if (activeContent) {
       const card = document.querySelector(".card-custom-selected-style");
       if (card) {
         card.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
-      setShouldScrollToCard(false);
     }
-  }, [shouldScrollToCard]);
+  }, [activeContent]);
 
   const exitDetailView = (entryListRef, entryDetailRef) => {
     if (!activeContent) {
@@ -72,7 +70,7 @@ const useKeyHandlers = (handleEntryClick) => {
         : filteredEntries[currentIndex - 1];
 
       if (prevEntry) {
-        handleEntryClick(prevEntry).then(() => setShouldScrollToCard(true));
+        handleEntryClick(prevEntry);
       }
     }
   };
@@ -108,7 +106,7 @@ const useKeyHandlers = (handleEntryClick) => {
       : filteredEntries[currentIndex + 1];
 
     if (nextEntry) {
-      handleEntryClick(nextEntry).then(() => setShouldScrollToCard(true));
+      handleEntryClick(nextEntry);
       setShouldLoadNext(false);
     }
   };
