@@ -1,6 +1,6 @@
 import { Spin } from "@arco-design/web-react";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { forwardRef } from "react";
+import { forwardRef, useCallback } from "react";
 
 import useLoadMore from "../../hooks/useLoadMore";
 import ArticleCard from "./ArticleCard";
@@ -16,16 +16,48 @@ import {
   loadMoreVisibleState,
 } from "../../store/contentState";
 import { settingsState } from "../../store/settingsState";
+import { mergeRefs } from "../../utils/refs";
 import Ripple from "../ui/Ripple.jsx";
 import "./ArticleList.css";
 
+const LoadMoreComponent = ({ getEntries }) => {
+  const { filterStatus, loading } = useStore(contentState);
+  const loadMoreUnreadVisible = useStore(loadMoreUnreadVisibleState);
+  const loadMoreVisible = useStore(loadMoreVisibleState);
+
+  const { loadingMore, handleLoadMore } = useLoadMore();
+
+  const { ref: loadMoreRef } = useInView({
+    skip: !(loadMoreVisible || loadMoreUnreadVisible),
+    onChange: async (inView) => {
+      if (!inView || loading || loadingMore) {
+        return;
+      }
+      await handleLoadMore(getEntries);
+    },
+  });
+
+  return (
+    !loading &&
+    (filterStatus === "all" ? loadMoreVisible : loadMoreUnreadVisible) && (
+      <div className="load-more-container" ref={loadMoreRef}>
+        <Spin loading={loadingMore} style={{ paddingRight: "10px" }} />
+        Loading more ...
+      </div>
+    )
+  );
+};
+
 const ArticleList = forwardRef(
   ({ getEntries, handleEntryClick, cardsRef }, ref) => {
-    const { layout } = useStore(settingsState);
+    const { layout, pageSize } = useStore(settingsState);
     const isCompactLayout = layout === "small";
 
-    const { filterStatus, loading } = useStore(contentState);
+    const { loading } = useStore(contentState);
     const filteredEntries = useStore(filteredEntriesState);
+    const lastPercent20StartIndex =
+      filteredEntries.length - Math.ceil(pageSize * 0.2) - 1;
+
     const loadMoreUnreadVisible = useStore(loadMoreUnreadVisibleState);
     const loadMoreVisible = useStore(loadMoreVisibleState);
 
@@ -48,6 +80,16 @@ const ArticleList = forwardRef(
     });
     const virtualItems = virtualizer.getVirtualItems();
 
+    const getItemRef = useCallback(
+      (index) => {
+        if (index === lastPercent20StartIndex) {
+          return mergeRefs(virtualizer.measureElement, loadMoreRef);
+        }
+        return virtualizer.measureElement;
+      },
+      [lastPercent20StartIndex, virtualizer.measureElement, loadMoreRef],
+    );
+
     return (
       <>
         <SearchAndSortBar />
@@ -66,7 +108,7 @@ const ArticleList = forwardRef(
                   <div
                     key={item.key}
                     data-index={item.index}
-                    ref={virtualizer.measureElement}
+                    ref={getItemRef(item.index)}
                     style={{
                       position: "absolute",
                       top: 0,
@@ -87,15 +129,7 @@ const ArticleList = forwardRef(
               </div>
             </div>
           )}
-          {!loading &&
-            (filterStatus === "all"
-              ? loadMoreVisible
-              : loadMoreUnreadVisible) && (
-              <div className="load-more-container" ref={loadMoreRef}>
-                <Spin loading={loadingMore} style={{ paddingRight: "10px" }} />
-                Loading more ...
-              </div>
-            )}
+          <LoadMoreComponent getEntries={getEntries} />
         </div>
       </>
     );
