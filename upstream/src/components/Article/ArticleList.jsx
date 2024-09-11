@@ -12,7 +12,6 @@ import { useInView } from "react-intersection-observer";
 import {
   contentState,
   filteredEntriesState,
-  loadMoreUnreadVisibleState,
   loadMoreVisibleState,
 } from "../../store/contentState";
 import { settingsState } from "../../store/settingsState";
@@ -21,16 +20,15 @@ import Ripple from "../ui/Ripple.jsx";
 import "./ArticleList.css";
 
 const LoadMoreComponent = ({ getEntries }) => {
-  const { filterStatus, loading } = useStore(contentState);
-  const loadMoreUnreadVisible = useStore(loadMoreUnreadVisibleState);
+  const { isArticleListReady } = useStore(contentState);
   const loadMoreVisible = useStore(loadMoreVisibleState);
 
   const { loadingMore, handleLoadMore } = useLoadMore();
 
   const { ref: loadMoreRef } = useInView({
-    skip: !(loadMoreVisible || loadMoreUnreadVisible),
+    skip: !loadMoreVisible,
     onChange: async (inView) => {
-      if (!inView || loading || loadingMore) {
+      if (!inView || !isArticleListReady || loadingMore) {
         return;
       }
       await handleLoadMore(getEntries);
@@ -38,8 +36,8 @@ const LoadMoreComponent = ({ getEntries }) => {
   });
 
   return (
-    !loading &&
-    (filterStatus === "all" ? loadMoreVisible : loadMoreUnreadVisible) && (
+    isArticleListReady &&
+    loadMoreVisible && (
       <div className="load-more-container" ref={loadMoreRef}>
         <Spin loading={loadingMore} style={{ paddingRight: "10px" }} />
         Loading more ...
@@ -53,20 +51,19 @@ const ArticleList = forwardRef(
     const { layout, pageSize } = useStore(settingsState);
     const isCompactLayout = layout === "small";
 
-    const { loading } = useStore(contentState);
+    const { isArticleListReady } = useStore(contentState);
     const filteredEntries = useStore(filteredEntriesState);
     const lastPercent20StartIndex =
       filteredEntries.length - Math.ceil(pageSize * 0.2) - 1;
 
-    const loadMoreUnreadVisible = useStore(loadMoreUnreadVisibleState);
     const loadMoreVisible = useStore(loadMoreVisibleState);
 
     const { loadingMore, handleLoadMore } = useLoadMore();
 
     const { ref: loadMoreRef } = useInView({
-      skip: !(loadMoreVisible || loadMoreUnreadVisible),
+      skip: !loadMoreVisible,
       onChange: async (inView) => {
-        if (!inView || loading || loadingMore) {
+        if (!inView || !isArticleListReady || loadingMore) {
           return;
         }
         await handleLoadMore(getEntries);
@@ -95,7 +92,7 @@ const ArticleList = forwardRef(
         <SearchAndSortBar />
         <div className="entry-list" ref={ref}>
           <LoadingCards />
-          {!loading && (
+          {isArticleListReady && (
             <div ref={cardsRef}>
               <div
                 style={{

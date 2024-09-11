@@ -6,8 +6,10 @@ import {
   getStarredEntries,
   getTodayEntries,
   getUnreadInfo,
+  getVersion,
 } from "../apis";
 import { createSetter } from "../utils/nanostores";
+import { compareVersions } from "../utils/version";
 import { settingsState } from "./settingsState";
 
 export const dataState = map({
@@ -18,6 +20,7 @@ export const dataState = map({
   historyCount: 0,
   feedsData: [],
   categoriesData: [],
+  isVersionAtLeast2_2_0: false,
 });
 
 export const feedsState = computed(dataState, (data) => {
@@ -119,6 +122,10 @@ export const setIsAppDataReady = createSetter(dataState, "isAppDataReady");
 export const setStarredCount = createSetter(dataState, "starredCount");
 export const setUnreadInfo = createSetter(dataState, "unreadInfo");
 export const setUnreadTodayCount = createSetter(dataState, "unreadTodayCount");
+export const setIsVersionAtLeast2_2_0 = createSetter(
+  dataState,
+  "isVersionAtLeast2_2_0",
+);
 
 export const fetchData = async () => {
   setIsAppDataReady(false);
@@ -129,6 +136,7 @@ export const fetchData = async () => {
     getHistoryEntries(),
     getFeeds(),
     getCategories(),
+    getVersion(),
   ]);
 
   const [
@@ -138,6 +146,7 @@ export const fetchData = async () => {
     historyData,
     feedsData,
     categoriesData,
+    versionData,
   ] = responses;
 
   const unreadInfo = feedsData.reduce((acc, feed) => {
@@ -151,5 +160,6 @@ export const fetchData = async () => {
   setHistoryCount(historyData.total ?? 0);
   setFeedsData(feedsData);
   setCategoriesData(categoriesData);
+  setIsVersionAtLeast2_2_0(compareVersions(versionData.version, "2.2.0") >= 0);
   setIsAppDataReady(true);
 };
