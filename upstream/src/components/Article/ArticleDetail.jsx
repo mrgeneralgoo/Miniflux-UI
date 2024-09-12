@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useStore } from "@nanostores/react";
 import "react-photo-view/dist/react-photo-view.css";
+import SimpleBar from "simplebar-react";
 import { usePhotoSlider } from "../../hooks/usePhotoSlider";
 import { useScreenWidth } from "../../hooks/useScreenWidth";
 import {
@@ -181,18 +182,6 @@ const ArticleDetail = forwardRef(({ handleEntryClick, entryListRef }, ref) => {
     setIsArticleFocused((prev) => !prev);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    const scrollContainer = ref.current?.querySelector(".scroll-container");
-    if (scrollContainer) {
-      scrollContainer.scrollTo(0, 0);
-      scrollContainer.setAttribute("tabIndex", "-1");
-      setTimeout(() => {
-        scrollContainer.focus();
-      }, 200);
-    }
-  }, [activeContent?.id]);
-
   if (!activeContent) {
     return (
       <div ref={ref} className="content-empty">
@@ -222,7 +211,7 @@ const ArticleDetail = forwardRef(({ handleEntryClick, entryListRef }, ref) => {
       onFocus={() => setIsArticleFocused(true)}
       ref={ref}
     >
-      <div className="scroll-container">
+      <SimpleBar className="scroll-container">
         <div className="article-header" style={{ width: `${articleWidth}%` }}>
           <Typography.Title className="article-title" heading={3}>
             <a
@@ -281,11 +270,10 @@ const ArticleDetail = forwardRef(({ handleEntryClick, entryListRef }, ref) => {
             onIndexChange={setSelectedIndex}
           />
         </div>
-      </div>
+      </SimpleBar>
       <ActionButtons
         handleEntryClick={handleEntryClick}
         entryListRef={entryListRef}
-        entryDetailRef={ref}
       />
     </div>
   );

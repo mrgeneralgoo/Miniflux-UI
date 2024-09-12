@@ -12,7 +12,7 @@ import { extractImageSources } from "../utils/images";
 import useLoadMore from "./useLoadMore";
 import { usePhotoSlider } from "./usePhotoSlider";
 
-const useKeyHandlers = (handleEntryClick) => {
+const useKeyHandlers = (handleEntryClick, entryListRef) => {
   const { activeContent } = useStore(contentState);
   const filteredEntries = useStore(filteredEntriesState);
   const loadMoreVisible = useStore(loadMoreVisibleState);
@@ -31,7 +31,7 @@ const useKeyHandlers = (handleEntryClick) => {
       setShouldLoadNext(false);
       navigateToNextArticle();
     }
-  }, [shouldLoadNext, loadingMore]);
+  }, [loadingMore, shouldLoadNext]);
 
   useEffect(() => {
     if (activeContent) {
@@ -42,16 +42,14 @@ const useKeyHandlers = (handleEntryClick) => {
     }
   }, [activeContent]);
 
-  const exitDetailView = (entryListRef, entryDetailRef) => {
+  const exitDetailView = () => {
     if (!activeContent) {
       return;
     }
     setActiveContent(null);
     if (entryListRef.current) {
-      entryListRef.current.setAttribute("tabIndex", "-1");
-      entryListRef.current.focus();
+      entryListRef.current.contentWrapperEl.focus();
     }
-    entryDetailRef.current?.scrollTo(0, 0);
   };
 
   const navigateToPreviousArticle = (unread = false) => {
@@ -90,7 +88,11 @@ const useKeyHandlers = (handleEntryClick) => {
     }
 
     if (currentIndex === -1) {
-      document.querySelector(".entry-list")?.scrollTo(0, 0);
+      entryListRef.current.contentWrapperEl.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
       return;
     }
 

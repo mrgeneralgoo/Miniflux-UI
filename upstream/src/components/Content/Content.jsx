@@ -4,22 +4,19 @@ import { CSSTransition } from "react-transition-group";
 
 import { useStore } from "@nanostores/react";
 import { updateEntriesStatus } from "../../apis";
+import useAppData from "../../hooks/useAppData";
+import useArticleList from "../../hooks/useArticleList";
 import useEntryActions from "../../hooks/useEntryActions";
 import useKeyHandlers from "../../hooks/useKeyHandlers";
 import {
   contentState,
   filteredEntriesState,
   setActiveContent,
-  setEntries,
   setInfoFrom,
-  setIsArticleFocused,
-  setIsArticleListReady,
   setOffset,
-  setTotal,
 } from "../../store/contentState";
-import { dataState, fetchData } from "../../store/dataState";
+import { dataState } from "../../store/dataState";
 import { settingsState } from "../../store/settingsState";
-import { parseFirstImage } from "../../utils/images";
 import ArticleDetail from "../Article/ArticleDetail";
 import ArticleList from "../Article/ArticleList";
 import "./Content.css";
@@ -41,6 +38,9 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     handleEntryStatusUpdate,
   } = useEntryActions();
 
+  const { fetchAppData } = useAppData();
+  const { fetchArticleList } = useArticleList(getEntries);
+
   const entryListRef = useRef(null);
   const cardsRef = useRef(null);
 
@@ -49,20 +49,24 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (["starred", "history"].includes(info.from)) {
-      return;
-    }
-    refreshArticleList();
-  }, [orderBy, showAllFeeds]);
-
-  useEffect(() => {
     setInfoFrom(info.from);
-    refreshArticleList();
+    if (activeContent) {
+      setActiveContent(null);
+    }
+    refreshArticleList(getEntries);
   }, [info]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    refreshArticleList();
+    if (["starred", "history"].includes(info.from)) {
+      return;
+    }
+    refreshArticleList(getEntries);
+  }, [orderBy, showAllFeeds]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    refreshArticleList(getEntries);
   }, [orderDirection, showStatus]);
 
   const handleEntryClick = async (entry) => {
@@ -96,14 +100,14 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     openPhotoSlider,
     toggleReadStatus,
     toggleStarStatus,
-  } = useKeyHandlers(handleEntryClick);
+  } = useKeyHandlers(handleEntryClick, entryListRef);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const keyMap = {
       ArrowLeft: () => navigateToPreviousArticle(),
       ArrowRight: () => navigateToNextArticle(),
-      Escape: () => exitDetailView(entryListRef, entryDetailRef),
+      Escape: () => exitDetailView(),
       b: openLinkExternally,
       d: () => fetchOriginalArticle(handleFetchContent),
       m: () => toggleReadStatus(() => handleToggleStatus(activeContent)),
@@ -135,57 +139,14 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     };
   }, [activeContent, filteredEntries, isArticleFocused]);
 
-  const handleResponses = (response) => {
-    if (response?.total >= 0) {
-      const articles = response.entries.map(parseFirstImage);
-      setEntries(articles);
-      setTotal(response.total);
-    }
-  };
-
-  const fetchArticleList = async () => {
-    setIsArticleListReady(false);
-    try {
-      const response =
-        showStatus === "unread"
-          ? await getEntries(0, "unread")
-          : await getEntries();
-      handleResponses(response);
-    } catch (error) {
-      console.error("Error fetching articles: ", error);
-    } finally {
-      setIsArticleListReady(true);
-    }
-  };
-
-  const refreshArticleList = async () => {
-    entryListRef.current?.scrollTo(0, 0);
+  const refreshArticleList = async (getEntries) => {
     setOffset(0);
     if (!isAppDataReady) {
-      await fetchData();
-      return;
+      await fetchAppData();
+    } else {
+      await fetchArticleList(getEntries);
     }
-    await fetchArticleList();
   };
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    if (activeContent) {
-      setActiveContent(null);
-    }
-  }, []);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    if (!isAppDataReady) {
-      try {
-        fetchArticleList();
-        setIsArticleFocused(true);
-      } catch (error) {
-        Message.error("Failed to fetch articles, please try again later");
-      }
-    }
-  }, [isAppDataReady]);
 
   return (
     <>
@@ -205,9 +166,8 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
         </CSSTransition>
         <FooterPanel
           info={info}
-          refreshArticleList={refreshArticleList}
+          refreshArticleList={() => refreshArticleList(getEntries)}
           markAllAsRead={markAllAsRead}
-          ref={entryListRef}
         />
       </div>
       <CSSTransition
