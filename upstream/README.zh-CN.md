@@ -1,6 +1,6 @@
 # ReactFlux
 
-阅读其他语言版本： [English](README.md), [中文](README.cn.md)
+阅读其他语言版本： [English](README.md), [Español](README.es-ES.md)
 
 ## 概述
 
@@ -18,6 +18,7 @@ Reactflux 是 [Miniflux](https://github.com/miniflux/miniflux) 的第三方 Web 
 - 批量更新过滤后的订阅 URL 的 host（适用于替换 RSSHub 实例）
 - 批量刷新最近更新错误的订阅源
 - 文章列表加载时按 hash、标题或 URL 去重
+- 多语言支持 (目前包括：English / Español / 简体中文)
 - 其他功能等你来发现...
 
 ## 截图

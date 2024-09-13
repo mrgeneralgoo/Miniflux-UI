@@ -1,6 +1,6 @@
 # ReactFlux
 
-Read in other languages: [English](README.md), [中文](README.cn.md)
+Read in other languages: [Español](README.es-ES.md), [简体中文](README.zh-CN.md)
 
 ## Overview
 
@@ -18,6 +18,7 @@ Key features include:
 - Batch update the host of filtered subscription URLs (useful for replacing RSSHub instances)
 - Batch refresh recently errored subscriptions
 - De-duplicate articles by hash, title, or URL when loading the list
+- i18n supports (include: English / Español / 简体中文)
 - Other features waiting for you to discover...
 
 ## Screenshots
