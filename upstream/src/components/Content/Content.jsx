@@ -8,6 +8,7 @@ import useAppData from "../../hooks/useAppData";
 import useArticleList from "../../hooks/useArticleList";
 import useEntryActions from "../../hooks/useEntryActions";
 import useKeyHandlers from "../../hooks/useKeyHandlers";
+import { polyglotState } from "../../hooks/useLanguage";
 import {
   contentState,
   filteredEntriesState,
@@ -31,9 +32,11 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     useStore(settingsState);
   const filteredEntries = useStore(filteredEntriesState);
   const hiddenFeedIds = useStore(hiddenFeedIdsState);
+  const { polyglot } = useStore(polyglotState);
 
   const {
     handleFetchContent,
+    handleSaveToThirdPartyServices,
     handleToggleStarred,
     handleToggleStatus,
     handleEntryStatusUpdate,
@@ -98,7 +101,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       }, 200);
       await updateEntriesStatus([entry.id], "read");
     } catch {
-      Message.error("Failed to mark entry as read, please try again later");
+      Message.error(polyglot.t("content.mark_as_read_error"));
       handleEntryStatusUpdate(entry, "unread");
     }
   };
@@ -110,6 +113,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     navigateToPreviousArticle,
     openLinkExternally,
     openPhotoSlider,
+    saveToThirdPartyServices,
     toggleReadStatus,
     toggleStarStatus,
   } = useKeyHandlers(handleEntryClick, entryListRef);
@@ -120,6 +124,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       ArrowLeft: () => navigateToPreviousArticle(),
       ArrowRight: () => navigateToNextArticle(),
       Escape: () => exitDetailView(),
+      a: () => saveToThirdPartyServices(handleSaveToThirdPartyServices),
       b: openLinkExternally,
       d: () => fetchOriginalArticle(handleFetchContent),
       m: () => toggleReadStatus(() => handleToggleStatus(activeContent)),
