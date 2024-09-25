@@ -13,7 +13,7 @@ importers:
         version: 0.4.0
       '@arco-design/web-react':
         specifier: ^2.64.0
-        version: 2.64.0(@types/react@18.3.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 2.64.0(@types/react@18.3.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@nanostores/persistent':
         specifier: ^0.10.2
         version: 0.10.2(nanostores@0.11.3)
@@ -37,7 +37,7 @@ importers:
         version: 1.11.13
       html-react-parser:
         specifier: ^5.1.16
-        version: 5.1.16(@types/react@18.3.8)(react@18.3.1)
+        version: 5.1.16(@types/react@18.3.9)(react@18.3.1)
       nanostores:
         specifier: ^0.11.3
         version: 0.11.3
@@ -79,8 +79,8 @@ importers:
         specifier: 1.9.2
         version: 1.9.2
       '@types/react':
-        specifier: ^18.3.8
-        version: 18.3.8
+        specifier: ^18.3.9
+        version: 18.3.9
       '@types/react-dom':
         specifier: ^18.3.0
         version: 18.3.0
@@ -1147,8 +1147,8 @@ packages:
   '@types/react-dom@18.3.0':
     resolution: {integrity: sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==}
 
-  '@types/react@18.3.8':
-    resolution: {integrity: sha512-syBUrW3/XpnW4WJ41Pft+I+aPoDVbrBVQGEnbD7NijDGlVC+8gV/XKRY+7vMDlfPpbwYt0l1vd/Sj8bJGMbs9Q==}
+  '@types/react@18.3.9':
+    resolution: {integrity: sha512-+BpAVyTpJkNWWSSnaLBk6ePpHLOGJKnEQNbINNovPWzvEUyAe3e+/d494QdEh71RekM/qV7lw6jzf1HGrJyAtQ==}
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -1297,8 +1297,8 @@ packages:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
 
-  browserslist@4.23.3:
-    resolution: {integrity: sha512-btwCFJVjI4YWDNfau8RhZ+B1Q/VLoUITrm3RlP6y1tYGWIOa+InuYiRGXUBXo8nA1qKmHMyLB/iVQg5TT4eFoA==}
+  browserslist@4.24.0:
+    resolution: {integrity: sha512-Rmb62sR1Zpjql25eSanFGEhAxcFwfA1K0GuQcLoaJBAcENegrQut3hYdhXFF1obQfiDyqIW/cLM5HSJ/9k884A==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
@@ -1549,8 +1549,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.27:
-    resolution: {integrity: sha512-o37j1vZqCoEgBuWWXLHQgTN/KDKe7zwpiY5CPeq2RvUqOyJw9xnrULzZAEVQ5p4h+zjMk7hgtOoPdnLxr7m/jw==}
+  electron-to-chromium@1.5.28:
+    resolution: {integrity: sha512-VufdJl+rzaKZoYVUijN13QcXVF5dWPZANeFTLNy+OSpHdDL5ynXTF35+60RSBbaQYB1ae723lQXHCrf4pyLsMw==}
 
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
@@ -2978,7 +2978,7 @@ snapshots:
     dependencies:
       color: 3.2.1
 
-  '@arco-design/web-react@2.64.0(@types/react@18.3.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@arco-design/web-react@2.64.0(@types/react@18.3.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@arco-design/color': 0.4.0
       '@babel/runtime': 7.25.6
@@ -2990,7 +2990,7 @@ snapshots:
       number-precision: 1.6.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      react-focus-lock: 2.13.2(@types/react@18.3.8)(react@18.3.1)
+      react-focus-lock: 2.13.2(@types/react@18.3.9)(react@18.3.1)
       react-is: 18.3.1
       react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       resize-observer-polyfill: 1.5.1
@@ -3048,7 +3048,7 @@ snapshots:
     dependencies:
       '@babel/compat-data': 7.25.4
       '@babel/helper-validator-option': 7.24.8
-      browserslist: 4.23.3
+      browserslist: 4.24.0
       lru-cache: 5.1.1
       semver: 6.3.1
 
@@ -4091,9 +4091,9 @@ snapshots:
 
   '@types/react-dom@18.3.0':
     dependencies:
-      '@types/react': 18.3.8
+      '@types/react': 18.3.9
 
-  '@types/react@18.3.8':
+  '@types/react@18.3.9':
     dependencies:
       '@types/prop-types': 15.7.13
       csstype: 3.1.3
@@ -4275,12 +4275,12 @@ snapshots:
     dependencies:
       fill-range: 7.1.1
 
-  browserslist@4.23.3:
+  browserslist@4.24.0:
     dependencies:
       caniuse-lite: 1.0.30001663
-      electron-to-chromium: 1.5.27
+      electron-to-chromium: 1.5.28
       node-releases: 2.0.18
-      update-browserslist-db: 1.1.0(browserslist@4.23.3)
+      update-browserslist-db: 1.1.0(browserslist@4.24.0)
 
   buffer-from@1.1.2: {}
 
@@ -4414,7 +4414,7 @@ snapshots:
 
   core-js-compat@3.38.1:
     dependencies:
-      browserslist: 4.23.3
+      browserslist: 4.24.0
 
   cosmiconfig@7.1.0:
     dependencies:
@@ -4545,7 +4545,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.5.27: {}
+  electron-to-chromium@1.5.28: {}
 
   emoji-regex@10.4.0: {}
 
@@ -4851,7 +4851,7 @@ snapshots:
       domhandler: 5.0.3
       htmlparser2: 9.1.0
 
-  html-react-parser@5.1.16(@types/react@18.3.8)(react@18.3.1):
+  html-react-parser@5.1.16(@types/react@18.3.9)(react@18.3.1):
     dependencies:
       domhandler: 5.0.3
       html-dom-parser: 5.0.10
@@ -4859,7 +4859,7 @@ snapshots:
       react-property: 2.0.2
       style-to-js: 1.1.14
     optionalDependencies:
-      '@types/react': 18.3.8
+      '@types/react': 18.3.9
 
   htmlparser2@9.1.0:
     dependencies:
@@ -5312,17 +5312,17 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
-  react-focus-lock@2.13.2(@types/react@18.3.8)(react@18.3.1):
+  react-focus-lock@2.13.2(@types/react@18.3.9)(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.25.6
       focus-lock: 1.3.5
       prop-types: 15.8.1
       react: 18.3.1
       react-clientside-effect: 1.2.6(react@18.3.1)
-      use-callback-ref: 1.3.2(@types/react@18.3.8)(react@18.3.1)
-      use-sidecar: 1.1.2(@types/react@18.3.8)(react@18.3.1)
+      use-callback-ref: 1.3.2(@types/react@18.3.9)(react@18.3.1)
+      use-sidecar: 1.1.2(@types/react@18.3.9)(react@18.3.1)
     optionalDependencies:
-      '@types/react': 18.3.8
+      '@types/react': 18.3.9
 
   react-intersection-observer@9.13.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
@@ -5814,9 +5814,9 @@ snapshots:
 
   upath@1.2.0: {}
 
-  update-browserslist-db@1.1.0(browserslist@4.23.3):
+  update-browserslist-db@1.1.0(browserslist@4.24.0):
     dependencies:
-      browserslist: 4.23.3
+      browserslist: 4.24.0
       escalade: 3.2.0
       picocolors: 1.1.0
 
@@ -5829,20 +5829,20 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  use-callback-ref@1.3.2(@types/react@18.3.8)(react@18.3.1):
+  use-callback-ref@1.3.2(@types/react@18.3.9)(react@18.3.1):
     dependencies:
       react: 18.3.1
       tslib: 2.7.0
     optionalDependencies:
-      '@types/react': 18.3.8
+      '@types/react': 18.3.9
 
-  use-sidecar@1.1.2(@types/react@18.3.8)(react@18.3.1):
+  use-sidecar@1.1.2(@types/react@18.3.9)(react@18.3.1):
     dependencies:
       detect-node-es: 1.1.0
       react: 18.3.1
       tslib: 2.7.0
     optionalDependencies:
-      '@types/react': 18.3.8
+      '@types/react': 18.3.9
 
   validator@13.12.0: {}
 
