@@ -48,17 +48,22 @@ const FooterPanel = ({ info, refreshArticleList, markAllAsRead }) => {
 
   return (
     <div className="entry-panel">
-      {!["starred", "history"].includes(info.from) && (
-        <Popconfirm
-          focusLock
-          title={polyglot.t("article_list.mark_all_as_read_confirm")}
-          onOk={handleMarkAllAsRead}
-        >
-          <Button icon={<IconCheck />} shape="circle" />
-        </Popconfirm>
-      )}
+      <Popconfirm
+        focusLock
+        onOk={handleMarkAllAsRead}
+        title={polyglot.t("article_list.mark_all_as_read_confirm")}
+      >
+        <Button
+          icon={<IconCheck />}
+          shape="circle"
+          style={{
+            visibility: ["starred", "history"].includes(info.from)
+              ? "hidden"
+              : "visible",
+          }}
+        />
+      </Popconfirm>
       <Radio.Group
-        disabled={info.from === "history"}
         onChange={handleFilterChange}
         options={[
           { label: polyglot.t("article_list.filter_status_all"), value: "all" },
@@ -67,8 +72,9 @@ const FooterPanel = ({ info, refreshArticleList, markAllAsRead }) => {
             value: "unread",
           },
         ]}
+        style={{ visibility: info.from === "history" ? "hidden" : "visible" }}
         type="button"
-        value={info.from === "history" ? "all" : showStatus}
+        value={showStatus}
       />
       <Button
         icon={<IconRefresh />}
