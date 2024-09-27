@@ -6,7 +6,7 @@ import {
 } from "@arco-design/web-react/icon";
 
 import { useStore } from "@nanostores/react";
-import { Fragment, useEffect } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { polyglotState } from "../../hooks/useLanguage";
 import { useScreenWidth } from "../../hooks/useScreenWidth";
 import {
@@ -16,12 +16,21 @@ import {
   setIsArticleFocused,
 } from "../../store/contentState";
 import { settingsState, updateSettings } from "../../store/settingsState";
+import { debounce } from "../../utils/time";
 import "./SearchAndSortBar.css";
 
 const SearchAndSortBar = () => {
   const { orderDirection } = useStore(settingsState);
-  const { filterString, filterType } = useStore(contentState);
+  const { filterType } = useStore(contentState);
   const { polyglot } = useStore(polyglotState);
+  const tooltipLines = polyglot.t("search.tooltip").split("\n");
+
+  const [currentFilterString, setCurrentFilterString] = useState("");
+
+  const debouncedSetFilterString = useCallback(
+    debounce((value) => setFilterString(value), 500),
+    [],
+  );
 
   const { isBelowMedium } = useScreenWidth();
 
@@ -32,8 +41,15 @@ const SearchAndSortBar = () => {
 
   useEffect(() => {
     setFilterType("title");
-    setFilterString("");
   }, []);
+
+  useEffect(() => {
+    if (currentFilterString === "") {
+      setFilterString(currentFilterString);
+    } else {
+      debouncedSetFilterString(currentFilterString);
+    }
+  }, [currentFilterString, debouncedSetFilterString]);
 
   return (
     <div className="search-and-sort-bar">
@@ -41,10 +57,9 @@ const SearchAndSortBar = () => {
         allowClear
         onBlur={() => setIsArticleFocused(true)}
         onFocus={() => setIsArticleFocused(false)}
-        onChange={setFilterString}
-        placeholder={polyglot.t("article_list.search_placeholder")}
+        onChange={setCurrentFilterString}
+        placeholder={polyglot.t("search.placeholder")}
         style={{ width: isBelowMedium ? "100%" : 272, marginLeft: 8 }}
-        value={filterString}
         addBefore={
           <Select
             onChange={setFilterType}
@@ -52,13 +67,13 @@ const SearchAndSortBar = () => {
             value={filterType}
           >
             <Select.Option value="title">
-              {polyglot.t("article_list.search_type_title")}
+              {polyglot.t("search.type_title")}
             </Select.Option>
             <Select.Option value="content">
-              {polyglot.t("article_list.search_type_content")}
+              {polyglot.t("search.type_content")}
             </Select.Option>
             <Select.Option value="author">
-              {polyglot.t("article_list.search_type_author")}
+              {polyglot.t("search.type_author")}
             </Select.Option>
           </Select>
         }
@@ -68,18 +83,12 @@ const SearchAndSortBar = () => {
           mini
           content={
             <div>
-              {polyglot
-                .t("article_list.search_tooltip")
-                .split("\n")
-                .map((line, index) => (
-                  <Fragment key={`line-${index}-${line.length}`}>
-                    {line}
-                    {index <
-                      polyglot.t("article_list.search_tooltip").split("\n")
-                        .length -
-                        1 && <br />}
-                  </Fragment>
-                ))}
+              {tooltipLines.map((line, index) => (
+                <Fragment key={`line-${index}-${line.length}`}>
+                  {line}
+                  {index < tooltipLines.length - 1 && <br />}
+                </Fragment>
+              ))}
             </div>
           }
         >

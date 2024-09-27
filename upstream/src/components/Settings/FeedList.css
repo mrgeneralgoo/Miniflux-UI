@@ -11,6 +11,19 @@
   width: 520px;
 }
 
+.feed-table-action-bar {
+  align-items: center;
+  display: flex;
+  width: 100%;
+}
+
+.feed-table-action-bar .button-group {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 16px;
+  padding-left: 8px;
+}
+
 @media screen and (max-width: 768px) {
   .edit-modal {
     width: 100%;
