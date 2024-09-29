@@ -37,6 +37,7 @@
     "saved_to_third-party_services_error": "保存到第三方服务失败，请稍后再试，或检查您的集成设置"
   },
   "article_card": {
+    "reading_time": "需要 %{time}阅读",
     "marked_as_starred": "已标记为收藏",
     "unmarked_as_starred": "已取消收藏",
     "marked_as_read": "已标记为已读",
@@ -204,16 +205,11 @@
   },
   "date": {
     "just_now": "刚刚",
-    "year": "%{count} 年",
-    "years": "%{count} 年",
-    "month": "%{count} 个月",
-    "months": "%{count} 个月",
-    "day": "%{count} 天",
-    "days": "%{count} 天",
-    "hour": "%{count} 小时",
-    "hours": "%{count} 小时",
-    "minute": "%{count} 分钟",
-    "minutes": "%{count} 分钟",
+    "years": "%{smart_count} 年",
+    "months": "%{smart_count} 个月",
+    "days": "%{smart_count} 天",
+    "hours": "%{smart_count} 小时",
+    "minutes": "%{smart_count} 分钟",
     "in_time": "%{time}内",
     "time_ago": "%{time}前"
   }

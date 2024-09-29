@@ -37,6 +37,7 @@
     "saved_to_third-party_services_error": "Error al guardar en servicios de terceros, por favor intente de nuevo más tarde, o verifique la configuración de integración"
   },
   "article_card": {
+    "reading_time": "%{time} de lectura",
     "marked_as_starred": "Marcado como favorito",
     "unmarked_as_starred": "Desmarcado como favorito",
     "marked_as_read": "Marcado como leído",
@@ -204,16 +205,11 @@
   },
   "date": {
     "just_now": "hace poco",
-    "year": "%{count} año",
-    "years": "%{count} años",
-    "month": "%{count} mes",
-    "months": "%{count} meses",
-    "day": "%{count} día",
-    "days": "%{count} días",
-    "hour": "%{count} hora",
-    "hours": "%{count} horas",
-    "minute": "%{count} minuto",
-    "minutes": "%{count} minutos",
+    "years": "%{smart_count} año |||| %{smart_count} años",
+    "months": "%{smart_count} mes |||| %{smart_count} meses",
+    "days": "%{smart_count} día |||| %{smart_count} día",
+    "hours": "%{smart_count} hora |||| %{smart_count} horas",
+    "minutes": "%{smart_count} minuto |||| %{smart_count} minutos",
     "in_time": "en %{time}",
     "time_ago": "hace %{time}"
   }
