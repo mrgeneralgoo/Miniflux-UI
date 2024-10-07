@@ -168,6 +168,8 @@
     "remove_duplicates_option_hash": "Hash",
     "remove_duplicates_option_title": "标题",
     "remove_duplicates_option_url": "URL",
+    "show_unread_feeds_only_label": "仅显示未读订阅源",
+    "show_unread_feeds_only_description": "仅在订阅源列表中显示未读订阅源",
     "mark_read_on_scroll_label": "滚动时标记文章为已读",
     "mark_read_on_scroll_description": "当文章滚动出屏幕时自动标记为已读"
   },
@@ -189,9 +191,10 @@
     "article_width_description": "调整文章宽度",
     "font_family_label": "文章字体",
     "font_family_description": "选择您的文章正文字体",
-    "font_family_system": "系统默认字体",
+    "font_family_system": "默认",
+    "font_family_noto_sans": "思源黑体",
     "font_family_noto_serif": "思源宋体",
-    "font_family_noto_sans": "思源黑体"
+    "font_family_lxgw_wenkai": "霞鹜文楷"
   },
   "hotkeys": {
     "key": "键",

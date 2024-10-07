@@ -168,6 +168,8 @@
     "remove_duplicates_option_hash": "Hash",
     "remove_duplicates_option_title": "Title",
     "remove_duplicates_option_url": "URL",
+    "show_unread_feeds_only_label": "Show unread feeds only",
+    "show_unread_feeds_only_description": "Only show unread feeds in the feed list",
     "mark_read_on_scroll_label": "Mark articles as read when scrolled off screen",
     "mark_read_on_scroll_description": "Automatically mark articles as read when they are scrolled out of the visible screen area"
   },
@@ -189,9 +191,10 @@
     "article_width_description": "Adjust article width",
     "font_family_label": "Article font",
     "font_family_description": "Choose your article font",
-    "font_family_system": "System default",
+    "font_family_system": "Default",
+    "font_family_noto_sans": "Noto Sans SC",
     "font_family_noto_serif": "Noto Serif SC",
-    "font_family_noto_sans": "Noto Sans SC"
+    "font_family_lxgw_wenkai": "LXGW WenKai Screen"
   },
   "hotkeys": {
     "key": "Key",
