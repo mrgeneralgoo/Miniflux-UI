@@ -1,5 +1,5 @@
 import { Button, Divider, Tag, Typography } from "@arco-design/web-react";
-import { IconEmpty, IconFullscreen } from "@arco-design/web-react/icon";
+import { IconFullscreen } from "@arco-design/web-react/icon";
 import ReactHtmlParser from "html-react-parser";
 import { forwardRef, useEffect, useState } from "react";
 import { PhotoSlider } from "react-photo-view";
@@ -19,7 +19,6 @@ import {
 import { settingsState } from "../../store/settingsState";
 import { generateReadableDate, generateReadingTime } from "../../utils/date";
 import { extractImageSources } from "../../utils/images";
-import ActionButtons from "./ActionButtons";
 import "./ArticleDetail.css";
 
 const CustomLink = ({ url, text }) => {
@@ -159,7 +158,7 @@ const getHtmlParserOptions = (imageSources, togglePhotoSlider) => ({
   },
 });
 
-const ArticleDetail = forwardRef(({ handleEntryClick, entryListRef }, ref) => {
+const ArticleDetail = forwardRef((_, ref) => {
   const navigate = useNavigate();
   const { activeContent } = useStore(contentState);
   const { articleWidth, fontFamily, fontSize } = useStore(settingsState);
@@ -181,20 +180,6 @@ const ArticleDetail = forwardRef(({ handleEntryClick, entryListRef }, ref) => {
     setIsPhotoSliderVisible((prev) => !prev);
     setIsArticleFocused((prev) => !prev);
   };
-
-  if (!activeContent) {
-    return (
-      <div ref={ref} className="content-empty">
-        <IconEmpty style={{ fontSize: "64px" }} />
-        <Typography.Title
-          heading={6}
-          style={{ color: "var(--color-text-3)", marginTop: "10px" }}
-        >
-          ReactFlux
-        </Typography.Title>
-      </div>
-    );
-  }
 
   const imageSources = extractImageSources(activeContent.content);
   const htmlParserOptions = getHtmlParserOptions(
@@ -278,10 +263,6 @@ const ArticleDetail = forwardRef(({ handleEntryClick, entryListRef }, ref) => {
           />
         </div>
       </SimpleBar>
-      <ActionButtons
-        handleEntryClick={handleEntryClick}
-        entryListRef={entryListRef}
-      />
     </article>
   );
 });

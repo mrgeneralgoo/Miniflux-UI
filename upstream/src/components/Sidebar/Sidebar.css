@@ -39,11 +39,6 @@
   margin-right: 10px;
 }
 
-.divider {
-  margin-bottom: 4px;
-  margin-top: 0;
-}
-
 .section-title {
   color: var(--color-text-3);
   font-style: italic;
@@ -112,12 +107,12 @@
   background-color: var(--color-neutral-3);
 }
 
-.active-subMenu {
+.submenu-active {
   background-color: var(--color-neutral-3);
   color: rgb(var(--primary-6)) !important;
 }
 
-.inactive-subMenu {
+.submenu-inactive {
   color: var(--color-text-2);
 }
 
