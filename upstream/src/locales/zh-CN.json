@@ -143,7 +143,11 @@
     "update_category_success": "分类更新成功",
     "update_category_error": "更新分类失败",
     "remove_category_success": "删除分类成功： %{title}",
-    "remove_category_error": "删除分类失败： %{title}"
+    "remove_category_error": "删除分类失败： %{title}",
+    "edit_category_title": "编辑分类",
+    "edit_category_title_label": "标题",
+    "edit_category_title_placeholder": "请输入分类标题",
+    "edit_category_hidden_label": "隐藏"
   },
   "settings": {
     "feeds": "订阅源",
@@ -210,6 +214,7 @@
     "openLinkExternally": "在当前文章的链接中打开一个新浏览器标签",
     "openPhotoSlider": "打开当前文章的图片浏览器，查看所有图片",
     "saveToThirdPartyServices": "保存当前文章到第三方服务",
+    "showHotkeysSettings": "显示快捷键设置",
     "toggleReadStatus": "切换当前文章的阅读状态 (已读/未读)",
     "toggleStarStatus": "切换当前文章的星标状态 (收藏)"
   },

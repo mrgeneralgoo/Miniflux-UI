@@ -2,13 +2,16 @@ import { Button, Space, Tag } from "@arco-design/web-react";
 import { IconPlus, IconRefresh } from "@arco-design/web-react/icon";
 import { useStore } from "@nanostores/react";
 import { useEffect, useRef, useState } from "react";
-import { resetHotkey, updateHotkey } from "../../store/hotkeysState";
-import { duplicateHotkeysState } from "../../store/hotkeysState";
+import {
+  duplicateHotkeysState,
+  resetHotkey,
+  updateHotkey,
+} from "../../store/hotkeysState";
 import { getColorValue } from "../../utils/colors";
 import EditableTag from "./EditableTag";
 
 const capitalizeFirstLetter = (word) =>
-  word.trim().length > 1 ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+  word.charAt(0).toUpperCase() + word.slice(1);
 
 const processKeyName = (keys) =>
   keys

@@ -143,7 +143,11 @@
     "update_category_success": "Categoría actualizada con éxito",
     "update_category_error": "Error al actualizar la categoría",
     "remove_category_success": "Categoría eliminada: %{title}",
-    "remove_category_error": "Error al eliminar la categoría: %{title}"
+    "remove_category_error": "Error al eliminar la categoría: %{title}",
+    "edit_category_title": "Editar categoría",
+    "edit_category_title_label": "Título",
+    "edit_category_title_placeholder": "Por favor, introduzca el título de la categoría",
+    "edit_category_hidden_label": "Oculto"
   },
   "settings": {
     "feeds": "Feeds",
@@ -210,6 +214,7 @@
     "openLinkExternally": "Abrir el enlace del artículo actual en una nueva pestaña del navegador",
     "openPhotoSlider": "Abrir el control deslizante de fotos para ver todas las imágenes del artículo actual",
     "saveToThirdPartyServices": "Guardar el artículo actual en servicios de terceros",
+    "showHotkeysSettings": "Mostrar los ajustes de los atajos de teclado",
     "toggleReadStatus": "Alternar el estado de lectura del artículo actual",
     "toggleStarStatus": "Activar o desactivar el estado de la estrella (marcador) del artículo actual"
   },

@@ -143,7 +143,11 @@
     "update_category_success": "Category updated successfully",
     "update_category_error": "Failed to update category",
     "remove_category_success": "Deleted category: %{title}",
-    "remove_category_error": "Failed to delete category: %{title}"
+    "remove_category_error": "Failed to delete category: %{title}",
+    "edit_category_title": "Edit Category",
+    "edit_category_title_label": "Title",
+    "edit_category_title_placeholder": "Please input category title",
+    "edit_category_hidden_label": "Hidden"
   },
   "settings": {
     "feeds": "Feeds",
@@ -210,6 +214,7 @@
     "openLinkExternally": "Open the current article's link in a new browser tab",
     "openPhotoSlider": "Open the photo slider for viewing all images in the current article",
     "saveToThirdPartyServices": "Save the current article to third-party services",
+    "showHotkeysSettings": "Show the hotkeys settings",
     "toggleReadStatus": "Toggle the read status of the current article",
     "toggleStarStatus": "Toggle the star status (bookmark) of the current article"
   },

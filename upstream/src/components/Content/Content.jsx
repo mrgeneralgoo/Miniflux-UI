@@ -5,11 +5,13 @@ import { CSSTransition } from "react-transition-group";
 
 import { useStore } from "@nanostores/react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useSwipeable } from "react-swipeable";
 import useAppData from "../../hooks/useAppData";
 import useArticleList from "../../hooks/useArticleList";
 import useEntryActions from "../../hooks/useEntryActions";
 import useKeyHandlers from "../../hooks/useKeyHandlers";
 import { polyglotState } from "../../hooks/useLanguage";
+import { useScreenWidth } from "../../hooks/useScreenWidth";
 import {
   contentState,
   setActiveContent,
@@ -17,8 +19,7 @@ import {
   setOffset,
 } from "../../store/contentState";
 import { dataState, hiddenFeedIdsState } from "../../store/dataState";
-import { hotkeysState } from "../../store/hotkeysState";
-import { duplicateHotkeysState } from "../../store/hotkeysState";
+import { duplicateHotkeysState, hotkeysState } from "../../store/hotkeysState";
 import { settingsState } from "../../store/settingsState";
 import ActionButtons from "../Article/ActionButtons";
 import ArticleDetail from "../Article/ArticleDetail";
@@ -39,8 +40,29 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const hiddenFeedIds = useStore(hiddenFeedIdsState);
   const hotkeys = useStore(hotkeysState);
 
+  const cardsRef = useRef(null);
+
   const { entryDetailRef, entryListRef, handleEntryClick } =
     useContentContext();
+
+  const {
+    direction,
+    exitDetailView,
+    fetchOriginalArticle,
+    navigateToNextArticle,
+    navigateToNextUnreadArticle,
+    navigateToPreviousArticle,
+    navigateToPreviousUnreadArticle,
+    openLinkExternally,
+    openPhotoSlider,
+    saveToThirdPartyServices,
+    showHotkeysSettings,
+    toggleReadStatus,
+    toggleStarStatus,
+  } = useKeyHandlers();
+
+  const { fetchAppData } = useAppData();
+  const { fetchArticleList } = useArticleList(info, getEntries);
 
   const {
     handleFetchContent,
@@ -49,34 +71,27 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     handleToggleStatus,
   } = useEntryActions();
 
-  const { fetchAppData } = useAppData();
-  const { fetchArticleList } = useArticleList(info, getEntries);
+  const { isBelowMedium } = useScreenWidth();
 
-  const cardsRef = useRef(null);
-
-  const {
-    exitDetailView,
-    fetchOriginalArticle,
-    navigateToNextArticle,
-    navigateToPreviousArticle,
-    openLinkExternally,
-    openPhotoSlider,
-    saveToThirdPartyServices,
-    toggleReadStatus,
-    toggleStarStatus,
-  } = useKeyHandlers();
+  const getAnimationClass = () => {
+    if (isBelowMedium) {
+      return direction === "next" ? "slide-left" : "slide-right";
+    }
+    return "fade";
+  };
 
   const hotkeyActions = {
     exitDetailView,
     fetchOriginalArticle: () => fetchOriginalArticle(handleFetchContent),
     navigateToNextArticle: () => navigateToNextArticle(),
-    navigateToNextUnreadArticle: () => navigateToNextArticle(true),
+    navigateToNextUnreadArticle: () => navigateToNextUnreadArticle(),
     navigateToPreviousArticle: () => navigateToPreviousArticle(),
-    navigateToPreviousUnreadArticle: () => navigateToPreviousArticle(true),
+    navigateToPreviousUnreadArticle: () => navigateToPreviousUnreadArticle(),
     openLinkExternally,
     openPhotoSlider,
     saveToThirdPartyServices: () =>
       saveToThirdPartyServices(handleSaveToThirdPartyServices),
+    showHotkeysSettings,
     toggleReadStatus: () =>
       toggleReadStatus(() => handleToggleStatus(activeContent)),
     toggleStarStatus: () =>
@@ -98,6 +113,12 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       await fetchArticleList(getEntries);
     }
   };
+
+  const handlers = useSwipeable({
+    preventScrollOnSwipe: true,
+    onSwipedLeft: () => navigateToNextArticle(),
+    onSwipedRight: () => navigateToPreviousArticle(),
+  });
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -143,10 +164,10 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     <>
       <div className="entry-col">
         <CSSTransition
-          in={isArticleListReady}
-          timeout={200}
-          nodeRef={cardsRef}
           classNames="fade"
+          in={isArticleListReady}
+          nodeRef={cardsRef}
+          timeout={200}
         >
           <ArticleList
             cardsRef={cardsRef}
@@ -162,12 +183,12 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
         />
       </div>
       {activeContent ? (
-        <div className="article-container">
+        <div className="article-container" {...handlers}>
           <CSSTransition
+            classNames={getAnimationClass()}
             in={!isArticleLoading}
-            timeout={200}
             nodeRef={entryDetailRef}
-            classNames="fade"
+            timeout={200}
             unmountOnExit
           >
             <ArticleDetail ref={entryDetailRef} />
