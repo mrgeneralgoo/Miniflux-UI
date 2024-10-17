@@ -61,12 +61,17 @@ const SearchAndSortBar = () => {
         allowClear
         onChange={handleInputChange}
         placeholder={polyglot.t("search.placeholder")}
-        style={{ width: isBelowMedium ? "100%" : 272, marginLeft: 8 }}
+        style={{ width: isBelowMedium ? "100%" : 308, marginLeft: 8 }}
         value={currentFilterString}
         addBefore={
           <Select
             onChange={setFilterType}
-            style={{ width: 100 }}
+            style={{ width: 80 }}
+            triggerProps={{
+              autoAlignPopupWidth: false,
+              autoAlignPopupMinWidth: true,
+              position: "bl",
+            }}
             value={filterType}
           >
             <Select.Option value="title">
@@ -80,23 +85,25 @@ const SearchAndSortBar = () => {
             </Select.Option>
           </Select>
         }
+        prefix={
+          <Tooltip
+            mini
+            content={
+              <div>
+                {tooltipLines.map((line, index) => (
+                  <Fragment key={`line-${index}-${line.length}`}>
+                    {line}
+                    {index < tooltipLines.length - 1 && <br />}
+                  </Fragment>
+                ))}
+              </div>
+            }
+          >
+            <IconQuestionCircle />
+          </Tooltip>
+        }
       />
       <div className="button-group">
-        <Tooltip
-          mini
-          content={
-            <div>
-              {tooltipLines.map((line, index) => (
-                <Fragment key={`line-${index}-${line.length}`}>
-                  {line}
-                  {index < tooltipLines.length - 1 && <br />}
-                </Fragment>
-              ))}
-            </div>
-          }
-        >
-          <Button shape="circle" size="small" icon={<IconQuestionCircle />} />
-        </Tooltip>
         <Tooltip
           mini
           content={
