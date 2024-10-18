@@ -259,9 +259,15 @@ const BulkUpdateModal = ({ visible, setVisible }) => {
         setNewHost("");
       }}
     >
-      <p>{polyglot.t("feed_table.modal_bulk_update_description")}</p>
       <Input
         placeholder="rsshub.app"
+        prefix={
+          <Tooltip
+            content={polyglot.t("feed_table.modal_bulk_update_description")}
+          >
+            <IconQuestionCircle />
+          </Tooltip>
+        }
         value={newHost}
         onChange={(value) => setNewHost(value)}
       />
