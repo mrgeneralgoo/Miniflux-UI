@@ -26,6 +26,7 @@ import {
 import { settingsState, updateSettings } from "../../store/settingsState";
 import { getStartOfToday } from "../../utils/date";
 import { debounce } from "../../utils/time";
+import CustomTooltip from "../ui/CustomTooltip";
 import "./SearchAndSortBar.css";
 
 const SearchAndSortBar = () => {
@@ -123,28 +124,28 @@ const SearchAndSortBar = () => {
               <Calendar panel onChange={setFilterDate} value={filterDate} />
               <div className="calendar-actions">
                 <button
-                  className="calendar-action-button left-button"
-                  onClick={() => setFilterDate(null)}
-                  type="button"
-                >
-                  {polyglot.t("search.reset_date")}
-                </button>
-                <button
-                  className="calendar-action-button right-button"
+                  className="calendar-action-button today"
                   onClick={() => setFilterDate(getStartOfToday())}
                   type="button"
                 >
                   {polyglot.t("search.today")}
                 </button>
+                <button
+                  className="calendar-action-button clear"
+                  onClick={() => setFilterDate(null)}
+                  type="button"
+                >
+                  {polyglot.t("search.clear_date")}
+                </button>
               </div>
             </>
           }
         >
-          <Tooltip mini content={polyglot.t("search.select_date")}>
+          <CustomTooltip content={polyglot.t("search.select_date")} mini>
             <Button shape="circle" size="small" icon={<IconCalendar />} />
-          </Tooltip>
+          </CustomTooltip>
         </Dropdown>
-        <Tooltip
+        <CustomTooltip
           mini
           content={
             orderDirection === "desc"
@@ -164,7 +165,7 @@ const SearchAndSortBar = () => {
             }
             onClick={toggleOrderDirection}
           />
-        </Tooltip>
+        </CustomTooltip>
       </div>
     </div>
   );
