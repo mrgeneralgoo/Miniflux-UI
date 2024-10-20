@@ -4,11 +4,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
-    "lint": "biome lint .",
+    "dev": "vite",
     "format": "biome format . --write",
-    "prepare": "husky"
+    "lint": "biome lint .",
+    "prepare": "husky",
+    "serve": "serve -s build -l 3000"
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",
@@ -24,8 +25,6 @@
     "nanostores": "^0.11.3",
     "node-polyglot": "^2.6.0",
     "ofetch": "^1.4.1",
-    "prism-react-renderer": "^2.4.0",
-    "prismjs": "^1.29.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hotkeys-hook": "^4.5.1",
@@ -33,6 +32,7 @@
     "react-photo-view": "^1.2.6",
     "react-router-dom": "^6.27.0",
     "react-swipeable": "^7.0.1",
+    "react-syntax-highlighter": "^15.6.1",
     "simplebar-react": "^3.2.6",
     "validator": "^13.12.0"
   },
@@ -57,8 +57,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.2",
+    "@vitejs/plugin-react": "^4.3.3",
     "depcheck": "^1.4.7",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
