@@ -5,11 +5,13 @@ import esES from "@arco-design/web-react/es/locale/es-ES";
 import zhCN from "@arco-design/web-react/es/locale/zh-CN";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
+import { registerLanguages } from "./utils/highlighter";
 import "simplebar-react/dist/simplebar.min.css";
 
 import "./index.css";
 import router from "./routes";
 import "./theme.css";
+import "./reeder.css";
 import { getPreferredLanguage } from "./utils/locales";
 
 const localMap = {
@@ -18,6 +20,8 @@ const localMap = {
 };
 
 const getLocale = () => localMap[getPreferredLanguage()] || enUS;
+
+registerLanguages();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ConfigProvider locale={getLocale()}>
