@@ -1,19 +1,25 @@
 .entry-list {
-  background-color: var(--color-fill-1);
-  contain: strict;
   flex: 1;
+  contain: strict;
+  background-color: var(--background);
+  padding: 10px 10px 0 10px;
   height: 100%;
   overflow-x: hidden;
   overscroll-behavior-y: contain;
-  padding: 10px 10px 0 10px;
 }
 
 .load-more-container {
-  align-items: center;
-  background-color: var(--color-bg-2);
-  border-radius: var(--border-radius-small);
-  color: var(--color-text-2);
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 10px auto;
+  border-radius: var(--radius);
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+}
+
+@media screen and (max-width: 768px) {
+  .entry-list {
+    width: calc(100% - 20px);
+  }
 }
