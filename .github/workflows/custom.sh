@@ -28,5 +28,5 @@ fi
 
 # 2. upgrades package.json dependencies to the latest versions
 rm -rf package-lock.json pnpm-lock.yaml
-ncu --install always -p npm -u
+ncu --install always -p npm -u && npm install --package-lock-only
 pnpm import package-lock.json
