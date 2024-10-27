@@ -97,7 +97,7 @@
     "add_feed_modal_crawler_label": "Obtener contenido original"
   },
   "header": {
-    "theme": "Apariencia",
+    "theme": "Modo oscuro",
     "theme_option_light": "Claro",
     "theme_option_dark": "Oscuro",
     "theme_option_system": "Sistema",
@@ -224,7 +224,9 @@
     "font_family_system": "Predeterminado",
     "font_family_noto_sans": "Noto Sans SC",
     "font_family_noto_serif": "Noto Serif SC",
-    "font_family_lxgw_wenkai": "LXGW WenKai Screen"
+    "font_family_lxgw_wenkai": "LXGW WenKai Screen",
+    "title_alignment_label": "Alineación del título del artículo",
+    "title_alignment_description": "Escoger la alineación del título del artículo"
   },
   "hotkeys": {
     "key": "Clave",
