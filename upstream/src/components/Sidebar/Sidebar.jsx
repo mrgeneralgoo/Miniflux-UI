@@ -1,6 +1,8 @@
 import {
   Avatar,
+  Button,
   Collapse,
+  Dropdown,
   Menu,
   Skeleton,
   Typography,
@@ -8,7 +10,12 @@ import {
 import {
   IconBook,
   IconCalendar,
+  IconEye,
+  IconEyeInvisible,
   IconHistory,
+  IconMinusCircle,
+  IconMoreVertical,
+  IconRecord,
   IconRight,
   IconStar,
   IconUnorderedList,
@@ -28,11 +35,11 @@ import {
   filteredCategoriesState,
   unreadTotalState,
 } from "../../store/dataState";
-import { settingsState } from "../../store/settingsState";
+import { settingsState, updateSettings } from "../../store/settingsState";
 import FeedIcon from "../ui/FeedIcon";
-import "./Sidebar.css";
 import AddFeed from "./AddFeed.jsx";
 import Profile from "./Profile.jsx";
+import "./Sidebar.css";
 
 const MenuItem = Menu.Item;
 
@@ -226,13 +233,21 @@ const FeedMenuGroup = ({ categoryId }) => {
 
 const CategoryGroup = () => {
   const { showUnreadFeedsOnly } = useStore(settingsState);
+  const feedsGroupedById = useStore(feedsGroupedByIdState);
   const filteredCategories = useStore(filteredCategoriesState);
 
   const location = useLocation();
   const currentPath = location.pathname;
 
   return filteredCategories
-    .filter((category) => !showUnreadFeedsOnly || category.unreadCount > 0)
+    .filter((category) =>
+      feedsGroupedById[category.id]?.some((feed) => {
+        if (showUnreadFeedsOnly) {
+          return feed.unreadCount > 0;
+        }
+        return true;
+      }),
+    )
     .map((category) => (
       <Collapse.Item
         name={`/category/${category.id}`}
@@ -247,7 +262,8 @@ const CategoryGroup = () => {
 };
 
 const Sidebar = () => {
-  const { homePage } = useStore(settingsState);
+  const { homePage, showAllFeeds, showUnreadFeedsOnly } =
+    useStore(settingsState);
   const { isAppDataReady } = useStore(dataState);
   const { polyglot } = useStore(polyglotState);
 
@@ -256,6 +272,14 @@ const Sidebar = () => {
   const [selectedKeys, setSelectedKeys] = useState([`/${homePage}`]);
 
   const currentPath = location.pathname;
+
+  const handleToggleFeedsVisibility = () => {
+    updateSettings({ showAllFeeds: !showAllFeeds });
+  };
+
+  const handleToggleUnreadFeedsOnly = () => {
+    updateSettings({ showUnreadFeedsOnly: !showUnreadFeedsOnly });
+  };
 
   useEffect(() => {
     setSelectedKeys([currentPath]);
@@ -303,7 +327,44 @@ const Sidebar = () => {
             >
               {polyglot.t("sidebar.feeds")}
             </Typography.Title>
-            <AddFeed />
+            <div style={{ display: "flex", gap: "8px", marginRight: "8px" }}>
+              <AddFeed />
+              <Dropdown
+                position="br"
+                trigger="click"
+                droplist={
+                  <Menu>
+                    <MenuItem key="1" onClick={handleToggleFeedsVisibility}>
+                      {showAllFeeds ? (
+                        <IconEyeInvisible className="icon-right" />
+                      ) : (
+                        <IconEye className="icon-right" />
+                      )}
+                      {showAllFeeds
+                        ? polyglot.t("sidebar.hide_some_feeds")
+                        : polyglot.t("sidebar.show_all_feeds")}
+                    </MenuItem>
+                    <MenuItem key="2" onClick={handleToggleUnreadFeedsOnly}>
+                      {showUnreadFeedsOnly ? (
+                        <IconMinusCircle className="icon-right" />
+                      ) : (
+                        <IconRecord className="icon-right" />
+                      )}
+                      {showUnreadFeedsOnly
+                        ? polyglot.t("sidebar.show_read_feeds")
+                        : polyglot.t("sidebar.hide_read_feeds")}
+                    </MenuItem>
+                  </Menu>
+                }
+              >
+                <Button
+                  icon={<IconMoreVertical />}
+                  shape="circle"
+                  size="small"
+                  style={{ marginTop: "1em", marginBottom: "0.5em" }}
+                />
+              </Dropdown>
+            </div>
           </div>
           <Skeleton
             loading={!isAppDataReady}

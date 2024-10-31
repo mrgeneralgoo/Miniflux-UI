@@ -9,8 +9,7 @@ import {
 } from "@arco-design/web-react";
 import {
   IconDesktop,
-  IconEye,
-  IconEyeInvisible,
+  IconExclamationCircle,
   IconInfoCircleFill,
   IconLink,
   IconMoonFill,
@@ -40,16 +39,7 @@ export default function Profile() {
   const { server } = useStore(authState);
   const { polyglot } = useStore(polyglotState);
 
-  const handleToggleFeedsVisibility = () => {
-    updateSettings({ showAllFeeds: !showAllFeeds });
-    Message.success(
-      showAllFeeds
-        ? polyglot.t("header.hide_some_feeds")
-        : polyglot.t("header.show_all_feeds"),
-    );
-  };
-
-  const { themeMode, showAllFeeds } = useStore(settingsState);
+  const { themeMode } = useStore(settingsState);
 
   const [resetModalVisible, setResetModalVisible] = useState(false);
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
@@ -65,7 +55,7 @@ export default function Profile() {
     resetContent();
     resetData();
     navigate("/login");
-    Message.success(polyglot.t("header.logout_success"));
+    Message.success(polyglot.t("sidebar.logout_success"));
   };
 
   return (
@@ -79,7 +69,7 @@ export default function Profile() {
               <Radio.Group
                 type="button"
                 name="theme"
-                size="mini"
+                size="small"
                 value={themeMode}
                 onChange={(value) => updateSettings({ themeMode: value })}
                 style={{
@@ -99,35 +89,37 @@ export default function Profile() {
                 </Radio>
               </Radio.Group>
               <Divider style={{ margin: "4px 0" }} />
-              <Menu.Item key="4" onClick={handleToggleFeedsVisibility}>
-                {showAllFeeds ? (
-                  <IconEyeInvisible className="icon-right" />
-                ) : (
-                  <IconEye className="icon-right" />
-                )}
-                {showAllFeeds
-                  ? polyglot.t("header.hide_some_feeds")
-                  : polyglot.t("header.show_all_feeds")}
-              </Menu.Item>
               <Menu.Item key="0" onClick={() => setSettingsModalVisible(true)}>
                 <IconSettings className="icon-right" />
-                {polyglot.t("header.settings")}
+                {polyglot.t("sidebar.settings")}
               </Menu.Item>
               <Menu.Item
                 key="1"
                 onClick={() => window.open(`${server}/settings`, "_blank")}
               >
                 <IconLink className="icon-right" />
-                {polyglot.t("header.miniflux_settings")}
+                {polyglot.t("sidebar.miniflux_settings")}
               </Menu.Item>
-              <Menu.Item key="2" onClick={() => setResetModalVisible(true)}>
-                <IconRefresh className="icon-right" />
-                {polyglot.t("header.reset_settings")}
+              <Menu.Item
+                key="2"
+                onClick={() =>
+                  window.open(
+                    "https://github.com/electh/ReactFlux/issues/new",
+                    "_blank",
+                  )
+                }
+              >
+                <IconExclamationCircle className="icon-right" />
+                {polyglot.t("sidebar.report_issue")}
               </Menu.Item>
               <Divider style={{ margin: "4px 0" }} />
-              <Menu.Item key="3" onClick={() => setLogoutModalVisible(true)}>
+              <Menu.Item key="3" onClick={() => setResetModalVisible(true)}>
+                <IconRefresh className="icon-right" />
+                {polyglot.t("sidebar.reset_settings")}
+              </Menu.Item>
+              <Menu.Item key="4" onClick={() => setLogoutModalVisible(true)}>
                 <IconPoweroff className="icon-right" />
-                {polyglot.t("header.logout")}
+                {polyglot.t("sidebar.logout")}
               </Menu.Item>
             </Menu>
           }
@@ -147,7 +139,7 @@ export default function Profile() {
         title={
           <div>
             <IconInfoCircleFill />
-            <span>{polyglot.t("header.settings_reset_confirm")}</span>
+            <span>{polyglot.t("sidebar.settings_reset_confirm")}</span>
           </div>
         }
         simple
@@ -156,7 +148,7 @@ export default function Profile() {
         visible={resetModalVisible}
         style={{ maxWidth: "95%" }}
       >
-        <p>{polyglot.t("header.settings_reset_description")}</p>
+        <p>{polyglot.t("sidebar.settings_reset_description")}</p>
       </Modal>
 
       <Modal
@@ -165,7 +157,7 @@ export default function Profile() {
         title={
           <div>
             <IconInfoCircleFill />
-            <span>{polyglot.t("header.logout_confirm")}</span>
+            <span>{polyglot.t("sidebar.logout_confirm")}</span>
           </div>
         }
         simple
@@ -174,7 +166,7 @@ export default function Profile() {
         visible={logoutModalVisible}
         style={{ maxWidth: "95%" }}
       >
-        <p>{polyglot.t("header.logout_description")}</p>
+        <p>{polyglot.t("sidebar.logout_description")}</p>
       </Modal>
     </div>
   );
