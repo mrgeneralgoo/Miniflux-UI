@@ -1,5 +1,5 @@
 import { IconClockCircle, IconStarFill } from "@arco-design/web-react/icon";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 import { useStore } from "@nanostores/react";
@@ -7,51 +7,51 @@ import useEntryActions from "../../hooks/useEntryActions";
 import { contentState } from "../../store/contentState";
 import { settingsState } from "../../store/settingsState";
 import { generateReadingTime, generateRelativeTime } from "../../utils/date";
-import sanitizeHtml from "../../utils/sanitizeHtml";
 import FeedIcon from "../ui/FeedIcon";
-import ImageWithLazyLoading from "./ImageWithLazyLoading";
 import "./ArticleCard.css";
 
 const ASPECT_RATIO_THRESHOLD = 4 / 3;
 
-const ArticleCardImage = ({
-  entry,
-  setHasError,
-  isWideImage,
-  onLoadComplete,
-}) => {
+const ArticleCardImage = ({ entry, isWideImage }) => {
   const imageSize = isWideImage
     ? { width: "100%", height: "100%" }
     : { width: "80px", height: "80px" };
 
-  const handleImageLoad = (e) => {
-    const img = e.target;
-    if (img) {
-      const aspectRatio = img.naturalWidth / img.naturalHeight;
-      onLoadComplete(aspectRatio);
-    }
-  };
-
   return (
     <div className="card-thumbnail">
-      <ImageWithLazyLoading
-        alt={entry.id}
-        borderRadius={"2px"}
+      <img
         src={entry.imgSrc}
-        status={entry.status}
-        width={imageSize.width}
-        height={imageSize.height}
-        setHasError={setHasError}
-        onLoad={handleImageLoad}
+        alt={entry.id}
+        style={{
+          width: imageSize.width,
+          height: imageSize.height,
+        }}
       />
     </div>
   );
 };
 
 const extractTextFromHtml = (html) => {
-  const div = document.createElement("div");
-  div.innerHTML = html;
-  return div.textContent || div.innerText || "";
+  if (!html) {
+    return "";
+  }
+
+  return html
+    .replace(/<[^>]*>/g, "") // Remove all HTML tags
+    .replace(/&nbsp;/g, " ") // Replace space entities
+    .replace(/&#(\d+);/g, (_match, dec) => String.fromCharCode(dec)) // Handle numeric HTML entities
+    .replace(/&([a-z]+);/g, (_match, entity) => {
+      // Handle named HTML entities
+      const entities = {
+        amp: "&",
+        lt: "<",
+        gt: ">",
+        quot: '"',
+        apos: "'",
+      };
+      return entities[entity] || "";
+    })
+    .trim();
 };
 
 const ArticleCard = ({ entry, handleEntryClick, children }) => {
@@ -70,6 +70,7 @@ const ArticleCard = ({ entry, handleEntryClick, children }) => {
   const [shouldSkip, setShouldSkip] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isWideImage, setIsWideImage] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const toggleStatus = () => handleToggleStatus(entry);
   const threshold = 20;
@@ -93,14 +94,30 @@ const ArticleCard = ({ entry, handleEntryClick, children }) => {
     },
   });
 
-  const handleImageLoadComplete = (aspectRatio) => {
-    setIsWideImage(aspectRatio >= ASPECT_RATIO_THRESHOLD);
-  };
+  useEffect(() => {
+    if (entry.imgSrc) {
+      const img = new Image();
+      img.src = entry.imgSrc;
+      img.onload = () => {
+        const aspectRatio = img.naturalWidth / img.naturalHeight;
+        setIsWideImage(aspectRatio >= ASPECT_RATIO_THRESHOLD);
+        setIsImageLoaded(true);
+      };
+      img.onerror = () => {
+        setHasError(true);
+      };
+    }
+  }, [entry.imgSrc]);
 
   const getLineClamp = () => {
     const hasSideImage = entry.imgSrc && !hasError && !isWideImage;
     return !showEstimatedReadingTime && hasSideImage ? 4 : 3;
   };
+
+  const previewContent = useMemo(
+    () => extractTextFromHtml(entry.content),
+    [entry.content],
+  );
 
   return (
     <div
@@ -132,24 +149,28 @@ const ArticleCard = ({ entry, handleEntryClick, children }) => {
                 <span className="card-author">{entry.author}</span>
               </div>
             </div>
-            <span className="card-time">
-              {generateRelativeTime(
-                entry.published_at,
-                showDetailedRelativeTime,
-              )}
-            </span>
+            <div className="card-time-wrapper">
+              <span className="card-star">
+                {entry.starred && <IconStarFill className="icon-starred" />}
+              </span>
+              <span className="card-time">
+                {generateRelativeTime(
+                  entry.published_at,
+                  showDetailedRelativeTime,
+                )}
+              </span>
+            </div>
           </div>
 
           <h3 className="card-title">{entry.title}</h3>
         </div>
 
-        {entry.imgSrc && !hasError && isWideImage && (
+        {entry.imgSrc && !hasError && isImageLoaded && isWideImage && (
           <div className="card-image-wide">
             <ArticleCardImage
               entry={entry}
               setHasError={setHasError}
               isWideImage={isWideImage}
-              onLoadComplete={handleImageLoadComplete}
             />
           </div>
         )}
@@ -166,18 +187,15 @@ const ArticleCard = ({ entry, handleEntryClick, children }) => {
               className="card-preview"
               style={{ WebkitLineClamp: getLineClamp() }}
             >
-              {extractTextFromHtml(sanitizeHtml(entry.content))}
+              {previewContent}
             </p>
-            {entry.starred && <IconStarFill className="icon-starred" />}
           </div>
-
-          {entry.imgSrc && !hasError && !isWideImage && (
+          {entry.imgSrc && !hasError && isImageLoaded && !isWideImage && (
             <div className="card-image-mini">
               <ArticleCardImage
                 entry={entry}
                 setHasError={setHasError}
                 isWideImage={isWideImage}
-                onLoadComplete={handleImageLoadComplete}
               />
             </div>
           )}
