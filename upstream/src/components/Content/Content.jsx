@@ -32,12 +32,8 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const { activeContent, filterDate, isArticleLoading } =
     useStore(contentState);
   const { isAppDataReady } = useStore(dataState);
-  const {
-    orderBy,
-    orderDirection,
-    showAllFeeds: showHiddenFeeds,
-    showStatus,
-  } = useStore(settingsState);
+  const { orderBy, orderDirection, showHiddenFeeds, showStatus } =
+    useStore(settingsState);
   const { polyglot } = useStore(polyglotState);
   const duplicateHotkeys = useStore(duplicateHotkeysState);
   const hiddenFeedIds = useStore(hiddenFeedIdsState);
@@ -189,7 +185,11 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
       {activeContent ? (
         <div className="article-container content-wrapper" {...handlers}>
           {!isBelowMedium && <ActionButtons />}
-          {!isArticleLoading && <ArticleDetail ref={entryDetailRef} />}
+          {isArticleLoading ? (
+            <div style={{ flex: 1 }} />
+          ) : (
+            <ArticleDetail ref={entryDetailRef} />
+          )}
           {isBelowMedium && <ActionButtons />}
         </div>
       ) : (
