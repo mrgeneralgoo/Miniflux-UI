@@ -53,7 +53,9 @@
     "saved_to_third-party_services_success": "成功保存到第三方服务",
     "saved_to_third-party_services_error": "保存到第三方服务失败，请稍后再试，或检查您的集成设置",
     "no_previous_article": "没有上一篇文章",
-    "no_next_article": "没有下一篇文章"
+    "no_previous_unread_article": "没有上一篇未读文章",
+    "no_next_article": "没有下一篇文章",
+    "no_next_unread_article": "没有下一篇未读文章"
   },
   "article_card": {
     "reading_time": "需要 %{time}阅读",
@@ -198,8 +200,6 @@
     "mark_read_on_scroll_description": "当文章滚动出屏幕时自动标记为已读"
   },
   "appearance": {
-    "theme_switcher_label": "主题",
-    "theme_switcher_description": "选择您的主题",
     "theme_color_label": "主题颜色",
     "theme_color_description": "选择您的主题颜色",
     "theme_color_aria_label": "将主题颜色更改为 %{color}",
@@ -212,17 +212,14 @@
     "language_label": "语言",
     "language_description": "选择您的语言：",
     "font_size_label": "字体大小",
-    "font_size_description": "调整文章文本大小",
     "article_width_label": "文章宽度",
-    "article_width_description": "调整文章宽度",
+    "edge_to_edge_images_label": "全宽图片",
     "font_family_label": "文章字体",
-    "font_family_description": "选择您的文章正文字体",
     "font_family_system": "默认",
     "font_family_noto_sans": "思源黑体",
     "font_family_noto_serif": "思源宋体",
     "font_family_lxgw_wenkai": "霞鹜文楷",
-    "title_alignment_label": "文章标题对齐方式",
-    "title_alignment_description": "选择文章标题的对齐方式"
+    "title_alignment_label": "文章标题对齐方式"
   },
   "hotkeys": {
     "key": "键",

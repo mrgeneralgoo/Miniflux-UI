@@ -3,7 +3,7 @@ import { IconEmpty, IconLeft, IconRight } from "@arco-design/web-react/icon";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useStore } from "@nanostores/react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useSwipeable } from "react-swipeable";
 import useAppData from "../../hooks/useAppData";
@@ -26,6 +26,7 @@ import ActionButtons from "../Article/ActionButtons";
 import ArticleDetail from "../Article/ArticleDetail";
 import ArticleList from "../Article/ArticleList";
 import SearchAndSortBar from "../Article/SearchAndSortBar";
+import FadeTransition from "../ui/FadeTransition";
 import { useContentContext } from "./ContentContext";
 import FooterPanel from "./FooterPanel";
 import "./Content.css";
@@ -207,26 +208,20 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
             <>
               <AnimatePresence>
                 {isSwipingRight && (
-                  <motion.div
+                  <FadeTransition
+                    key="swipe-hint-left"
                     className="swipe-hint left"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
                   >
                     <IconLeft style={{ fontSize: 24 }} />
-                  </motion.div>
+                  </FadeTransition>
                 )}
                 {isSwipingLeft && (
-                  <motion.div
+                  <FadeTransition
+                    key="swipe-hint-right"
                     className="swipe-hint right"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
                   >
                     <IconRight style={{ fontSize: 24 }} />
-                  </motion.div>
+                  </FadeTransition>
                 )}
               </AnimatePresence>
               <ArticleDetail ref={entryDetailRef} />

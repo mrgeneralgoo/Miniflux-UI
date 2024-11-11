@@ -21,7 +21,7 @@ import { settingsState } from "../../store/settingsState";
 import { generateReadableDate, generateReadingTime } from "../../utils/date";
 import { extractImageSources } from "../../utils/images";
 import CustomLink from "../ui/CustomLink";
-import FadeInMotion from "../ui/FadeInMotion";
+import FadeTransition from "../ui/FadeTransition";
 import CodeBlock from "./CodeBlock";
 import ImageOverlayButton from "./ImageOverlayButton";
 import "./ArticleDetail.css";
@@ -68,7 +68,7 @@ const handleBskyVideo = (node) => {
       />
     );
   }
-  return node;
+  return null;
 };
 
 const handleImage = (node, imageSources, togglePhotoSlider) => {
@@ -87,31 +87,100 @@ const handleImage = (node, imageSources, togglePhotoSlider) => {
   );
 };
 
+const parseCodeContent = (pre) => {
+  return pre.children
+    .map((child) => child.data || (child.name === "br" ? "\n" : ""))
+    .join("")
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+};
+
+const handleTableBasedCode = (node) => {
+  const table = node.children[0];
+  const tbody = table.children.find((child) => child.name === "tbody");
+  if (!tbody) {
+    return null;
+  }
+
+  const tr = tbody.children.find((child) => child.name === "tr");
+  if (!tr || tr.children.length !== 2) {
+    return null;
+  }
+
+  const codeTd = tr.children[1];
+  const pre = codeTd.children.find((child) => child.name === "pre");
+
+  return pre ? parseCodeContent(pre) : null;
+};
+
+const handleFigure = (node, imageSources, togglePhotoSlider) => {
+  const firstChild = node.children[0];
+
+  if (firstChild.name === "img") {
+    return handleImage(firstChild, imageSources, togglePhotoSlider);
+  }
+
+  // Handle table-based code blocks with line numbers
+  if (firstChild.name === "table") {
+    const codeContent = handleTableBasedCode(firstChild);
+    if (codeContent) {
+      return <CodeBlock>{codeContent}</CodeBlock>;
+    }
+  }
+
+  return null;
+};
+
 const handleCodeBlock = (node) => {
   // Remove line number text for code blocks in VuePress / VitePress
   let currentNode = node.next;
   while (currentNode) {
     const nextNode = currentNode.next;
-    if (
-      (currentNode.type === "text" &&
-        /^\d+(<br>|\n)*/.test(currentNode.data)) ||
-      (currentNode.type === "tag" && currentNode.name === "br")
-    ) {
+    const isLineNumber =
+      currentNode.type === "text" && /^\d+(<br>|\n)*/.test(currentNode.data);
+    const isBreak = currentNode.type === "tag" && currentNode.name === "br";
+
+    if (isLineNumber || isBreak) {
       currentNode.data = "";
       currentNode.type = "text";
     }
     currentNode = nextNode;
   }
 
+  // Extract code content
   let codeContent;
   if (node.children[0]?.name === "code") {
-    const codeNode = node.children[0];
-    codeContent = codeNode.children[0]?.data || "";
+    codeContent = node.children[0].children[0]?.data || "";
   } else {
     codeContent = node.children.map((child) => child.data || "").join("");
   }
 
   return <CodeBlock>{codeContent}</CodeBlock>;
+};
+
+const handleVideo = (node) => {
+  const sourceNode = node.children?.find(
+    (child) => child.name === "source" && child.attribs?.src,
+  );
+
+  const videoSrc = sourceNode?.attribs.src || node.attribs.src;
+
+  if (videoSrc?.endsWith(".m3u8")) {
+    return (
+      <ReactHlsPlayer
+        src={videoSrc}
+        controls
+        poster={node.attribs.poster}
+        playsInline
+        hlsConfig={{ startLevel: -1 }}
+      />
+    );
+  }
+
+  return node;
 };
 
 const getHtmlParserOptions = (imageSources, togglePhotoSlider) => ({
@@ -129,6 +198,10 @@ const getHtmlParserOptions = (imageSources, togglePhotoSlider) => ({
         return handleImage(node, imageSources, togglePhotoSlider);
       case "pre":
         return handleCodeBlock(node);
+      case "figure":
+        return handleFigure(node, imageSources, togglePhotoSlider);
+      case "video":
+        return handleVideo(node);
       default:
         return node;
     }
@@ -139,8 +212,13 @@ const ArticleDetail = forwardRef((_, ref) => {
   const navigate = useNavigate();
   const { isBelowMedium } = useScreenWidth();
   const { activeContent } = useStore(contentState);
-  const { articleWidth, fontFamily, fontSize, titleAlignment } =
-    useStore(settingsState);
+  const {
+    articleWidth,
+    edgeToEdgeImages,
+    fontFamily,
+    fontSize,
+    titleAlignment,
+  } = useStore(settingsState);
 
   const {
     isPhotoSliderVisible,
@@ -176,9 +254,13 @@ const ArticleDetail = forwardRef((_, ref) => {
   }, []);
 
   return (
-    <article className="article-content" ref={ref} tabIndex={-1}>
+    <article
+      className={`article-content ${edgeToEdgeImages ? "edge-to-edge" : ""}`}
+      ref={ref}
+      tabIndex={-1}
+    >
       <SimpleBar className="scroll-container">
-        <FadeInMotion>
+        <FadeTransition y={20}>
           <div
             className="article-header"
             style={{ width: `${articleWidth}%`, textAlign: titleAlignment }}
@@ -250,7 +332,7 @@ const ArticleDetail = forwardRef((_, ref) => {
               onIndexChange={setSelectedIndex}
             />
           </div>
-        </FadeInMotion>
+        </FadeTransition>
       </SimpleBar>
     </article>
   );
