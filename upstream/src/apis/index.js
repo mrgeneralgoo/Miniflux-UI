@@ -1,19 +1,26 @@
-import { apiClient } from "./ofetch";
+import apiClient from "./ofetch"
 
-export * from "./categories";
-export * from "./entries";
-export * from "./feeds";
+export * from "./categories"
+export * from "./entries"
+export * from "./feeds"
 
-export const getCurrentUser = async () => apiClient.get("/v1/me");
+export const exportOPML = async () => apiClient.get("/v1/export")
 
-export const getFeedIcon = async (id) => apiClient.get(`/v1/icons/${id}`);
+export const importOPML = (xmlContent) =>
+  apiClient.raw("/v1/import", {
+    method: "POST",
+    body: xmlContent,
+  })
 
-export const getIntegrationsStatus = async () =>
-  apiClient.get("/v1/integrations/status");
+export const getCurrentUser = async () => apiClient.get("/v1/me")
 
-export const getVersion = async () => apiClient.get("/v1/version");
+export const getFeedIcon = async (id) => apiClient.get(`/v1/icons/${id}`)
+
+export const getIntegrationsStatus = async () => apiClient.get("/v1/integrations/status")
+
+export const getVersion = async () => apiClient.get("/v1/version")
 
 export const markAllAsRead = async () => {
-  const currentUser = await getCurrentUser();
-  return apiClient.put(`/v1/users/${currentUser.id}/mark-all-as-read`);
-};
+  const currentUser = await getCurrentUser()
+  return apiClient.put(`/v1/users/${currentUser.id}/mark-all-as-read`)
+}

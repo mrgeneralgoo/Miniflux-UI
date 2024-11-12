@@ -1,4 +1,8 @@
 {
+  "app": {
+    "new_version_available": "New version available",
+    "new_version_available_description": "Please check the latest version on GitHub"
+  },
   "login": {
     "success": "Login successfully",
     "auth_error": "Please check your server address and credentials",
@@ -31,6 +35,12 @@
     "hide_hidden_feeds": "Hide hidden feeds",
     "show_read_feeds": "Show read feeds",
     "hide_read_feeds": "Hide read feeds",
+    "import_opml": "Import OPML",
+    "export_opml": "Export OPML",
+    "import_opml_success": "OPML imported successfully",
+    "import_opml_error": "Failed to import OPML",
+    "export_opml_success": "OPML exported successfully",
+    "export_opml_error": "Failed to export OPML",
     "settings": "Settings",
     "miniflux_settings": "Miniflux Settings",
     "report_issue": "Report an issue",
@@ -42,8 +52,11 @@
     "logout_description": "Are you sure you want to logout? This action cannot be undone."
   },
   "actions": {
+    "check": "Check",
+    "dismiss": "Dismiss",
     "copy_to_clipboard_tooltip": "Copy to clipboard",
     "copied": "Copied!",
+    "copy_failed": "Failed to copy, please try again later",
     "mark_as_read_error": "Failed to mark as read, please try again later",
     "mark_as_unread_error": "Failed to mark as unread, please try again later",
     "star_error": "Failed to star, please try again later",
@@ -121,7 +134,7 @@
     "refresh_feed": "Refresh feed",
     "bulk_update_success": "Bulk update successfully",
     "bulk_update_error": "Failed to bulk update, please try again",
-    "bulk_refresh_error_feeds_message": "Starting refresh of error feeds, please wait",
+    "bulk_refresh_error_feeds_message": "Starting refresh of error feeds...",
     "bulk_refresh_error_feeds_result": "Feeds refreshed. Success: %{success}, Failure: %{failure}",
     "refresh_feeds_tooltip": "Refresh feeds",
     "refresh_feeds_title": "Refresh Feeds",

@@ -1,4 +1,8 @@
 {
+  "app": {
+    "new_version_available": "新版本可用",
+    "new_version_available_description": "请检查最新版本在 GitHub 上的发布"
+  },
   "login": {
     "success": "登录成功",
     "auth_error": "请检查您的服务器地址和凭证",
@@ -31,6 +35,12 @@
     "hide_hidden_feeds": "不显示隐藏订阅源",
     "show_read_feeds": "显示已读订阅源",
     "hide_read_feeds": "不显示已读订阅源",
+    "import_opml": "导入 OPML",
+    "export_opml": "导出 OPML",
+    "import_opml_success": "OPML 导入成功",
+    "import_opml_error": "OPML 导入失败",
+    "export_opml_success": "OPML 导出成功",
+    "export_opml_error": "OPML 导出失败",
     "settings": "设置",
     "miniflux_settings": "Miniflux 设置",
     "report_issue": "报告问题",
@@ -42,8 +52,11 @@
     "logout_description": "您确定要登出吗？此操作无法撤消。"
   },
   "actions": {
+    "check": "查看",
+    "dismiss": "关闭",
     "copy_to_clipboard_tooltip": "复制到剪贴板",
     "copied": "已复制！",
+    "copy_failed": "复制失败，请稍后再试",
     "mark_as_read_error": "标记为已读失败，请稍后再试",
     "mark_as_unread_error": "标记为未读失败，请稍后再试",
     "star_error": "收藏失败，请稍后再试",
@@ -121,7 +134,7 @@
     "refresh_feed": "刷新订阅源",
     "bulk_update_success": "批量更新成功",
     "bulk_update_error": "批量更新失败，请重试",
-    "bulk_refresh_error_feeds_message": "正在刷新错误订阅源，请稍候",
+    "bulk_refresh_error_feeds_message": "正在刷新错误订阅源...",
     "bulk_refresh_error_feeds_result": "订阅源已刷新。成功： %{success}, 失败： %{failure}",
     "refresh_feeds_tooltip": "刷新订阅源",
     "refresh_feeds_title": "刷新订阅源",

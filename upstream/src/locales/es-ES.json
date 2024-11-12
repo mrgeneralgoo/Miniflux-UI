@@ -1,4 +1,8 @@
 {
+  "app": {
+    "new_version_available": "Nueva versión disponible",
+    "new_version_available_description": "Por favor, compruebe la última versión en GitHub"
+  },
   "login": {
     "success": "Inicio de sesión correcto",
     "auth_error": "Por favor, compruebe la dirección de su servidor y las credenciales",
@@ -31,6 +35,12 @@
     "hide_hidden_feeds": "Ocultar feeds ocultos",
     "show_read_feeds": "Mostrar feeds leídos",
     "hide_read_feeds": "Ocultar feeds leídos",
+    "import_opml": "Importar OPML",
+    "export_opml": "Exportar OPML",
+    "import_opml_success": "OPML importado con éxito",
+    "import_opml_error": "Error al importar OPML",
+    "export_opml_success": "OPML exportado con éxito",
+    "export_opml_error": "Error al exportar OPML",
     "settings": "Ajustes",
     "miniflux_settings": "Ajustes de Miniflux",
     "report_issue": "Reportar un problema",
@@ -42,8 +52,11 @@
     "logout_description": "¿Está seguro de que desea cerrar sesión? Esta acción no se puede deshacer."
   },
   "actions": {
+    "check": "Comprobar",
+    "dismiss": "Descartar",
     "copy_to_clipboard_tooltip": "Copiar al portapapeles",
     "copied": "Copiado!",
+    "copy_failed": "Error al copiar, por favor intente de nuevo más tarde",
     "mark_as_read_error": "Error al marcar como leído, por favor intente de nuevo más tarde",
     "mark_as_unread_error": "Error al marcar como no leído, por favor intente de nuevo más tarde",
     "star_error": "Error al marcar como favorito, por favor intente de nuevo más tarde",
@@ -121,7 +134,7 @@
     "refresh_feed": "Actualizar feed",
     "bulk_update_success": "Actualización masiva realizada con éxito",
     "bulk_update_error": "Error en la actualización masiva, inténtelo nuevamente",
-    "bulk_refresh_error_feeds_message": "Iniciando la actualización de feeds de errores, por favor espere",
+    "bulk_refresh_error_feeds_message": "Iniciando la actualización de feeds de errores...",
     "bulk_refresh_error_feeds_result": "Feeds acualizados. Correctamente: %{success}, Fallo: %{failure}",
     "refresh_feeds_tooltip": "Actualizar Feeds",
     "refresh_feeds_title": "Actualizar feeds",

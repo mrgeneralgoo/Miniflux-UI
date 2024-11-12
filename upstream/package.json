@@ -6,14 +6,18 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "format": "biome format . --write",
-    "lint": "biome lint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prebuild": "node src/scripts/version-info.js",
     "prepare": "husky",
-    "preview": "vite build && vite preview"
+    "preview": "pnpm run build && vite preview"
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",
     "@arco-design/web-react": "^2.64.1",
+    "@mux/mux-player-react": "^3.1.0",
     "@nanostores/persistent": "^0.10.2",
     "@nanostores/react": "^0.8.0",
     "@tanstack/react-virtual": "^3.10.9",
@@ -29,7 +33,6 @@
     "ofetch": "^1.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hls-video-player": "^3.2.4",
     "react-hotkeys-hook": "^4.6.1",
     "react-intersection-observer": "^9.13.1",
     "react-photo-view": "^1.2.6",
@@ -40,8 +43,35 @@
     "simplebar-react": "^3.2.6",
     "validator": "^13.12.0"
   },
+  "devDependencies": {
+    "@eslint/js": "^9.14.0",
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "depcheck": "^1.4.7",
+    "eslint": "^9.14.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-promise": "^7.1.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.12.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "vite": "^5.4.11",
+    "vite-plugin-pwa": "^0.20.5",
+    "workbox-window": "^7.3.0"
+  },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -54,20 +84,12 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
-      "biome check --write --no-errors-on-unmatched"
+    "*.{js,ts,mjs,jsx,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,jsonc,css,md}": [
+      "prettier --write"
     ]
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@types/react": "^18.3.12",
-    "@vitejs/plugin-react": "^4.3.3",
-    "depcheck": "^1.4.7",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
-    "rollup-plugin-visualizer": "^5.12.0",
-    "vite": "^5.4.10",
-    "vite-plugin-pwa": "^0.20.5",
-    "workbox-window": "^7.3.0"
   }
 }

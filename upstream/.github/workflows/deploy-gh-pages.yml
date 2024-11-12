@@ -5,15 +5,17 @@ on:
     branches:
       - main
     paths-ignore:
-      - '.github/**'
-      - '.husky/**'
-      - '.editorconfig'
-      - '.gitignore'
-      - 'docs/**'
-      - 'biome.json'
-      - 'Caddyfile'
-      - 'Dockerfile'
-      - 'README.md'
+      - ".github/**"
+      - ".husky/**"
+      - ".editorconfig"
+      - ".gitignore"
+      - ".prettierignore"
+      - ".prettierrc"
+      - "docs/**"
+      - "Caddyfile"
+      - "Dockerfile"
+      - "eslint.config.mjs"
+      - "README.md"
 
   workflow_dispatch:
 
@@ -37,7 +39,7 @@ jobs:
           pnpm run build
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.6.8
+        uses: JamesIves/github-pages-deploy-action@v4.6.9
         with:
           branch: gh-pages
           folder: build
