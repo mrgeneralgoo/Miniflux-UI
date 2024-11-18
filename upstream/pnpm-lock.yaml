@@ -93,8 +93,8 @@ importers:
         specifier: ^13.12.0
         version: 13.12.0
       virtua:
-        specifier: ^0.37.1
-        version: 0.37.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.37.2
+        version: 0.37.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@eslint/js':
         specifier: ^9.15.0
@@ -2995,8 +2995,8 @@ packages:
     resolution: {integrity: sha512-c1Q0mCiPlgdTVVVIJIrBuxNicYE+t/7oKeI9MWLj3fh/uq2Pxh/3eeWbVZ4OcGW1TUf53At0njHw5SMdA3tmMg==}
     engines: {node: '>= 0.10'}
 
-  virtua@0.37.1:
-    resolution: {integrity: sha512-UMb7ksJnTGGnAVYsQ9R+fZMWruVVOOUS6XT11neb5j82gMQhAUX/JB77oz0xA7V+mEamuyzbuFiasgzmoFVBuQ==}
+  virtua@0.37.2:
+    resolution: {integrity: sha512-Dncbxq0qY27IThGRCuE9SIj5GE7B58lALiKHN2RU7U8+1RewbcP8nV2hKUXo64uoqvkLKM70L0JO3WTyk5PjUA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
@@ -6322,7 +6322,7 @@ snapshots:
 
   validator@13.12.0: {}
 
-  virtua@0.37.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  virtua@0.37.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     optionalDependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
