@@ -87,6 +87,7 @@ const MobileButtons = memo(({ commonButtons }) => (
   </div>
 ))
 MobileButtons.displayName = "MobileButtons"
+
 const ActionButtons = () => {
   const { activeContent } = useStore(contentState)
   const { hasIntegrations } = useStore(dataState)
@@ -136,6 +137,31 @@ const ActionButtons = () => {
       value: "'LXGW WenKai Screen', sans-serif",
     },
   ]
+
+  const handleShare = async () => {
+    if (!navigator.share) {
+      console.error("Web Share API is not supported")
+      return
+    }
+
+    const shareData = {
+      title: activeContent.title,
+      url: activeContent.url,
+    }
+
+    if (navigator.canShare && !navigator.canShare(shareData)) {
+      console.error("This content cannot be shared")
+      return
+    }
+
+    try {
+      await navigator.share(shareData)
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        console.error("Error sharing article:", error)
+      }
+    }
+  }
 
   const commonButtons = {
     status: (
@@ -197,12 +223,18 @@ const ActionButtons = () => {
         droplist={
           <Menu>
             {hasIntegrations && isBelowMedium && (
+              <Menu.Item
+                key="save_to_third_party_services"
+                onClick={handleSaveToThirdPartyServices}
+              >
+                <span>{polyglot.t("article_card.save_to_third_party_services_tooltip")}</span>
+              </Menu.Item>
+            )}
+
+            {navigator.share && (
               <>
-                <Menu.Item
-                  key="save_to_third_party_services"
-                  onClick={handleSaveToThirdPartyServices}
-                >
-                  <span>{polyglot.t("article_card.save_to_third_party_services_tooltip")}</span>
+                <Menu.Item key="share" onClick={handleShare}>
+                  <span>{polyglot.t("article_card.share_tooltip")}</span>
                 </Menu.Item>
                 <Divider style={{ margin: "4px 0" }} />
               </>
