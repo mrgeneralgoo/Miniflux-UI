@@ -13,13 +13,13 @@ importers:
         version: 0.4.0
       '@arco-design/web-react':
         specifier: ^2.65.0
-        version: 2.65.0(@types/react@19.0.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 2.65.0(@types/react@19.0.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@nanostores/persistent':
         specifier: ^0.10.2
         version: 0.10.2(nanostores@0.11.3)
       '@nanostores/react':
-        specifier: ^0.8.2
-        version: 0.8.2(nanostores@0.11.3)(react@19.0.0)
+        specifier: ^0.8.4
+        version: 0.8.4(nanostores@0.11.3)(react@19.0.0)
       canvas-confetti:
         specifier: ^1.9.3
         version: 1.9.3
@@ -40,7 +40,7 @@ importers:
         version: 1.5.18
       html-react-parser:
         specifier: ^5.2.1
-        version: 5.2.1(@types/react@19.0.1)(react@19.0.0)
+        version: 5.2.1(@types/react@19.0.2)(react@19.0.0)
       littlefoot:
         specifier: ^4.1.2
         version: 4.1.2
@@ -84,8 +84,8 @@ importers:
         specifier: ^15.6.1
         version: 15.6.1(react@19.0.0)
       sanitize-html:
-        specifier: ^2.13.1
-        version: 2.13.1
+        specifier: ^2.14.0
+        version: 2.14.0
       simplebar-react:
         specifier: ^3.3.0
         version: 3.3.0(react@19.0.0)
@@ -103,8 +103,8 @@ importers:
         specifier: ^22.10.2
         version: 22.10.2
       '@types/react':
-        specifier: ^19.0.1
-        version: 19.0.1
+        specifier: ^19.0.2
+        version: 19.0.2
       '@vitejs/plugin-react':
         specifier: ^4.3.4
         version: 4.3.4(vite@6.0.3(@types/node@22.10.2)(terser@5.37.0)(yaml@2.6.1))
@@ -130,8 +130,8 @@ importers:
         specifier: ^0.4.16
         version: 0.4.16(eslint@9.17.0)
       globals:
-        specifier: ^15.13.0
-        version: 15.13.0
+        specifier: ^15.14.0
+        version: 15.14.0
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -897,12 +897,12 @@ packages:
     peerDependencies:
       nanostores: ^0.9.0 || ^0.10.0 || ^0.11.0
 
-  '@nanostores/react@0.8.2':
-    resolution: {integrity: sha512-DW4lIsDpdGqHvr9Ah/5InSsl9GFkIQOiA6FdKbordUT9BNNoAWcObwtCUyNfEhe6UEOC+Kw9rbdU8EcyoZjAGA==}
+  '@nanostores/react@0.8.4':
+    resolution: {integrity: sha512-EciHSzDXg7GmGODjegGG1VldPEinbAK+12/Uz5+MAdHmxf082Rl6eXqKFxAAu4pZAcr5dNTpv6wMfEe7XacjkQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       nanostores: ^0.9.0 || ^0.10.0 || ^0.11.0
-      react: '>=18.0.0 || >=19.0.0-rc'
+      react: '>=18.0.0'
 
   '@pacote/get-style@2.0.2':
     resolution: {integrity: sha512-5Pwu8fOk0TNjP/yAsw8WgwgOnC1r890i51utJ1vjSjUolbrjv3TEtZHMKY00NzeEXIl3Gt5v8W5po3H/ftdhWw==}
@@ -1102,8 +1102,8 @@ packages:
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
 
-  '@types/react@19.0.1':
-    resolution: {integrity: sha512-YW6614BDhqbpR5KtUYzTA+zlA7nayzJRA9ljz9CQoxthR0sDisYZLuvSMsil36t4EH/uAt8T52Xb4sVw17G+SQ==}
+  '@types/react@19.0.2':
+    resolution: {integrity: sha512-USU8ZI/xyKJwFTpjSVIrSeHBVAGagkHQKPNbxeWwql/vDmnTIBgx+TJnhFnj1NXgz8XfprU0egV2dROLGpsBEg==}
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -1841,8 +1841,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@15.13.0:
-    resolution: {integrity: sha512-49TewVEz0UxZjr1WYYsWpPrhyC/B/pA8Bq0fUmet2n+eR7yn0IvNzNaoBwnK6mdkzcN+se7Ez9zUgULTz2QH4g==}
+  globals@15.14.0:
+    resolution: {integrity: sha512-OkToC372DtlQeje9/zHIo5CT8lRP/FUgEOKBEhU4e0abL7J7CD24fD9ohiLN5hagG/kWCYj4K5oaxxtj2Z0Dig==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -1856,8 +1856,9 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
-  has-bigints@1.0.2:
-    resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==}
+  has-bigints@1.1.0:
+    resolution: {integrity: sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg==}
+    engines: {node: '>= 0.4'}
 
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
@@ -2086,8 +2087,8 @@ packages:
     resolution: {integrity: sha512-iPAjerrse27/ygGLxw+EBR9agv9Y6uLeYVJMu+QNCoouJ1/1ri0mGrcWpfCqFZuzzx3WjtwxG098X+n4OuRkPg==}
     engines: {node: '>= 0.4'}
 
-  is-shared-array-buffer@1.0.3:
-    resolution: {integrity: sha512-nA2hv5XIhLR3uVzDDfCIknerhx8XUKnstuOERPNNIinXG7v9u+ohXF67vxm4TPTEPU6lm61ZkwP3c9PCB97rhg==}
+  is-shared-array-buffer@1.0.4:
+    resolution: {integrity: sha512-ISWac8drv4ZGfwKl5slpHG9OwPNty4jOWPRIhBpxOoD+hqITiwuipOQ2bNthAzwA3B4fIjO4Nln74N0S9byq8A==}
     engines: {node: '>= 0.4'}
 
   is-stream@2.0.1:
@@ -2106,8 +2107,8 @@ packages:
     resolution: {integrity: sha512-9gGx6GTtCQM73BgmHQXfDmLtfjjTUDSyoxTCbp5WtoixAhfgsDirWIcVQ/IHpvI5Vgd5i/J5F7B9cN/WlVbC/w==}
     engines: {node: '>= 0.4'}
 
-  is-typed-array@1.1.14:
-    resolution: {integrity: sha512-lQUsHzcTb7rH57dajbOuZEuMDXjs9f04ZloER4QOpjpKcaw4f98BRUrs8aiO9Z4G7i7B0Xhgarg6SCgYcYi8Nw==}
+  is-typed-array@1.1.15:
+    resolution: {integrity: sha512-p3EcsicXjit7SaskXHs1hA91QxgTw46Fv6EFKKGS5DRFLD8yKnohjF3hxoju94b/OcMZoQukzpPpBE9uLVKzgQ==}
     engines: {node: '>= 0.4'}
 
   is-weakmap@2.0.2:
@@ -2363,8 +2364,8 @@ packages:
     resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==}
     engines: {node: '>= 0.4'}
 
-  object.assign@4.1.5:
-    resolution: {integrity: sha512-byy+U7gp+FVwmyzKPYhW2h5l3crpmGsxl7X2s8y43IgxvG4g3QZ6CffDtsNQy1WsmZpQbO+ybo0AlW7TY6DcBQ==}
+  object.assign@4.1.7:
+    resolution: {integrity: sha512-nK28WOo+QIjBkDduTINE4JkF/UJJKyf2EJxvJKfblDpyg0Q+pkOHNTL0Qwy6NP6FhE/EnzV73BxxqcJaXY9anw==}
     engines: {node: '>= 0.4'}
 
   object.entries@1.1.8:
@@ -2612,8 +2613,8 @@ packages:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
     engines: {node: '>=8.10.0'}
 
-  reflect.getprototypeof@1.0.8:
-    resolution: {integrity: sha512-B5dj6usc5dkk8uFliwjwDHM8To5/QwdKz9JcBZ8Ic4G1f0YmeeJTtE/ZTdgRFPAfxZFiUaPhZ1Jcs4qeagItGQ==}
+  reflect.getprototypeof@1.0.9:
+    resolution: {integrity: sha512-r0Ay04Snci87djAsI4U+WNRcSw5S4pOH7qFjd/veA5gC7TbqESR3tcj28ia95L/fYUDw11JKP7uqUKUAfVvV5Q==}
     engines: {node: '>= 0.4'}
 
   refractor@3.6.0:
@@ -2719,8 +2720,8 @@ packages:
     resolution: {integrity: sha512-x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw==}
     engines: {node: '>= 0.4'}
 
-  sanitize-html@2.13.1:
-    resolution: {integrity: sha512-ZXtKq89oue4RP7abL9wp/9URJcqQNABB5GGJ2acW1sdO8JTVl92f4ygD7Yc9Ze09VAZhnt2zegeU0tbNsdcLYg==}
+  sanitize-html@2.14.0:
+    resolution: {integrity: sha512-CafX+IUPxZshXqqRaG9ZClSlfPVjSxI0td7n07hk8QO2oO+9JDnlcL8iM8TWeOXOIBFgIOx6zioTzM53AOMn3g==}
 
   scheduler@0.25.0:
     resolution: {integrity: sha512-xFVuu11jh+xcO7JOAGJNOXld8/TcEHK/4CituBUeUb5hqxJLj9YuemAEuvm9gQ/+pgXYfbQuqAkiYu+u7YEsNA==}
@@ -2950,8 +2951,8 @@ packages:
     resolution: {integrity: sha512-eaBzG6MxNzEn9kiwvtre90cXaNLkmadMWa1zQMs3XORCXNbsH/OewwbxC5ia9dCxIxnTAsSxXJaa/p5y8DlvJg==}
     engines: {node: '>=10'}
 
-  typed-array-buffer@1.0.2:
-    resolution: {integrity: sha512-gEymJYKZtKXzzBzM4jqa9w6Q1Jjm7x2d+sh19AdsD4wqnMPDYyvwpsIc2Q/835kHuo3BEQ7CjelGhfTsoBb2MQ==}
+  typed-array-buffer@1.0.3:
+    resolution: {integrity: sha512-nAYYwfY3qnzX30IkA6AQZjVbtK6duGontcQm1WSG1MD94YLqK0515GNApXkoxKOWMusVssAHWLh9SeaoefYFGw==}
     engines: {node: '>= 0.4'}
 
   typed-array-byte-length@1.0.3:
@@ -3133,8 +3134,8 @@ packages:
     resolution: {integrity: sha512-K4jVyjnBdgvc86Y6BkaLZEN933SwYOuBFkdmBu9ZfkcAbdVbpITnDmjvZ/aQjRXQrv5EPkTnD1s39GiiqbngCw==}
     engines: {node: '>= 0.4'}
 
-  which-typed-array@1.1.16:
-    resolution: {integrity: sha512-g+N+GAWiRj66DngFwHvISJd+ITsyphZvD1vChfVg6cEdnzy53GzB3oy0fUNlvhz7H7+MiqhYr26qxQShCpKTTQ==}
+  which-typed-array@1.1.18:
+    resolution: {integrity: sha512-qEcY+KJYlWyLH9vNbsr6/5j59AXk5ni5aakf8ldzBvGde6Iz4sxZGkJyWSAueTG7QhOvNRYb1lDdFmL5Td0QKA==}
     engines: {node: '>= 0.4'}
 
   which@1.3.1:
@@ -3268,7 +3269,7 @@ snapshots:
     dependencies:
       color: 3.2.1
 
-  '@arco-design/web-react@2.65.0(@types/react@19.0.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@arco-design/web-react@2.65.0(@types/react@19.0.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@arco-design/color': 0.4.0
       '@babel/runtime': 7.26.0
@@ -3280,7 +3281,7 @@ snapshots:
       number-precision: 1.6.0
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
-      react-focus-lock: 2.13.5(@types/react@19.0.1)(react@19.0.0)
+      react-focus-lock: 2.13.5(@types/react@19.0.2)(react@19.0.0)
       react-is: 18.3.1
       react-transition-group: 4.4.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       resize-observer-polyfill: 1.5.1
@@ -4090,7 +4091,7 @@ snapshots:
     dependencies:
       nanostores: 0.11.3
 
-  '@nanostores/react@0.8.2(nanostores@0.11.3)(react@19.0.0)':
+  '@nanostores/react@0.8.4(nanostores@0.11.3)(react@19.0.0)':
     dependencies:
       nanostores: 0.11.3
       react: 19.0.0
@@ -4262,7 +4263,7 @@ snapshots:
 
   '@types/parse-json@4.0.2': {}
 
-  '@types/react@19.0.1':
+  '@types/react@19.0.2':
     dependencies:
       csstype: 3.1.3
 
@@ -4777,26 +4778,26 @@ snapshots:
       is-data-view: 1.0.2
       is-negative-zero: 2.0.3
       is-regex: 1.2.1
-      is-shared-array-buffer: 1.0.3
+      is-shared-array-buffer: 1.0.4
       is-string: 1.1.1
-      is-typed-array: 1.1.14
+      is-typed-array: 1.1.15
       is-weakref: 1.1.0
       math-intrinsics: 1.0.0
       object-inspect: 1.13.3
       object-keys: 1.1.1
-      object.assign: 4.1.5
+      object.assign: 4.1.7
       regexp.prototype.flags: 1.5.3
       safe-array-concat: 1.1.3
       safe-regex-test: 1.1.0
       string.prototype.trim: 1.2.10
       string.prototype.trimend: 1.0.9
       string.prototype.trimstart: 1.0.8
-      typed-array-buffer: 1.0.2
+      typed-array-buffer: 1.0.3
       typed-array-byte-length: 1.0.3
       typed-array-byte-offset: 1.0.3
       typed-array-length: 1.0.7
       unbox-primitive: 1.1.0
-      which-typed-array: 1.1.16
+      which-typed-array: 1.1.18
 
   es-define-property@1.0.1: {}
 
@@ -5190,7 +5191,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@15.13.0: {}
+  globals@15.14.0: {}
 
   globalthis@1.0.4:
     dependencies:
@@ -5201,7 +5202,7 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  has-bigints@1.0.2: {}
+  has-bigints@1.1.0: {}
 
   has-flag@4.0.0: {}
 
@@ -5250,7 +5251,7 @@ snapshots:
       domhandler: 5.0.3
       htmlparser2: 9.1.0
 
-  html-react-parser@5.2.1(@types/react@19.0.1)(react@19.0.0):
+  html-react-parser@5.2.1(@types/react@19.0.2)(react@19.0.0):
     dependencies:
       domhandler: 5.0.3
       html-dom-parser: 5.0.12
@@ -5258,7 +5259,7 @@ snapshots:
       react-property: 2.0.2
       style-to-js: 1.1.16
     optionalDependencies:
-      '@types/react': 19.0.1
+      '@types/react': 19.0.2
 
   htmlparser2@8.0.2:
     dependencies:
@@ -5329,7 +5330,7 @@ snapshots:
 
   is-bigint@1.1.0:
     dependencies:
-      has-bigints: 1.0.2
+      has-bigints: 1.1.0
 
   is-boolean-object@1.2.1:
     dependencies:
@@ -5346,7 +5347,7 @@ snapshots:
     dependencies:
       call-bound: 1.0.3
       get-intrinsic: 1.2.6
-      is-typed-array: 1.1.14
+      is-typed-array: 1.1.15
 
   is-date-object@1.1.0:
     dependencies:
@@ -5409,9 +5410,9 @@ snapshots:
 
   is-set@2.0.3: {}
 
-  is-shared-array-buffer@1.0.3:
+  is-shared-array-buffer@1.0.4:
     dependencies:
-      call-bind: 1.0.8
+      call-bound: 1.0.3
 
   is-stream@2.0.1: {}
 
@@ -5428,9 +5429,9 @@ snapshots:
       has-symbols: 1.1.0
       safe-regex-test: 1.1.0
 
-  is-typed-array@1.1.14:
+  is-typed-array@1.1.15:
     dependencies:
-      which-typed-array: 1.1.16
+      which-typed-array: 1.1.18
 
   is-weakmap@2.0.2: {}
 
@@ -5459,7 +5460,7 @@ snapshots:
       es-object-atoms: 1.0.0
       get-intrinsic: 1.2.6
       has-symbols: 1.1.0
-      reflect.getprototypeof: 1.0.8
+      reflect.getprototypeof: 1.0.9
       set-function-name: 2.0.2
 
   jake@10.9.2:
@@ -5514,7 +5515,7 @@ snapshots:
     dependencies:
       array-includes: 3.1.8
       array.prototype.flat: 1.3.3
-      object.assign: 4.1.5
+      object.assign: 4.1.7
       object.values: 1.2.0
 
   keyv@4.5.4:
@@ -5676,10 +5677,12 @@ snapshots:
 
   object-keys@1.1.1: {}
 
-  object.assign@4.1.5:
+  object.assign@4.1.7:
     dependencies:
       call-bind: 1.0.8
+      call-bound: 1.0.3
       define-properties: 1.2.1
+      es-object-atoms: 1.0.0
       has-symbols: 1.1.0
       object-keys: 1.1.1
 
@@ -5853,17 +5856,17 @@ snapshots:
       react: 19.0.0
       scheduler: 0.25.0
 
-  react-focus-lock@2.13.5(@types/react@19.0.1)(react@19.0.0):
+  react-focus-lock@2.13.5(@types/react@19.0.2)(react@19.0.0):
     dependencies:
       '@babel/runtime': 7.26.0
       focus-lock: 1.3.5
       prop-types: 15.8.1
       react: 19.0.0
       react-clientside-effect: 1.2.7(react@19.0.0)
-      use-callback-ref: 1.3.3(@types/react@19.0.1)(react@19.0.0)
-      use-sidecar: 1.1.3(@types/react@19.0.1)(react@19.0.0)
+      use-callback-ref: 1.3.3(@types/react@19.0.2)(react@19.0.0)
+      use-sidecar: 1.1.3(@types/react@19.0.2)(react@19.0.0)
     optionalDependencies:
-      '@types/react': 19.0.1
+      '@types/react': 19.0.2
 
   react-hotkeys-hook@4.6.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
@@ -5928,7 +5931,7 @@ snapshots:
     dependencies:
       picomatch: 2.3.1
 
-  reflect.getprototypeof@1.0.8:
+  reflect.getprototypeof@1.0.9:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
@@ -6069,7 +6072,7 @@ snapshots:
       es-errors: 1.3.0
       is-regex: 1.2.1
 
-  sanitize-html@2.13.1:
+  sanitize-html@2.14.0:
     dependencies:
       deepmerge: 4.3.1
       escape-string-regexp: 4.0.0
@@ -6335,11 +6338,11 @@ snapshots:
 
   type-fest@0.16.0: {}
 
-  typed-array-buffer@1.0.2:
+  typed-array-buffer@1.0.3:
     dependencies:
-      call-bind: 1.0.8
+      call-bound: 1.0.3
       es-errors: 1.3.0
-      is-typed-array: 1.1.14
+      is-typed-array: 1.1.15
 
   typed-array-byte-length@1.0.3:
     dependencies:
@@ -6347,7 +6350,7 @@ snapshots:
       for-each: 0.3.3
       gopd: 1.2.0
       has-proto: 1.2.0
-      is-typed-array: 1.1.14
+      is-typed-array: 1.1.15
 
   typed-array-byte-offset@1.0.3:
     dependencies:
@@ -6356,24 +6359,24 @@ snapshots:
       for-each: 0.3.3
       gopd: 1.2.0
       has-proto: 1.2.0
-      is-typed-array: 1.1.14
-      reflect.getprototypeof: 1.0.8
+      is-typed-array: 1.1.15
+      reflect.getprototypeof: 1.0.9
 
   typed-array-length@1.0.7:
     dependencies:
       call-bind: 1.0.8
       for-each: 0.3.3
       gopd: 1.2.0
-      is-typed-array: 1.1.14
+      is-typed-array: 1.1.15
       possible-typed-array-names: 1.0.0
-      reflect.getprototypeof: 1.0.8
+      reflect.getprototypeof: 1.0.9
 
   ufo@1.5.4: {}
 
   unbox-primitive@1.1.0:
     dependencies:
       call-bound: 1.0.3
-      has-bigints: 1.0.2
+      has-bigints: 1.1.0
       has-symbols: 1.1.0
       which-boxed-primitive: 1.1.1
 
@@ -6410,20 +6413,20 @@ snapshots:
 
   url-polyfill@1.1.12: {}
 
-  use-callback-ref@1.3.3(@types/react@19.0.1)(react@19.0.0):
+  use-callback-ref@1.3.3(@types/react@19.0.2)(react@19.0.0):
     dependencies:
       react: 19.0.0
       tslib: 2.8.1
     optionalDependencies:
-      '@types/react': 19.0.1
+      '@types/react': 19.0.2
 
-  use-sidecar@1.1.3(@types/react@19.0.1)(react@19.0.0):
+  use-sidecar@1.1.3(@types/react@19.0.2)(react@19.0.0):
     dependencies:
       detect-node-es: 1.1.0
       react: 19.0.0
       tslib: 2.8.1
     optionalDependencies:
-      '@types/react': 19.0.1
+      '@types/react': 19.0.2
 
   validator@13.12.0: {}
 
@@ -6488,7 +6491,7 @@ snapshots:
       isarray: 2.0.5
       which-boxed-primitive: 1.1.1
       which-collection: 1.0.2
-      which-typed-array: 1.1.16
+      which-typed-array: 1.1.18
 
   which-collection@1.0.2:
     dependencies:
@@ -6497,10 +6500,11 @@ snapshots:
       is-weakmap: 2.0.2
       is-weakset: 2.0.4
 
-  which-typed-array@1.1.16:
+  which-typed-array@1.1.18:
     dependencies:
       available-typed-arrays: 1.0.7
       call-bind: 1.0.8
+      call-bound: 1.0.3
       for-each: 0.3.3
       gopd: 1.2.0
       has-tostringtag: 1.0.2
