@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
-    "@types/node": "^22.10.3",
+    "@types/node": "^22.10.4",
     "@types/react": "^19.0.2",
     "@vitejs/plugin-react": "^4.3.4",
     "depcheck": "^1.4.7",
@@ -62,7 +62,7 @@
     "lint-staged": "^15.3.0",
     "prettier": "^3.4.2",
     "rollup-plugin-visualizer": "^5.13.1",
-    "vite": "^6.0.6",
+    "vite": "^6.0.7",
     "vite-plugin-pwa": "^0.21.1",
     "workbox-window": "^7.3.0"
   },
