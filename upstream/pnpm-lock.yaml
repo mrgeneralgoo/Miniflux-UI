@@ -13,7 +13,7 @@ importers:
         version: 0.4.0
       '@arco-design/web-react':
         specifier: ^2.65.0
-        version: 2.65.0(@types/react@19.0.5)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 2.65.0(@types/react@19.0.6)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@nanostores/persistent':
         specifier: ^0.10.2
         version: 0.10.2(nanostores@0.11.3)
@@ -40,7 +40,7 @@ importers:
         version: 1.5.19
       html-react-parser:
         specifier: ^5.2.2
-        version: 5.2.2(@types/react@19.0.5)(react@19.0.0)
+        version: 5.2.2(@types/react@19.0.6)(react@19.0.0)
       littlefoot:
         specifier: ^4.1.2
         version: 4.1.2
@@ -100,14 +100,14 @@ importers:
         specifier: ^9.18.0
         version: 9.18.0
       '@types/node':
-        specifier: ^22.10.5
-        version: 22.10.5
+        specifier: ^22.10.6
+        version: 22.10.6
       '@types/react':
-        specifier: ^19.0.5
-        version: 19.0.5
+        specifier: ^19.0.6
+        version: 19.0.6
       '@vitejs/plugin-react':
         specifier: ^4.3.4
-        version: 4.3.4(vite@6.0.7(@types/node@22.10.5)(terser@5.37.0)(yaml@2.6.1))
+        version: 4.3.4(vite@6.0.7(@types/node@22.10.6)(terser@5.37.0)(yaml@2.6.1))
       depcheck:
         specifier: ^1.4.7
         version: 1.4.7
@@ -121,8 +121,8 @@ importers:
         specifier: ^7.2.1
         version: 7.2.1(eslint@9.18.0)
       eslint-plugin-react:
-        specifier: ^7.37.3
-        version: 7.37.3(eslint@9.18.0)
+        specifier: ^7.37.4
+        version: 7.37.4(eslint@9.18.0)
       eslint-plugin-react-hooks:
         specifier: ^5.1.0
         version: 5.1.0(eslint@9.18.0)
@@ -146,10 +146,10 @@ importers:
         version: 5.14.0(rollup@2.79.2)
       vite:
         specifier: ^6.0.7
-        version: 6.0.7(@types/node@22.10.5)(terser@5.37.0)(yaml@2.6.1)
+        version: 6.0.7(@types/node@22.10.6)(terser@5.37.0)(yaml@2.6.1)
       vite-plugin-pwa:
         specifier: ^0.21.1
-        version: 0.21.1(vite@6.0.7(@types/node@22.10.5)(terser@5.37.0)(yaml@2.6.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0)
+        version: 0.21.1(vite@6.0.7(@types/node@22.10.6)(terser@5.37.0)(yaml@2.6.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0)
       workbox-window:
         specifier: ^7.3.0
         version: 7.3.0
@@ -501,8 +501,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/plugin-transform-nullish-coalescing-operator@7.26.5':
-    resolution: {integrity: sha512-OHqczNm4NTQlW1ghrVY43FPoiRzbmzNVbcgVnMKZN/RQYezHUSdjACjaX50CD3B7UIAjv39+MlsrVDb3v741FA==}
+  '@babel/plugin-transform-nullish-coalescing-operator@7.26.6':
+    resolution: {integrity: sha512-CKW8Vu+uUZneQCPtXmSBUC6NCAUdya26hWCElAWh5mVSlSRsmiCPUUDKb3Z0szng1hiAJa098Hkhg9o4SE35Qw==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -1102,14 +1102,14 @@ packages:
   '@types/minimatch@3.0.5':
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
 
-  '@types/node@22.10.5':
-    resolution: {integrity: sha512-F8Q+SeGimwOo86fiovQh8qiXfFEh2/ocYv7tU5pJ3EXMSSxk1Joj5wefpFK2fHTf/N6HKGSxIDBT9f3gCxXPkQ==}
+  '@types/node@22.10.6':
+    resolution: {integrity: sha512-qNiuwC4ZDAUNcY47xgaSuS92cjf8JbSUoaKS77bmLG1rU7MlATVSiw/IlrjtIyyskXBZ8KkNfjK/P5na7rgXbQ==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
 
-  '@types/react@19.0.5':
-    resolution: {integrity: sha512-i4OQzFiqsUCfoBns/KHpz+4QcvfjoCsTUi+mugo3lrSRA3+x0gJVvhZhAJrwLGEqz4EXiFVP4hPnOugx+m2uhg==}
+  '@types/react@19.0.6':
+    resolution: {integrity: sha512-gIlMztcTeDgXCUj0vCBOqEuSEhX//63fW9SZtCJ+agxoQTOklwDfiEMlTWn4mR/C/UK5VHlpwsCsOyf7/hc4lw==}
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -1634,8 +1634,8 @@ packages:
     peerDependencies:
       eslint: '>=8.40'
 
-  eslint-plugin-react@7.37.3:
-    resolution: {integrity: sha512-DomWuTQPFYZwF/7c9W2fkKkStqZmBd3uugfqBYLdkZ3Hii23WzZuOLUskGxB8qkSKqftxEeGL1TB2kMhrce0jA==}
+  eslint-plugin-react@7.37.4:
+    resolution: {integrity: sha512-BGP0jRmfYyvOyvMoRX/uoUeW+GqNj9y16bPQzqAHf3AYII/tDs+jMN0dBVkl88/OZwNGwrVFxE7riHsXVfy/LQ==}
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
@@ -2495,8 +2495,8 @@ packages:
     resolution: {integrity: sha512-d7Uw+eZoloe0EHDIYoe+bQ5WXnGMOpmiZFTuMWCwpjzzkL2nTjcKiAk4hh8TjnGye2TwWOk3UXucZ+3rbmBa8Q==}
     engines: {node: '>= 0.4'}
 
-  postcss@8.4.49:
-    resolution: {integrity: sha512-OCVPnIObs4N29kxTjzLfUryOkvZEq+pf8jTF0lg8E7uETuWHA+v7j3c/xJmiqpX450191LlmZfUKkXxkTry7nA==}
+  postcss@8.5.0:
+    resolution: {integrity: sha512-27VKOqrYfPncKA2NrFOVhP5MGAfHKLYn/Q0mz9cNQyRAKYi3VNHwYU2qKKqPCqgBmeeJ0uAFB56NumXZ5ZReXg==}
     engines: {node: ^10 || ^12 || >=14}
 
   prelude-ls@1.2.1:
@@ -3295,7 +3295,7 @@ snapshots:
     dependencies:
       color: 3.2.1
 
-  '@arco-design/web-react@2.65.0(@types/react@19.0.5)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@arco-design/web-react@2.65.0(@types/react@19.0.6)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@arco-design/color': 0.4.0
       '@babel/runtime': 7.26.0
@@ -3307,7 +3307,7 @@ snapshots:
       number-precision: 1.6.0
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
-      react-focus-lock: 2.13.5(@types/react@19.0.5)(react@19.0.0)
+      react-focus-lock: 2.13.5(@types/react@19.0.6)(react@19.0.0)
       react-is: 18.3.1
       react-transition-group: 4.4.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       resize-observer-polyfill: 1.5.1
@@ -3713,7 +3713,7 @@ snapshots:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.26.5
 
-  '@babel/plugin-transform-nullish-coalescing-operator@7.26.5(@babel/core@7.26.0)':
+  '@babel/plugin-transform-nullish-coalescing-operator@7.26.6(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/helper-plugin-utils': 7.26.5
@@ -3900,7 +3900,7 @@ snapshots:
       '@babel/plugin-transform-modules-umd': 7.25.9(@babel/core@7.26.0)
       '@babel/plugin-transform-named-capturing-groups-regex': 7.25.9(@babel/core@7.26.0)
       '@babel/plugin-transform-new-target': 7.25.9(@babel/core@7.26.0)
-      '@babel/plugin-transform-nullish-coalescing-operator': 7.26.5(@babel/core@7.26.0)
+      '@babel/plugin-transform-nullish-coalescing-operator': 7.26.6(@babel/core@7.26.0)
       '@babel/plugin-transform-numeric-separator': 7.25.9(@babel/core@7.26.0)
       '@babel/plugin-transform-object-rest-spread': 7.25.9(@babel/core@7.26.0)
       '@babel/plugin-transform-object-super': 7.25.9(@babel/core@7.26.0)
@@ -4287,13 +4287,13 @@ snapshots:
 
   '@types/minimatch@3.0.5': {}
 
-  '@types/node@22.10.5':
+  '@types/node@22.10.6':
     dependencies:
       undici-types: 6.20.0
 
   '@types/parse-json@4.0.2': {}
 
-  '@types/react@19.0.5':
+  '@types/react@19.0.6':
     dependencies:
       csstype: 3.1.3
 
@@ -4303,14 +4303,14 @@ snapshots:
 
   '@types/unist@2.0.11': {}
 
-  '@vitejs/plugin-react@4.3.4(vite@6.0.7(@types/node@22.10.5)(terser@5.37.0)(yaml@2.6.1))':
+  '@vitejs/plugin-react@4.3.4(vite@6.0.7(@types/node@22.10.6)(terser@5.37.0)(yaml@2.6.1))':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/plugin-transform-react-jsx-self': 7.25.9(@babel/core@7.26.0)
       '@babel/plugin-transform-react-jsx-source': 7.25.9(@babel/core@7.26.0)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 6.0.7(@types/node@22.10.5)(terser@5.37.0)(yaml@2.6.1)
+      vite: 6.0.7(@types/node@22.10.6)(terser@5.37.0)(yaml@2.6.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -4336,7 +4336,7 @@ snapshots:
       '@vue/shared': 3.5.13
       estree-walker: 2.0.2
       magic-string: 0.30.17
-      postcss: 8.4.49
+      postcss: 8.5.0
       source-map-js: 1.2.1
 
   '@vue/compiler-ssr@3.5.13':
@@ -4967,7 +4967,7 @@ snapshots:
     dependencies:
       eslint: 9.18.0
 
-  eslint-plugin-react@7.37.3(eslint@9.18.0):
+  eslint-plugin-react@7.37.4(eslint@9.18.0):
     dependencies:
       array-includes: 3.1.8
       array.prototype.findlast: 1.2.5
@@ -5295,7 +5295,7 @@ snapshots:
       domhandler: 5.0.3
       htmlparser2: 10.0.0
 
-  html-react-parser@5.2.2(@types/react@19.0.5)(react@19.0.0):
+  html-react-parser@5.2.2(@types/react@19.0.6)(react@19.0.0):
     dependencies:
       domhandler: 5.0.3
       html-dom-parser: 5.0.13
@@ -5303,7 +5303,7 @@ snapshots:
       react-property: 2.0.2
       style-to-js: 1.1.16
     optionalDependencies:
-      '@types/react': 19.0.5
+      '@types/react': 19.0.6
 
   htmlparser2@10.0.0:
     dependencies:
@@ -5867,7 +5867,7 @@ snapshots:
 
   possible-typed-array-names@1.0.0: {}
 
-  postcss@8.4.49:
+  postcss@8.5.0:
     dependencies:
       nanoid: 3.3.8
       picocolors: 1.1.1
@@ -5913,17 +5913,17 @@ snapshots:
       react: 19.0.0
       scheduler: 0.25.0
 
-  react-focus-lock@2.13.5(@types/react@19.0.5)(react@19.0.0):
+  react-focus-lock@2.13.5(@types/react@19.0.6)(react@19.0.0):
     dependencies:
       '@babel/runtime': 7.26.0
       focus-lock: 1.3.6
       prop-types: 15.8.1
       react: 19.0.0
       react-clientside-effect: 1.2.7(react@19.0.0)
-      use-callback-ref: 1.3.3(@types/react@19.0.5)(react@19.0.0)
-      use-sidecar: 1.1.3(@types/react@19.0.5)(react@19.0.0)
+      use-callback-ref: 1.3.3(@types/react@19.0.6)(react@19.0.0)
+      use-sidecar: 1.1.3(@types/react@19.0.6)(react@19.0.0)
     optionalDependencies:
-      '@types/react': 19.0.5
+      '@types/react': 19.0.6
 
   react-hotkeys-hook@4.6.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
@@ -6143,7 +6143,7 @@ snapshots:
       htmlparser2: 8.0.2
       is-plain-object: 5.0.0
       parse-srcset: 1.0.2
-      postcss: 8.4.49
+      postcss: 8.5.0
 
   scheduler@0.25.0: {}
 
@@ -6484,20 +6484,20 @@ snapshots:
 
   url-polyfill@1.1.12: {}
 
-  use-callback-ref@1.3.3(@types/react@19.0.5)(react@19.0.0):
+  use-callback-ref@1.3.3(@types/react@19.0.6)(react@19.0.0):
     dependencies:
       react: 19.0.0
       tslib: 2.8.1
     optionalDependencies:
-      '@types/react': 19.0.5
+      '@types/react': 19.0.6
 
-  use-sidecar@1.1.3(@types/react@19.0.5)(react@19.0.0):
+  use-sidecar@1.1.3(@types/react@19.0.6)(react@19.0.0):
     dependencies:
       detect-node-es: 1.1.0
       react: 19.0.0
       tslib: 2.8.1
     optionalDependencies:
-      '@types/react': 19.0.5
+      '@types/react': 19.0.6
 
   validator@13.12.0: {}
 
@@ -6506,24 +6506,24 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
-  vite-plugin-pwa@0.21.1(vite@6.0.7(@types/node@22.10.5)(terser@5.37.0)(yaml@2.6.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0):
+  vite-plugin-pwa@0.21.1(vite@6.0.7(@types/node@22.10.6)(terser@5.37.0)(yaml@2.6.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0):
     dependencies:
       debug: 4.4.0
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.10
-      vite: 6.0.7(@types/node@22.10.5)(terser@5.37.0)(yaml@2.6.1)
+      vite: 6.0.7(@types/node@22.10.6)(terser@5.37.0)(yaml@2.6.1)
       workbox-build: 7.3.0(@types/babel__core@7.20.5)
       workbox-window: 7.3.0
     transitivePeerDependencies:
       - supports-color
 
-  vite@6.0.7(@types/node@22.10.5)(terser@5.37.0)(yaml@2.6.1):
+  vite@6.0.7(@types/node@22.10.6)(terser@5.37.0)(yaml@2.6.1):
     dependencies:
       esbuild: 0.24.2
-      postcss: 8.4.49
+      postcss: 8.5.0
       rollup: 4.30.1
     optionalDependencies:
-      '@types/node': 22.10.5
+      '@types/node': 22.10.6
       fsevents: 2.3.3
       terser: 5.37.0
       yaml: 2.6.1
