@@ -24,7 +24,7 @@
     "dayjs": "^1.11.13",
     "framer-motion": "^12.6.2",
     "highlight.js": "^11.11.1",
-    "hls.js": "^1.5.20",
+    "hls.js": "^1.6.0",
     "html-react-parser": "^5.2.2",
     "littlefoot": "^4.1.2",
     "lodash-es": "^4.17.21",
@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
-    "@types/node": "^22.13.13",
+    "@types/node": "^22.13.14",
     "@types/react": "^19.0.12",
     "@vitejs/plugin-react": "^4.3.4",
     "depcheck": "^1.4.7",

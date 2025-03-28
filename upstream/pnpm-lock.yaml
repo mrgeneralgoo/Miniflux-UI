@@ -36,8 +36,8 @@ importers:
         specifier: ^11.11.1
         version: 11.11.1
       hls.js:
-        specifier: ^1.5.20
-        version: 1.5.20
+        specifier: ^1.6.0
+        version: 1.6.0
       html-react-parser:
         specifier: ^5.2.2
         version: 5.2.2(@types/react@19.0.12)(react@19.0.0)
@@ -97,14 +97,14 @@ importers:
         specifier: ^9.23.0
         version: 9.23.0
       '@types/node':
-        specifier: ^22.13.13
-        version: 22.13.13
+        specifier: ^22.13.14
+        version: 22.13.14
       '@types/react':
         specifier: ^19.0.12
         version: 19.0.12
       '@vitejs/plugin-react':
         specifier: ^4.3.4
-        version: 4.3.4(vite@6.2.3(@types/node@22.13.13)(terser@5.39.0)(yaml@2.7.0))
+        version: 4.3.4(vite@6.2.3(@types/node@22.13.14)(terser@5.39.0)(yaml@2.7.0))
       depcheck:
         specifier: ^1.4.7
         version: 1.4.7
@@ -143,10 +143,10 @@ importers:
         version: 5.14.0(rollup@2.79.2)
       vite:
         specifier: ^6.2.3
-        version: 6.2.3(@types/node@22.13.13)(terser@5.39.0)(yaml@2.7.0)
+        version: 6.2.3(@types/node@22.13.14)(terser@5.39.0)(yaml@2.7.0)
       vite-plugin-pwa:
         specifier: ^0.21.2
-        version: 0.21.2(vite@6.2.3(@types/node@22.13.13)(terser@5.39.0)(yaml@2.7.0))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0)
+        version: 0.21.2(vite@6.2.3(@types/node@22.13.14)(terser@5.39.0)(yaml@2.7.0))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0)
       workbox-window:
         specifier: ^7.3.0
         version: 7.3.0
@@ -1111,8 +1111,8 @@ packages:
   '@types/minimatch@3.0.5':
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
 
-  '@types/node@22.13.13':
-    resolution: {integrity: sha512-ClsL5nMwKaBRwPcCvH8E7+nU4GxHVx1axNvMZTFHMEfNI7oahimt26P5zjVCRrjiIWj6YFXfE1v3dEp94wLcGQ==}
+  '@types/node@22.13.14':
+    resolution: {integrity: sha512-Zs/Ollc1SJ8nKUAgc7ivOEdIBM8JAKgrqqUYi2J997JuKO7/tpQC+WCetQ1sypiKCQWHdvdg9wBNpUPEWZae7w==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -1528,8 +1528,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.125:
-    resolution: {integrity: sha512-A2+qEsSUc95QvyFDl7PNwkDDNphIKBVfBBtWWkPGRbiWEgzLo0SvLygYF6HgzVduHd+4WGPB/WD64POFgwzY3g==}
+  electron-to-chromium@1.5.127:
+    resolution: {integrity: sha512-Ke5OggqOtEqzCzcUyV+9jgO6L6sv1gQVKGtSExXHjD/FK0p4qzPZbrDsrCdy0DptcQprD0V80RCBYSWLMhTTgQ==}
 
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
@@ -1928,8 +1928,8 @@ packages:
   highlightjs-vue@1.0.0:
     resolution: {integrity: sha512-PDEfEF102G23vHmPhLyPboFCD+BkMGu+GuJe2d9/eH4FsCwvgBpnc9n0pGE+ffKdph38s6foEZiEjdgHdzp+IA==}
 
-  hls.js@1.5.20:
-    resolution: {integrity: sha512-uu0VXUK52JhihhnN/MVVo1lvqNNuhoxkonqgO3IpjvQiGpJBdIXMGkofjQb/j9zvV7a1SW8U9g1FslWx/1HOiQ==}
+  hls.js@1.6.0:
+    resolution: {integrity: sha512-AlW8ymcDKZuKtzXCUmEy4nOcHRkebnShH6t6hC2+QJQP0WXlTUSSO9Kp22uSEYdCgpwkXEJsfOhqxrgO2tDctQ==}
 
   homedir-polyfill@1.0.3:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
@@ -4296,7 +4296,7 @@ snapshots:
 
   '@types/minimatch@3.0.5': {}
 
-  '@types/node@22.13.13':
+  '@types/node@22.13.14':
     dependencies:
       undici-types: 6.20.0
 
@@ -4312,14 +4312,14 @@ snapshots:
 
   '@types/unist@2.0.11': {}
 
-  '@vitejs/plugin-react@4.3.4(vite@6.2.3(@types/node@22.13.13)(terser@5.39.0)(yaml@2.7.0))':
+  '@vitejs/plugin-react@4.3.4(vite@6.2.3(@types/node@22.13.14)(terser@5.39.0)(yaml@2.7.0))':
     dependencies:
       '@babel/core': 7.26.10
       '@babel/plugin-transform-react-jsx-self': 7.25.9(@babel/core@7.26.10)
       '@babel/plugin-transform-react-jsx-source': 7.25.9(@babel/core@7.26.10)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 6.2.3(@types/node@22.13.13)(terser@5.39.0)(yaml@2.7.0)
+      vite: 6.2.3(@types/node@22.13.14)(terser@5.39.0)(yaml@2.7.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -4522,7 +4522,7 @@ snapshots:
   browserslist@4.24.4:
     dependencies:
       caniuse-lite: 1.0.30001707
-      electron-to-chromium: 1.5.125
+      electron-to-chromium: 1.5.127
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.24.4)
 
@@ -4776,7 +4776,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.5.125: {}
+  electron-to-chromium@1.5.127: {}
 
   emoji-regex@10.4.0: {}
 
@@ -5297,7 +5297,7 @@ snapshots:
 
   highlightjs-vue@1.0.0: {}
 
-  hls.js@1.5.20: {}
+  hls.js@1.6.0: {}
 
   homedir-polyfill@1.0.3:
     dependencies:
@@ -6502,24 +6502,24 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
-  vite-plugin-pwa@0.21.2(vite@6.2.3(@types/node@22.13.13)(terser@5.39.0)(yaml@2.7.0))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0):
+  vite-plugin-pwa@0.21.2(vite@6.2.3(@types/node@22.13.14)(terser@5.39.0)(yaml@2.7.0))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0):
     dependencies:
       debug: 4.4.0
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.12
-      vite: 6.2.3(@types/node@22.13.13)(terser@5.39.0)(yaml@2.7.0)
+      vite: 6.2.3(@types/node@22.13.14)(terser@5.39.0)(yaml@2.7.0)
       workbox-build: 7.3.0(@types/babel__core@7.20.5)
       workbox-window: 7.3.0
     transitivePeerDependencies:
       - supports-color
 
-  vite@6.2.3(@types/node@22.13.13)(terser@5.39.0)(yaml@2.7.0):
+  vite@6.2.3(@types/node@22.13.14)(terser@5.39.0)(yaml@2.7.0):
     dependencies:
       esbuild: 0.25.1
       postcss: 8.5.3
       rollup: 4.37.0
     optionalDependencies:
-      '@types/node': 22.13.13
+      '@types/node': 22.13.14
       fsevents: 2.3.3
       terser: 5.39.0
       yaml: 2.7.0
