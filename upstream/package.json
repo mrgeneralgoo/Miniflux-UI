@@ -22,7 +22,7 @@
     "canvas-confetti": "^1.9.3",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.13",
-    "framer-motion": "^12.6.2",
+    "framer-motion": "^12.6.3",
     "highlight.js": "^11.11.1",
     "hls.js": "^1.6.0",
     "html-react-parser": "^5.2.2",
@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
-    "@types/node": "^22.13.14",
+    "@types/node": "^22.13.17",
     "@types/react": "^19.0.12",
     "@vitejs/plugin-react": "^4.3.4",
     "depcheck": "^1.4.7",
