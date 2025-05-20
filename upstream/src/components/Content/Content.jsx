@@ -21,13 +21,7 @@ import useEntryActions from "@/hooks/useEntryActions"
 import useKeyHandlers from "@/hooks/useKeyHandlers"
 import { polyglotState } from "@/hooks/useLanguage"
 import useScreenWidth from "@/hooks/useScreenWidth"
-import {
-  contentState,
-  setActiveContent,
-  setInfoFrom,
-  setInfoId,
-  setOffset,
-} from "@/store/contentState"
+import { contentState, setActiveContent, setInfoFrom, setInfoId } from "@/store/contentState"
 import { dataState } from "@/store/dataState"
 import { duplicateHotkeysState, hotkeysState } from "@/store/hotkeysState"
 import { settingsState } from "@/store/settingsState"
@@ -77,6 +71,18 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     handleToggleStatus,
   } = useEntryActions()
 
+  const refreshArticleList = async (getEntries) => {
+    if (!isAppDataReady) {
+      await fetchAppData()
+    } else {
+      await fetchArticleList(getEntries)
+    }
+  }
+
+  const handleRefreshArticleList = () => {
+    refreshArticleList(getEntries)
+  }
+
   const hotkeyActions = {
     exitDetailView,
     fetchOriginalArticle: () => fetchOriginalArticle(handleFetchContent),
@@ -86,6 +92,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
     navigateToPreviousUnreadArticle: () => navigateToPreviousUnreadArticle(),
     openLinkExternally,
     openPhotoSlider,
+    refreshArticleList: handleRefreshArticleList,
     saveToThirdPartyServices: () => saveToThirdPartyServices(handleSaveToThirdPartyServices),
     showHotkeysSettings,
     toggleReadStatus: () => toggleReadStatus(() => handleToggleStatus(activeContent)),
@@ -95,16 +102,7 @@ const Content = ({ info, getEntries, markAllAsRead }) => {
   const removeConflictingKeys = (keys) => keys.filter((key) => !duplicateHotkeys.includes(key))
 
   for (const [key, action] of Object.entries(hotkeyActions)) {
-    useHotkeys(removeConflictingKeys(hotkeys[key]), action)
-  }
-
-  const refreshArticleList = async (getEntries) => {
-    setOffset(0)
-    if (!isAppDataReady) {
-      await fetchAppData()
-    } else {
-      await fetchArticleList(getEntries)
-    }
+    useHotkeys(removeConflictingKeys(hotkeys[key]), action, { useKey: true })
   }
 
   const handleSwiping = (eventData) => {
