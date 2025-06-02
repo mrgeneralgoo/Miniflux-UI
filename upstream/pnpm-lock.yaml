@@ -3379,8 +3379,8 @@ packages:
     peerDependencies:
       zod: ^3.24.4
 
-  zod@3.25.44:
-    resolution: {integrity: sha512-BVwH2PnqCwxUN+SNjzRL6kcGvvz1JuojtB+uZB1Hg8DA56Zqn0pjpIwMrb1IhUsF75DjpEe4fhxPKO6+AErqzw==}
+  zod@3.25.46:
+    resolution: {integrity: sha512-IqRxcHEIjqLd4LNS/zKffB3Jzg3NwqJxQQ0Ns7pdrvgGkwQsEBdEQcOHaBVqvvZArShRzI39+aMST3FBGmTrLQ==}
 
 snapshots:
 
@@ -5146,8 +5146,8 @@ snapshots:
       '@babel/plugin-proposal-private-methods': 7.18.6(@babel/core@7.27.4)
       eslint: 9.28.0
       hermes-parser: 0.25.1
-      zod: 3.25.44
-      zod-validation-error: 3.4.1(zod@3.25.44)
+      zod: 3.25.46
+      zod-validation-error: 3.4.1(zod@3.25.46)
     transitivePeerDependencies:
       - supports-color
 
@@ -6924,8 +6924,8 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod-validation-error@3.4.1(zod@3.25.44):
+  zod-validation-error@3.4.1(zod@3.25.46):
     dependencies:
-      zod: 3.25.44
+      zod: 3.25.46
 
-  zod@3.25.44: {}
+  zod@3.25.46: {}
