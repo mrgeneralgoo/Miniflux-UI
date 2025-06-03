@@ -36,8 +36,8 @@ importers:
         specifier: ^11.11.1
         version: 11.11.1
       hls.js:
-        specifier: ^1.6.4
-        version: 1.6.4
+        specifier: ^1.6.5
+        version: 1.6.5
       html-react-parser:
         specifier: ^5.2.5
         version: 5.2.5(@types/react@19.1.6)(react@19.1.0)
@@ -1162,8 +1162,8 @@ packages:
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
 
-  '@typescript-eslint/types@8.33.0':
-    resolution: {integrity: sha512-DKuXOKpM5IDT1FA2g9x9x1Ug81YuKrzf4mYX8FAVSNu5Wo/LELHWQyM1pQaDkI42bX15PWl0vNPt1uGiIFUOpg==}
+  '@typescript-eslint/types@8.33.1':
+    resolution: {integrity: sha512-xid1WfizGhy/TKMTwhtVOgalHwPtV8T32MS9MaH50Cwvz6x6YqRIPdD2WvW0XaqOzTV9p5xdLY0h/ZusU5Lokg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@unrs/resolver-binding-darwin-arm64@1.7.8':
@@ -1322,8 +1322,8 @@ packages:
     resolution: {integrity: sha512-THtfYS6KtME/yIAhKjZ2ul7XI96lQGHRputJQHO80LAWQnuGP4iCIN8vdMRboGbIEYBwU33q8Tch1os2+X0kMg==}
     engines: {node: '>=8'}
 
-  array-includes@3.1.8:
-    resolution: {integrity: sha512-itaWrbYbqpGXkGhZPGUulwnhVf5Hpy1xiCFsGqyIGglbBxmG5vSjxQen3/WGOjPpNEv1RtBLKxbmVXm8HpJStQ==}
+  array-includes@3.1.9:
+    resolution: {integrity: sha512-FmeCCAenzH0KH381SPT5FZmiA/TmpndpcaShhfgEN9eCVjnFBqq3l1xrI42y8+PPLI6hypzou4GXw00WHmPBLQ==}
     engines: {node: '>= 0.4'}
 
   array-union@2.1.0:
@@ -1645,8 +1645,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.161:
-    resolution: {integrity: sha512-hwtetwfKNZo/UlwHIVBlKZVdy7o8bIZxxKs0Mv/ROPiQQQmDgdm5a+KvKtBsxM8ZjFzTaCeLoodZ8jiBE3o9rA==}
+  electron-to-chromium@1.5.162:
+    resolution: {integrity: sha512-hQA+Zb5QQwoSaXJWEAGEw1zhk//O7qDzib05Z4qTqZfNju/FAkrm5ZInp0JbTp4Z18A6bilopdZWEYrFSsfllA==}
 
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
@@ -2046,8 +2046,8 @@ packages:
   highlightjs-vue@1.0.0:
     resolution: {integrity: sha512-PDEfEF102G23vHmPhLyPboFCD+BkMGu+GuJe2d9/eH4FsCwvgBpnc9n0pGE+ffKdph38s6foEZiEjdgHdzp+IA==}
 
-  hls.js@1.6.4:
-    resolution: {integrity: sha512-sxFS61suCMJBvpOhmi4WLnarOZ8S8JAxK5J1icvrkopE8aRMc1pRB9WZWMX5Obh9nieVEML6uLLeyGksapyX5A==}
+  hls.js@1.6.5:
+    resolution: {integrity: sha512-KMn5n7JBK+olC342740hDPHnGWfE8FiHtGMOdJPfUjRdARTWj9OB+8c13fnsf9sk1VtpuU2fKSgUjHvg4rNbzQ==}
 
   homedir-polyfill@1.0.3:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
@@ -3379,8 +3379,8 @@ packages:
     peerDependencies:
       zod: ^3.24.4
 
-  zod@3.25.46:
-    resolution: {integrity: sha512-IqRxcHEIjqLd4LNS/zKffB3Jzg3NwqJxQQ0Ns7pdrvgGkwQsEBdEQcOHaBVqvvZArShRzI39+aMST3FBGmTrLQ==}
+  zod@3.25.49:
+    resolution: {integrity: sha512-JMMPMy9ZBk3XFEdbM3iL1brx4NUSejd6xr3ELrrGEfGb355gjhiAWtG3K5o+AViV/3ZfkIrCzXsZn6SbLwTR8Q==}
 
 snapshots:
 
@@ -4447,7 +4447,7 @@ snapshots:
 
   '@types/unist@2.0.11': {}
 
-  '@typescript-eslint/types@8.33.0': {}
+  '@typescript-eslint/types@8.33.1': {}
 
   '@unrs/resolver-binding-darwin-arm64@1.7.8':
     optional: true
@@ -4593,14 +4593,16 @@ snapshots:
 
   array-differ@3.0.0: {}
 
-  array-includes@3.1.8:
+  array-includes@3.1.9:
     dependencies:
       call-bind: 1.0.8
+      call-bound: 1.0.4
       define-properties: 1.2.1
       es-abstract: 1.24.0
       es-object-atoms: 1.1.1
       get-intrinsic: 1.3.0
       is-string: 1.1.1
+      math-intrinsics: 1.1.0
 
   array-union@2.1.0: {}
 
@@ -4707,7 +4709,7 @@ snapshots:
   browserslist@4.25.0:
     dependencies:
       caniuse-lite: 1.0.30001720
-      electron-to-chromium: 1.5.161
+      electron-to-chromium: 1.5.162
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.25.0)
 
@@ -4959,7 +4961,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.5.161: {}
+  electron-to-chromium@1.5.162: {}
 
   emoji-regex@10.4.0: {}
 
@@ -5121,7 +5123,7 @@ snapshots:
 
   eslint-plugin-import-x@4.15.0(eslint@9.28.0):
     dependencies:
-      '@typescript-eslint/types': 8.33.0
+      '@typescript-eslint/types': 8.33.1
       comment-parser: 1.4.1
       debug: 4.4.1
       eslint: 9.28.0
@@ -5146,8 +5148,8 @@ snapshots:
       '@babel/plugin-proposal-private-methods': 7.18.6(@babel/core@7.27.4)
       eslint: 9.28.0
       hermes-parser: 0.25.1
-      zod: 3.25.46
-      zod-validation-error: 3.4.1(zod@3.25.46)
+      zod: 3.25.49
+      zod-validation-error: 3.4.1(zod@3.25.49)
     transitivePeerDependencies:
       - supports-color
 
@@ -5161,7 +5163,7 @@ snapshots:
 
   eslint-plugin-react@7.37.5(eslint@9.28.0):
     dependencies:
-      array-includes: 3.1.8
+      array-includes: 3.1.9
       array.prototype.findlast: 1.2.5
       array.prototype.flatmap: 1.3.3
       array.prototype.tosorted: 1.1.4
@@ -5473,7 +5475,7 @@ snapshots:
 
   highlightjs-vue@1.0.0: {}
 
-  hls.js@1.6.4: {}
+  hls.js@1.6.5: {}
 
   homedir-polyfill@1.0.3:
     dependencies:
@@ -5734,7 +5736,7 @@ snapshots:
 
   jsx-ast-utils@3.3.5:
     dependencies:
-      array-includes: 3.1.8
+      array-includes: 3.1.9
       array.prototype.flat: 1.3.3
       object.assign: 4.1.7
       object.values: 1.2.1
@@ -6924,8 +6926,8 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  zod-validation-error@3.4.1(zod@3.25.46):
+  zod-validation-error@3.4.1(zod@3.25.49):
     dependencies:
-      zod: 3.25.46
+      zod: 3.25.49
 
-  zod@3.25.46: {}
+  zod@3.25.49: {}
