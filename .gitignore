@@ -13,6 +13,8 @@ dist/
 build/
 *.tsbuildinfo
 process.js
+.wrangler
+.dev.vars*
 
 # Logs
 logs/

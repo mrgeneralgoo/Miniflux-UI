@@ -122,7 +122,7 @@ const removeGitDirectory = async (): Promise<void> => {
  * Updates dependencies in the upstream directory using ncu, npm, and pnpm.
  */
 const updateDependencies = async (): Promise<void> => {
-  const updateCmd = 'rm -rf package-lock.json pnpm-lock.yaml && ncu --target semver --install always -p npm -u && npm install --package-lock-only && pnpm import package-lock.json';
+  const updateCmd = 'rm -rf package-lock.json pnpm-lock.yaml && ncu --target semver --install always -p npm -u && npm install --package-lock-only && pnpm import package-lock.json && npm i -D @cloudflare/vite-plugin wrangler';
   return new Promise((resolve, reject) => {
     exec(updateCmd, { cwd: SOURCE_DIRECTORY }, (error, stdout, stderr) => {
       if (error) {
