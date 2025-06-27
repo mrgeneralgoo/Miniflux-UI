@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "cheerio": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.35",
+    "@types/node": "^24.0.4",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "build": "tsc process.ts"
+  }
+}

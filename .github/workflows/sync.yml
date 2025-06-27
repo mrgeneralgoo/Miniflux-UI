@@ -18,11 +18,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Check out the repository
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # Set up Node.js environment
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
@@ -33,33 +31,28 @@ jobs:
       with:
         version: 'latest'
       
-    # Install required dependencies
     - name: Install dependencies
       run: |
         npm install -g npm-check-updates
+        npm install
         rm -rf upstream
 
-    # Check out the upstream repository
     - name: Sync upstream repository
       uses: actions/checkout@v4
       with:
         repository: electh/ReactFlux
         path: upstream
 
-    # Run custom processing script
-    - name: Custom process
-      working-directory: ./upstream
+    - name: Run processing script
       run: |
-        rm -rf .git
-        chmod +x ../.github/workflows/custom.sh
-        ../.github/workflows/custom.sh
+        npm run build
+        node process.js
 
-    # Commit and push changes
     - name: Commit changes
       run: |
         date +"%Y-%m-%d %H:%M:%S" > generated.txt
         git config user.name "github-actions[bot]"
-        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
         git add .
-        git commit -m "Sync with upstream repo"
+        git commit -m "chore: Sync with upstream repo"
         git push
