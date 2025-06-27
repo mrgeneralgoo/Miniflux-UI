@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "cheerio": "^1.1.0"
+    "cheerio": "^1.1.0",
+    "wrangler": "^4.22.0"
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.35",
@@ -8,6 +9,7 @@
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "build": "tsc process.ts"
+    "build": "tsc process.ts",
+    "generate-types": "wrangler types"
   }
 }
