@@ -15,8 +15,8 @@ importers:
         specifier: ^2.66.1
         version: 2.66.1(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@nanostores/persistent':
-        specifier: ^1.0.0
-        version: 1.0.0(nanostores@1.0.1)
+        specifier: ^1.1.0
+        version: 1.1.0(nanostores@1.0.1)
       '@nanostores/react':
         specifier: ^1.0.0
         version: 1.0.0(nanostores@1.0.1)(react@18.3.1)
@@ -1270,8 +1270,8 @@ packages:
   '@mjackson/node-fetch-server@0.6.1':
     resolution: {integrity: sha512-9ZJnk/DJjt805uv5PPv11haJIW+HHf3YEEyVXv+8iLQxLD/iXA68FH220XoiTPBC4gCg5q+IMadDw8qPqlA5wg==}
 
-  '@nanostores/persistent@1.0.0':
-    resolution: {integrity: sha512-iuucWTxcxSLwHvcxBTIAwofDc+KO7cw5EiQklAltJX6Ynx/CKTecOCUG76kF42yNnCZZQcMeuIcl99DkxekIig==}
+  '@nanostores/persistent@1.1.0':
+    resolution: {integrity: sha512-e6vfv7H99VkCfSoNTR/qNVMj6vXwWcsEL+LCQQamej5GK9iDefKxPCJjdOpBi1p4lNCFIQ+9VjYF1spvvc2p6A==}
     engines: {node: ^20.0.0 || >=22.0.0}
     peerDependencies:
       nanostores: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^1.0.0
@@ -4969,7 +4969,7 @@ snapshots:
 
   '@mjackson/node-fetch-server@0.6.1': {}
 
-  '@nanostores/persistent@1.0.0(nanostores@1.0.1)':
+  '@nanostores/persistent@1.1.0(nanostores@1.0.1)':
     dependencies:
       nanostores: 1.0.1
 
