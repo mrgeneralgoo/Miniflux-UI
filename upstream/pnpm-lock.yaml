@@ -94,8 +94,8 @@ importers:
         version: 0.41.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@cloudflare/vite-plugin':
-        specifier: ^1.11.1
-        version: 1.11.1(rollup@2.79.2)(vite@7.0.6(@types/node@24.2.0)(terser@5.43.1)(yaml@2.8.1))(workerd@1.20250803.0)(wrangler@4.28.0)
+        specifier: ^1.11.2
+        version: 1.11.2(rollup@2.79.2)(vite@7.0.6(@types/node@24.2.0)(terser@5.43.1)(yaml@2.8.1))(workerd@1.20250803.0)(wrangler@4.28.0)
       '@eslint/js':
         specifier: ^9.32.0
         version: 9.32.0
@@ -720,11 +720,11 @@ packages:
       workerd:
         optional: true
 
-  '@cloudflare/vite-plugin@1.11.1':
-    resolution: {integrity: sha512-ITVdyIE2yhw63gQqabpDGu4AdZ50t0bBuN8b89niJ24UaXox/TLm2WTp5aupaBEvkjxt4OVJ+Dn5bytJfS60Ow==}
+  '@cloudflare/vite-plugin@1.11.2':
+    resolution: {integrity: sha512-iY/XTYE3TCZLXaIYGljGQeG81XmUkQ2ZOqzVs56a+5QQyxkA9S8sqfBh/FX0vwzUASLFVUru0WsyqCB4fxrSAA==}
     peerDependencies:
       vite: ^6.1.0 || ^7.0.0
-      wrangler: ^4.28.0
+      wrangler: ^4.28.1
 
   '@cloudflare/workerd-darwin-64@1.20250803.0':
     resolution: {integrity: sha512-6QciMnJp1p3F1qUiN0LaLfmw7SuZA/gfUBOe8Ft81pw16JYZ3CyiqIKPJvc1SV8jgDx8r+gz/PRi1NwOMt329A==}
@@ -4601,7 +4601,7 @@ snapshots:
     optionalDependencies:
       workerd: 1.20250803.0
 
-  '@cloudflare/vite-plugin@1.11.1(rollup@2.79.2)(vite@7.0.6(@types/node@24.2.0)(terser@5.43.1)(yaml@2.8.1))(workerd@1.20250803.0)(wrangler@4.28.0)':
+  '@cloudflare/vite-plugin@1.11.2(rollup@2.79.2)(vite@7.0.6(@types/node@24.2.0)(terser@5.43.1)(yaml@2.8.1))(workerd@1.20250803.0)(wrangler@4.28.0)':
     dependencies:
       '@cloudflare/unenv-preset': 2.6.0(unenv@2.0.0-rc.19)(workerd@1.20250803.0)
       '@mjackson/node-fetch-server': 0.6.1
