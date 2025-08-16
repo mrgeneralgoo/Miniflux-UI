@@ -72,8 +72,8 @@ importers:
         specifier: ^9.16.0
         version: 9.16.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router:
-        specifier: ^7.8.0
-        version: 7.8.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^7.8.1
+        version: 7.8.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-swipeable:
         specifier: ^7.0.2
         version: 7.0.2(react@18.3.1)
@@ -95,13 +95,13 @@ importers:
     devDependencies:
       '@cloudflare/vite-plugin':
         specifier: ^1.11.5
-        version: 1.11.5(rollup@2.79.2)(vite@7.1.2(@types/node@24.2.1)(terser@5.43.1)(yaml@2.8.1))(workerd@1.20250813.0)(wrangler@4.30.0)
+        version: 1.11.5(rollup@2.79.2)(vite@7.1.2(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1))(workerd@1.20250813.0)(wrangler@4.30.0)
       '@eslint/js':
         specifier: ^9.33.0
         version: 9.33.0
       '@types/node':
-        specifier: ^24.2.1
-        version: 24.2.1
+        specifier: ^24.3.0
+        version: 24.3.0
       '@types/react':
         specifier: ^18.3.23
         version: 18.3.23
@@ -110,7 +110,7 @@ importers:
         version: 18.3.7(@types/react@18.3.23)
       '@vitejs/plugin-react':
         specifier: ^5.0.0
-        version: 5.0.0(vite@7.1.2(@types/node@24.2.1)(terser@5.43.1)(yaml@2.8.1))
+        version: 5.0.0(vite@7.1.2(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1))
       babel-plugin-react-compiler:
         specifier: 19.1.0-rc.2
         version: 19.1.0-rc.2
@@ -161,10 +161,10 @@ importers:
         version: 2.13.1
       vite:
         specifier: ^7.1.2
-        version: 7.1.2(@types/node@24.2.1)(terser@5.43.1)(yaml@2.8.1)
+        version: 7.1.2(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1)
       vite-plugin-pwa:
         specifier: ^1.0.2
-        version: 1.0.2(vite@7.1.2(@types/node@24.2.1)(terser@5.43.1)(yaml@2.8.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0)
+        version: 1.0.2(vite@7.1.2(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0)
       workbox-window:
         specifier: ^7.3.0
         version: 7.3.0
@@ -1503,8 +1503,8 @@ packages:
   '@types/minimatch@3.0.5':
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
 
-  '@types/node@24.2.1':
-    resolution: {integrity: sha512-DRh5K+ka5eJic8CjH7td8QpYEV6Zo10gfRkjHCO3weqZHWDtAaSTFtl4+VMqOJ4N5jcuhZ9/l+yy8rVgw7BQeQ==}
+  '@types/node@24.3.0':
+    resolution: {integrity: sha512-aPTXCrfwnDLj4VvXrm+UUCQjNEvJgNA8s5F1cvwQU+3KNltTOkBm1j30uNLyqqPNe7gE3KFzImYoZEfLhp4Yow==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -2045,8 +2045,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.201:
-    resolution: {integrity: sha512-ZG65vsrLClodGqywuigc+7m0gr4ISoTQttfVh7nfpLv0M7SIwF4WbFNEOywcqTiujs12AUeeXbFyQieDICAIxg==}
+  electron-to-chromium@1.5.202:
+    resolution: {integrity: sha512-NxbYjRmiHcHXV1Ws3fWUW+SLb62isauajk45LUJ/HgIOkUA7jLZu/X2Iif+X9FBNK8QkF9Zb4Q2mcwXCcY30mg==}
 
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
@@ -3131,8 +3131,8 @@ packages:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
     engines: {node: '>=0.10.0'}
 
-  react-router@7.8.0:
-    resolution: {integrity: sha512-r15M3+LHKgM4SOapNmsH3smAizWds1vJ0Z9C4mWaKnT9/wD7+d/0jYcj6LmOvonkrO4Rgdyp4KQ/29gWN2i1eg==}
+  react-router@7.8.1:
+    resolution: {integrity: sha512-5cy/M8DHcG51/KUIka1nfZ2QeylS4PJRs6TT8I4PF5axVsI5JUxp0hC0NZ/AEEj8Vw7xsEoD7L/6FY+zoYaOGA==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
@@ -4610,7 +4610,7 @@ snapshots:
     optionalDependencies:
       workerd: 1.20250813.0
 
-  '@cloudflare/vite-plugin@1.11.5(rollup@2.79.2)(vite@7.1.2(@types/node@24.2.1)(terser@5.43.1)(yaml@2.8.1))(workerd@1.20250813.0)(wrangler@4.30.0)':
+  '@cloudflare/vite-plugin@1.11.5(rollup@2.79.2)(vite@7.1.2(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1))(workerd@1.20250813.0)(wrangler@4.30.0)':
     dependencies:
       '@cloudflare/unenv-preset': 2.6.1(unenv@2.0.0-rc.19)(workerd@1.20250813.0)
       '@mjackson/node-fetch-server': 0.6.1
@@ -4620,7 +4620,7 @@ snapshots:
       picocolors: 1.1.1
       tinyglobby: 0.2.14
       unenv: 2.0.0-rc.19
-      vite: 7.1.2(@types/node@24.2.1)(terser@5.43.1)(yaml@2.8.1)
+      vite: 7.1.2(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1)
       wrangler: 4.30.0
       ws: 8.18.0
     transitivePeerDependencies:
@@ -5185,7 +5185,7 @@ snapshots:
 
   '@types/minimatch@3.0.5': {}
 
-  '@types/node@24.2.1':
+  '@types/node@24.3.0':
     dependencies:
       undici-types: 7.10.0
 
@@ -5269,7 +5269,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
-  '@vitejs/plugin-react@5.0.0(vite@7.1.2(@types/node@24.2.1)(terser@5.43.1)(yaml@2.8.1))':
+  '@vitejs/plugin-react@5.0.0(vite@7.1.2(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1))':
     dependencies:
       '@babel/core': 7.28.3
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.3)
@@ -5277,7 +5277,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.30
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 7.1.2(@types/node@24.2.1)(terser@5.43.1)(yaml@2.8.1)
+      vite: 7.1.2(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -5482,7 +5482,7 @@ snapshots:
   browserslist@4.25.2:
     dependencies:
       caniuse-lite: 1.0.30001735
-      electron-to-chromium: 1.5.201
+      electron-to-chromium: 1.5.202
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.25.2)
 
@@ -5743,7 +5743,7 @@ snapshots:
     dependencies:
       jake: 10.9.4
 
-  electron-to-chromium@1.5.201: {}
+  electron-to-chromium@1.5.202: {}
 
   emoji-regex@10.4.0: {}
 
@@ -6955,7 +6955,7 @@ snapshots:
 
   react-refresh@0.17.0: {}
 
-  react-router@7.8.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-router@7.8.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       cookie: 1.0.2
       react: 18.3.1
@@ -7563,18 +7563,18 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  vite-plugin-pwa@1.0.2(vite@7.1.2(@types/node@24.2.1)(terser@5.43.1)(yaml@2.8.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0):
+  vite-plugin-pwa@1.0.2(vite@7.1.2(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0):
     dependencies:
       debug: 4.4.1
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.14
-      vite: 7.1.2(@types/node@24.2.1)(terser@5.43.1)(yaml@2.8.1)
+      vite: 7.1.2(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1)
       workbox-build: 7.3.0(@types/babel__core@7.20.5)
       workbox-window: 7.3.0
     transitivePeerDependencies:
       - supports-color
 
-  vite@7.1.2(@types/node@24.2.1)(terser@5.43.1)(yaml@2.8.1):
+  vite@7.1.2(@types/node@24.3.0)(terser@5.43.1)(yaml@2.8.1):
     dependencies:
       esbuild: 0.25.9
       fdir: 6.5.0(picomatch@4.0.3)
@@ -7583,7 +7583,7 @@ snapshots:
       rollup: 4.46.2
       tinyglobby: 0.2.14
     optionalDependencies:
-      '@types/node': 24.2.1
+      '@types/node': 24.3.0
       fsevents: 2.3.3
       terser: 5.43.1
       yaml: 2.8.1
