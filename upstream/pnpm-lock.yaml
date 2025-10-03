@@ -95,7 +95,7 @@ importers:
     devDependencies:
       '@cloudflare/vite-plugin':
         specifier: ^1.13.9
-        version: 1.13.9(vite@7.1.9(@types/node@24.6.2)(terser@5.44.0)(yaml@2.8.1))(workerd@1.20251001.0)(wrangler@4.41.0)
+        version: 1.13.9(vite@7.1.9(@types/node@24.6.2)(terser@5.44.0)(yaml@2.8.1))(workerd@1.20251001.0)(wrangler@4.42.0)
       '@eslint/js':
         specifier: ^9.36.0
         version: 9.36.0
@@ -172,8 +172,8 @@ importers:
         specifier: ^7.3.0
         version: 7.3.0
       wrangler:
-        specifier: ^4.41.0
-        version: 4.41.0
+        specifier: ^4.42.0
+        version: 4.42.0
 
 packages:
 
@@ -715,6 +715,15 @@ packages:
     peerDependencies:
       unenv: 2.0.0-rc.21
       workerd: ^1.20250924.0
+    peerDependenciesMeta:
+      workerd:
+        optional: true
+
+  '@cloudflare/unenv-preset@2.7.6':
+    resolution: {integrity: sha512-ykG2nd3trk6jbknRCH69xL3RpGLLbKCrbTbWSOvKEq7s4jH06yLrQlRr/q9IU+dK9p1JY1EXqhFK7VG5KqhzmQ==}
+    peerDependencies:
+      unenv: 2.0.0-rc.21
+      workerd: ^1.20250927.0
     peerDependenciesMeta:
       workerd:
         optional: true
@@ -3832,8 +3841,8 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
-  wrangler@4.41.0:
-    resolution: {integrity: sha512-SPiBk/5SgCSIdcWw8EXc8DzqtrjbIU+/n22fQjyz4RnULAqCFJjy84F5crcWnb1J/iPiOzm7mS9bMGFFtpwS/w==}
+  wrangler@4.42.0:
+    resolution: {integrity: sha512-OZXiUSfGD66OVkncDbjZtqrsH6bWPRQMYc6RmMbkzYm/lEvJ8lvARKcqDgEyq8zDAgJAivlMQLyPtKQoVjQ/4g==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     peerDependencies:
@@ -4653,7 +4662,13 @@ snapshots:
     optionalDependencies:
       workerd: 1.20251001.0
 
-  '@cloudflare/vite-plugin@1.13.9(vite@7.1.9(@types/node@24.6.2)(terser@5.44.0)(yaml@2.8.1))(workerd@1.20251001.0)(wrangler@4.41.0)':
+  '@cloudflare/unenv-preset@2.7.6(unenv@2.0.0-rc.21)(workerd@1.20251001.0)':
+    dependencies:
+      unenv: 2.0.0-rc.21
+    optionalDependencies:
+      workerd: 1.20251001.0
+
+  '@cloudflare/vite-plugin@1.13.9(vite@7.1.9(@types/node@24.6.2)(terser@5.44.0)(yaml@2.8.1))(workerd@1.20251001.0)(wrangler@4.42.0)':
     dependencies:
       '@cloudflare/unenv-preset': 2.7.5(unenv@2.0.0-rc.21)(workerd@1.20251001.0)
       '@remix-run/node-fetch-server': 0.8.1
@@ -4663,7 +4678,7 @@ snapshots:
       tinyglobby: 0.2.15
       unenv: 2.0.0-rc.21
       vite: 7.1.9(@types/node@24.6.2)(terser@5.44.0)(yaml@2.8.1)
-      wrangler: 4.41.0
+      wrangler: 4.42.0
       ws: 8.18.0
     transitivePeerDependencies:
       - bufferutil
@@ -7864,10 +7879,10 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20251001.0
       '@cloudflare/workerd-windows-64': 1.20251001.0
 
-  wrangler@4.41.0:
+  wrangler@4.42.0:
     dependencies:
       '@cloudflare/kv-asset-handler': 0.4.0
-      '@cloudflare/unenv-preset': 2.7.5(unenv@2.0.0-rc.21)(workerd@1.20251001.0)
+      '@cloudflare/unenv-preset': 2.7.6(unenv@2.0.0-rc.21)(workerd@1.20251001.0)
       blake3-wasm: 2.1.5
       esbuild: 0.25.4
       miniflare: 4.20251001.0
