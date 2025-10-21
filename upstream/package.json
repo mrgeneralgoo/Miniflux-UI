@@ -11,12 +11,13 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepare": "simple-git-hooks",
-    "prebuild": "node src/scripts/version-info.js"
+    "prebuild": "node src/scripts/version-info.js",
+    "update-fonts": "node scripts/update-fonts.js"
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",
     "@arco-design/web-react": "^2.66.6",
-    "@nanostores/persistent": "^1.1.0",
+    "@nanostores/persistent": "^1.2.0",
     "@nanostores/react": "^1.0.0",
     "canvas-confetti": "^1.9.3",
     "classnames": "^2.5.1",
@@ -46,7 +47,7 @@
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.13.13",
     "@eslint/js": "^9.38.0",
-    "@types/node": "^24.8.1",
+    "@types/node": "^24.9.1",
     "@types/react": "^18.3.26",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^5.0.4",
@@ -62,12 +63,12 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "eslint-plugin-unicorn": "^61.0.2",
     "globals": "^16.4.0",
-    "lint-staged": "^16.2.4",
+    "lint-staged": "^16.2.5",
     "prettier": "^3.6.2",
     "react-compiler-runtime": "19.1.0-rc.3",
     "rollup-plugin-visualizer": "^6.0.5",
     "simple-git-hooks": "2.13.1",
-    "vite": "^7.1.10",
+    "vite": "^7.1.11",
     "vite-plugin-pwa": "^1.1.0",
     "workbox-window": "^7.3.0",
     "wrangler": "^4.43.0"
