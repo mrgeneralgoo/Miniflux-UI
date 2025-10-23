@@ -95,7 +95,7 @@ importers:
     devDependencies:
       '@cloudflare/vite-plugin':
         specifier: ^1.13.14
-        version: 1.13.14(vite@7.1.11(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))(workerd@1.20251011.0)(wrangler@4.44.0)
+        version: 1.13.14(vite@7.1.12(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))(workerd@1.20251011.0)(wrangler@4.44.0)
       '@eslint/js':
         specifier: ^9.38.0
         version: 9.38.0
@@ -110,7 +110,7 @@ importers:
         version: 18.3.7(@types/react@18.3.26)
       '@vitejs/plugin-react':
         specifier: ^5.0.4
-        version: 5.0.4(vite@7.1.11(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))
+        version: 5.0.4(vite@7.1.12(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))
       babel-plugin-react-compiler:
         specifier: 19.1.0-rc.3
         version: 19.1.0-rc.3
@@ -163,11 +163,11 @@ importers:
         specifier: 2.13.1
         version: 2.13.1
       vite:
-        specifier: ^7.1.11
-        version: 7.1.11(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1)
+        specifier: ^7.1.12
+        version: 7.1.12(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1)
       vite-plugin-pwa:
         specifier: ^1.1.0
-        version: 1.1.0(vite@7.1.11(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0)
+        version: 1.1.0(vite@7.1.12(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0)
       workbox-window:
         specifier: ^7.3.0
         version: 7.3.0
@@ -3708,8 +3708,8 @@ packages:
       '@vite-pwa/assets-generator':
         optional: true
 
-  vite@7.1.11:
-    resolution: {integrity: sha512-uzcxnSDVjAopEUjljkWh8EIrg6tlzrjFUfMcR1EVsRDGwf/ccef0qQPRyOrROwhrTDaApueq+ja+KLPlzR/zdg==}
+  vite@7.1.12:
+    resolution: {integrity: sha512-ZWyE8YXEXqJrrSLvYgrRP7p62OziLW7xI5HYGWFzOvupfAlrLvURSzv/FyGyy0eidogEM3ujU+kUG1zuHgb6Ug==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -4661,7 +4661,7 @@ snapshots:
     optionalDependencies:
       workerd: 1.20251011.0
 
-  '@cloudflare/vite-plugin@1.13.14(vite@7.1.11(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))(workerd@1.20251011.0)(wrangler@4.44.0)':
+  '@cloudflare/vite-plugin@1.13.14(vite@7.1.12(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))(workerd@1.20251011.0)(wrangler@4.44.0)':
     dependencies:
       '@cloudflare/unenv-preset': 2.7.8(unenv@2.0.0-rc.21)(workerd@1.20251011.0)
       '@remix-run/node-fetch-server': 0.8.1
@@ -4670,7 +4670,7 @@ snapshots:
       picocolors: 1.1.1
       tinyglobby: 0.2.15
       unenv: 2.0.0-rc.21
-      vite: 7.1.11(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1)
+      vite: 7.1.12(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1)
       wrangler: 4.44.0
       ws: 8.18.0
     transitivePeerDependencies:
@@ -5331,7 +5331,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
-  '@vitejs/plugin-react@5.0.4(vite@7.1.11(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))':
+  '@vitejs/plugin-react@5.0.4(vite@7.1.12(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))':
     dependencies:
       '@babel/core': 7.28.4
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.4)
@@ -5339,7 +5339,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.38
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 7.1.11(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1)
+      vite: 7.1.12(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -7680,18 +7680,18 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  vite-plugin-pwa@1.1.0(vite@7.1.11(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0):
+  vite-plugin-pwa@1.1.0(vite@7.1.12(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0):
     dependencies:
       debug: 4.4.3
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.15
-      vite: 7.1.11(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1)
+      vite: 7.1.12(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1)
       workbox-build: 7.3.0(@types/babel__core@7.20.5)
       workbox-window: 7.3.0
     transitivePeerDependencies:
       - supports-color
 
-  vite@7.1.11(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1):
+  vite@7.1.12(@types/node@24.9.1)(terser@5.44.0)(yaml@2.8.1):
     dependencies:
       esbuild: 0.25.11
       fdir: 6.5.0(picomatch@4.0.3)
