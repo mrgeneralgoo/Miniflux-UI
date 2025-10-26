@@ -19,7 +19,7 @@
     "@arco-design/web-react": "^2.66.6",
     "@nanostores/persistent": "^1.2.0",
     "@nanostores/react": "^1.0.0",
-    "canvas-confetti": "^1.9.3",
+    "canvas-confetti": "^1.9.4",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.18",
     "framer-motion": "^12.23.24",
