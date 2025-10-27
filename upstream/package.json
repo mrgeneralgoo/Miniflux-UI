@@ -26,7 +26,7 @@
     "highlight.js": "^11.11.1",
     "hls.js": "^1.6.13",
     "html-react-parser": "^5.2.7",
-    "littlefoot": "^4.1.2",
+    "littlefoot": "^4.1.3",
     "lodash-es": "^4.17.21",
     "nanostores": "^1.0.1",
     "node-polyglot": "^2.6.0",
@@ -40,7 +40,7 @@
     "react-swipeable": "^7.0.2",
     "react-syntax-highlighter": "^15.6.6",
     "simplebar-react": "^3.3.2",
-    "validator": "^13.15.15",
+    "validator": "^13.15.20",
     "virtua": "^0.45.3",
     "yet-another-react-lightbox": "^3.25.0"
   },
