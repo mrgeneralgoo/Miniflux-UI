@@ -1,6 +1,6 @@
 # Stage 1: Build the React application
 # Specify the version to ensure consistent builds
-FROM node:22-alpine AS build
+FROM node:24-alpine AS build
 
 # Install git and pnpm
 RUN apk add --no-cache git && \
