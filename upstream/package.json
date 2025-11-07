@@ -45,7 +45,7 @@
     "yet-another-react-lightbox": "^3.25.0"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.13.19",
+    "@cloudflare/vite-plugin": "^1.14.0",
     "@eslint/js": "^9.39.1",
     "@types/node": "^24.10.0",
     "@types/react": "^18.3.26",
@@ -68,10 +68,10 @@
     "react-compiler-runtime": "19.1.0-rc.3",
     "rollup-plugin-visualizer": "^6.0.5",
     "simple-git-hooks": "2.13.1",
-    "vite": "^7.2.0",
+    "vite": "^7.2.1",
     "vite-plugin-pwa": "^1.1.0",
     "workbox-window": "^7.3.0",
-    "wrangler": "^4.45.4"
+    "wrangler": "^4.46.0"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"
