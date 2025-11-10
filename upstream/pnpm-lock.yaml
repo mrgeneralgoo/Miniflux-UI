@@ -84,8 +84,8 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2(react@18.3.1)
       validator:
-        specifier: ^13.15.20
-        version: 13.15.20
+        specifier: ^13.15.22
+        version: 13.15.22
       virtua:
         specifier: ^0.45.3
         version: 0.45.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3654,8 +3654,8 @@ packages:
       '@types/react':
         optional: true
 
-  validator@13.15.20:
-    resolution: {integrity: sha512-KxPOq3V2LmfQPP4eqf3Mq/zrT0Dqp2Vmx2Bn285LwVahLc+CsxOM0crBHczm8ijlcjZ0Q5Xd6LW3z3odTPnlrw==}
+  validator@13.15.22:
+    resolution: {integrity: sha512-uT/YQjiyLJP7HSrv/dPZqK9L28xf8hsNca01HSz1dfmI0DgMfjopp1rO/z13NeGF1tVystF0Ejx3y4rUKPw+bQ==}
     engines: {node: '>= 0.10'}
 
   virtua@0.45.3:
@@ -7633,7 +7633,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.26
 
-  validator@13.15.20: {}
+  validator@13.15.22: {}
 
   virtua@0.45.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     optionalDependencies:
