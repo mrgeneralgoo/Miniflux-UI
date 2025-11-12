@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",
-    "@arco-design/web-react": "^2.66.7",
+    "@arco-design/web-react": "^2.66.8",
     "@nanostores/persistent": "^1.2.0",
     "@nanostores/react": "^1.0.0",
     "canvas-confetti": "^1.9.4",
@@ -45,9 +45,9 @@
     "yet-another-react-lightbox": "^3.25.0"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.14.0",
+    "@cloudflare/vite-plugin": "^1.14.1",
     "@eslint/js": "^9.39.1",
-    "@types/node": "^24.10.0",
+    "@types/node": "^24.10.1",
     "@types/react": "^18.3.26",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^5.1.0",
@@ -71,7 +71,7 @@
     "vite": "^7.2.2",
     "vite-plugin-pwa": "^1.1.0",
     "workbox-window": "^7.3.0",
-    "wrangler": "^4.46.0"
+    "wrangler": "^4.47.0"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"
