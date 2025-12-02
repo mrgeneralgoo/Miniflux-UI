@@ -22,7 +22,7 @@
     "canvas-confetti": "^1.9.4",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.19",
-    "framer-motion": "^12.23.24",
+    "framer-motion": "^12.23.25",
     "highlight.js": "^11.11.1",
     "hls.js": "^1.6.15",
     "html-react-parser": "^5.2.10",
@@ -68,7 +68,7 @@
     "react-compiler-runtime": "19.1.0-rc.3",
     "rollup-plugin-visualizer": "^6.0.5",
     "simple-git-hooks": "2.13.1",
-    "vite": "^7.2.4",
+    "vite": "^7.2.6",
     "vite-plugin-pwa": "^1.2.0",
     "workbox-window": "^7.4.0",
     "wrangler": "^4.51.0"
