@@ -35,13 +35,13 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hotkeys-hook": "^5.2.1",
-    "react-intersection-observer": "^9.16.0",
+    "react-intersection-observer": "^10.0.0",
     "react-router": "^7.10.1",
     "react-swipeable": "^7.0.2",
-    "react-syntax-highlighter": "^15.6.6",
+    "react-syntax-highlighter": "^16.1.0",
     "simplebar-react": "^3.3.2",
     "validator": "^13.15.23",
-    "virtua": "^0.45.3",
+    "virtua": "^0.46.7",
     "yet-another-react-lightbox": "^3.26.0"
   },
   "devDependencies": {
