@@ -15,8 +15,9 @@ import {
   IconSortDescending,
 } from "@arco-design/web-react/icon"
 import { useStore } from "@nanostores/react"
-import { Fragment, memo, useEffect, useMemo, useRef, useState } from "react"
-import { useLocation, useParams } from "react-router"
+import { atom } from "nanostores"
+import { Fragment, memo, useMemo, useState } from "react"
+import { useParams } from "react-router"
 
 import SidebarTrigger from "./SidebarTrigger.jsx"
 
@@ -33,20 +34,20 @@ import {
 import { categoriesState, feedsState } from "@/store/dataState"
 import { settingsState, updateSettings } from "@/store/settingsState"
 import { getStartOfToday } from "@/utils/date"
-import { extractBasePath } from "@/utils/url"
+import createSetter from "@/utils/nanostores"
 
 import "./SearchAndSortBar.css"
 
-const handleFilterTypeChange = (value) => {
-  setFilterType(value)
-}
+const draftFilterTypeState = atom("title")
+const setDraftFilterType = createSetter(draftFilterTypeState)
 
 const SearchModal = memo(({ value, visible, onCancel, onConfirm, onChange }) => {
-  const { filterType } = useStore(contentState)
+  const draftFilterType = useStore(draftFilterTypeState)
   const { polyglot } = useStore(polyglotState)
   const tooltipLines = polyglot.t("search.tooltip").split("\n")
 
   const handleConfirm = () => {
+    setFilterType(draftFilterType)
     onConfirm(value)
   }
 
@@ -79,13 +80,13 @@ const SearchModal = memo(({ value, visible, onCancel, onConfirm, onChange }) => 
           addBefore={
             <Select
               style={{ width: "auto" }}
-              value={filterType}
+              value={draftFilterType}
               triggerProps={{
                 autoAlignPopupWidth: false,
                 autoAlignPopupMinWidth: true,
                 position: "bl",
               }}
-              onChange={handleFilterTypeChange}
+              onChange={setDraftFilterType}
             >
               <Select.Option value="title">{polyglot.t("search.type_title")}</Select.Option>
               <Select.Option value="content">{polyglot.t("search.type_content")}</Select.Option>
@@ -133,22 +134,20 @@ const ActiveButton = ({ active, icon, tooltip, onClick }) => (
 )
 
 const SearchAndSortBar = () => {
-  const { filterDate, filterString, infoFrom, isArticleListReady } = useStore(contentState)
+  const { filterDate, filterString, filterType, infoFrom, isArticleListReady } =
+    useStore(contentState)
   const { orderDirection, showStatus } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
   const feeds = useStore(feedsState)
   const categories = useStore(categoriesState)
   const dynamicCount = useStore(dynamicCountState)
 
-  const location = useLocation()
   const { id } = useParams()
   const { isBelowMedium } = useScreenWidth()
 
   const [calendarVisible, setCalendarVisible] = useState(false)
   const [searchModalVisible, setSearchModalVisible] = useState(false)
   const [modalInputValue, setModalInputValue] = useState("")
-
-  const prevBasePathRef = useRef()
 
   const { title, count } = useMemo(() => {
     if (id) {
@@ -180,6 +179,7 @@ const SearchAndSortBar = () => {
 
   const openSearchModal = () => {
     setModalInputValue(filterString)
+    setDraftFilterType(filterType)
     setSearchModalVisible(true)
   }
 
@@ -201,18 +201,6 @@ const SearchAndSortBar = () => {
     setFilterDate(null)
     setCalendarVisible(false)
   }
-
-  useEffect(() => {
-    const currentBasePath = extractBasePath(location.pathname)
-
-    if (prevBasePathRef?.current !== currentBasePath) {
-      setFilterDate(null)
-      setFilterType("title")
-      setFilterString("")
-    }
-
-    prevBasePathRef.current = currentBasePath
-  }, [location.pathname, showStatus])
 
   return (
     <div className="search-and-sort-bar" style={{ width: isBelowMedium ? "100%" : 370 }}>
