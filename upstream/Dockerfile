@@ -1,6 +1,6 @@
 # Stage 1: Build the React application
 # Specify the version to ensure consistent builds
-FROM --platform=$BUILDPLATFORM node:22-alpine AS build
+FROM --platform=$BUILDPLATFORM node:24-alpine AS build
 
 # Install git
 RUN apk add --no-cache git
