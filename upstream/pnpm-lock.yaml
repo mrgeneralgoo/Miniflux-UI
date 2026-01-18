@@ -1955,8 +1955,8 @@ packages:
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
 
-  comment-parser@1.4.3:
-    resolution: {integrity: sha512-qvEp8Hk/uxsIbBe2gnu87CrP2wSFLzG0fIgcxF27DiBlD12Nlyydt91T4KQNiRxfebMxU5QEoWQBNiha+A9I3A==}
+  comment-parser@1.4.4:
+    resolution: {integrity: sha512-0D6qSQ5IkeRrGJFHRClzaMOenMeT0gErz3zIw3AprKMqhRN6LNU2jQOdkPG/FZ+8bCgXE1VidrgSzlBBDZRr8A==}
     engines: {node: '>= 12.0.0'}
 
   common-tags@1.8.2:
@@ -5682,7 +5682,7 @@ snapshots:
 
   commander@2.20.3: {}
 
-  comment-parser@1.4.3: {}
+  comment-parser@1.4.4: {}
 
   common-tags@1.8.2: {}
 
@@ -6044,7 +6044,7 @@ snapshots:
   eslint-plugin-import-x@4.16.1(eslint@9.39.2):
     dependencies:
       '@typescript-eslint/types': 8.53.0
-      comment-parser: 1.4.3
+      comment-parser: 1.4.4
       debug: 4.4.3
       eslint: 9.39.2
       eslint-import-context: 0.1.9(unrs-resolver@1.11.1)
