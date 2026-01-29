@@ -15,8 +15,8 @@ importers:
         specifier: ^2.66.10
         version: 2.66.10(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@nanostores/persistent':
-        specifier: ^1.2.0
-        version: 1.2.0(nanostores@1.1.0)
+        specifier: ^1.2.1
+        version: 1.2.1(nanostores@1.1.0)
       '@nanostores/react':
         specifier: ^1.0.0
         version: 1.0.0(nanostores@1.1.0)(react@18.3.1)
@@ -39,8 +39,8 @@ importers:
         specifier: ^1.6.15
         version: 1.6.15
       html-react-parser:
-        specifier: ^5.2.13
-        version: 5.2.13(@types/react@18.3.27)(react@18.3.1)
+        specifier: ^5.2.14
+        version: 5.2.14(@types/react@18.3.27)(react@18.3.1)
       littlefoot:
         specifier: ^4.1.3
         version: 4.1.3
@@ -95,13 +95,13 @@ importers:
     devDependencies:
       '@cloudflare/vite-plugin':
         specifier: ^1.22.0
-        version: 1.22.0(vite@7.3.1(@types/node@25.0.10)(terser@5.46.0)(yaml@2.8.2))(workerd@1.20260124.0)(wrangler@4.61.0)
+        version: 1.22.0(vite@7.3.1(@types/node@25.1.0)(terser@5.46.0)(yaml@2.8.2))(workerd@1.20260124.0)(wrangler@4.61.0)
       '@eslint/js':
         specifier: ^9.39.2
         version: 9.39.2
       '@types/node':
-        specifier: ^25.0.10
-        version: 25.0.10
+        specifier: ^25.1.0
+        version: 25.1.0
       '@types/react':
         specifier: ^18.3.27
         version: 18.3.27
@@ -110,7 +110,7 @@ importers:
         version: 18.3.7(@types/react@18.3.27)
       '@vitejs/plugin-react':
         specifier: ^5.1.2
-        version: 5.1.2(vite@7.3.1(@types/node@25.0.10)(terser@5.46.0)(yaml@2.8.2))
+        version: 5.1.2(vite@7.3.1(@types/node@25.1.0)(terser@5.46.0)(yaml@2.8.2))
       babel-plugin-react-compiler:
         specifier: 19.1.0-rc.3
         version: 19.1.0-rc.3
@@ -164,10 +164,10 @@ importers:
         version: 2.13.1
       vite:
         specifier: ^7.3.1
-        version: 7.3.1(@types/node@25.0.10)(terser@5.46.0)(yaml@2.8.2)
+        version: 7.3.1(@types/node@25.1.0)(terser@5.46.0)(yaml@2.8.2)
       vite-plugin-pwa:
         specifier: ^1.2.0
-        version: 1.2.0(vite@7.3.1(@types/node@25.0.10)(terser@5.46.0)(yaml@2.8.2))(workbox-build@7.4.0(@types/babel__core@7.20.5))(workbox-window@7.4.0)
+        version: 1.2.0(vite@7.3.1(@types/node@25.1.0)(terser@5.46.0)(yaml@2.8.2))(workbox-build@7.4.0(@types/babel__core@7.20.5))(workbox-window@7.4.0)
       workbox-window:
         specifier: ^7.4.0
         version: 7.4.0
@@ -1321,8 +1321,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@nanostores/persistent@1.2.0':
-    resolution: {integrity: sha512-kf5WOLpVI9Pk+AwXHIax4in3pesNe8299BEGQ2H8kgI05SZw7KKWCDv7bt2FOlND8E5y7rO5PRW34q0UCAl/DA==}
+  '@nanostores/persistent@1.2.1':
+    resolution: {integrity: sha512-TNrWoljS23MDnkt6zTsvsSCER0iBPNIm8rD+iFooO0jfZfk1728sv11jq2o+klmBNRxnSjWXlDEmjPkzeUwZIQ==}
     engines: {node: ^20.0.0 || >=22.0.0}
     peerDependencies:
       nanostores: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^1.0.0
@@ -1576,8 +1576,8 @@ packages:
   '@types/minimatch@3.0.5':
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
 
-  '@types/node@25.0.10':
-    resolution: {integrity: sha512-zWW5KPngR/yvakJgGOmZ5vTBemDoSqF3AcV/LrO5u5wTWyEAVVh+IT39G4gtyAkh3CtTZs8aX/yRM82OfzHJRg==}
+  '@types/node@25.1.0':
+    resolution: {integrity: sha512-t7frlewr6+cbx+9Ohpl0NOTKXZNV9xHRmNOvql47BFJKcEG1CxtxlPEEe+gR9uhVWM4DwhnvTF110mIL4yP9RA==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -1860,8 +1860,8 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  baseline-browser-mapping@2.9.18:
-    resolution: {integrity: sha512-e23vBV1ZLfjb9apvfPk4rHVu2ry6RIr2Wfs+O324okSidrX7pTAnEJPCh/O5BtRlr7QtZI7ktOP3vsqr7Z5XoA==}
+  baseline-browser-mapping@2.9.19:
+    resolution: {integrity: sha512-ipDqC8FrAl/76p2SSWKSI+H9tFwm7vYqXQrItCuiVPt26Km0jS+NzSsBWAaBusvSbQcfJG+JitdMm+wZAgTYqg==}
     hasBin: true
 
   blake3-wasm@2.1.5:
@@ -2577,11 +2577,11 @@ packages:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
     engines: {node: '>=0.10.0'}
 
-  html-dom-parser@5.1.5:
-    resolution: {integrity: sha512-sUi5Es4oIRubVT7AxVpcjcieHFCXB65vox3lHq6poEe5hStKzpAOBMC+ok5KCw3b1+nyD2VjcHvcZKO9vqmfng==}
+  html-dom-parser@5.1.4:
+    resolution: {integrity: sha512-UGjp7y8jSrDU2RdN2J9FDOo3X+WBu+LkS/I3TjjFW020ocZWjPvave+RKk1zeuY2sUWy5fh6zHgXHthzDGlFNQ==}
 
-  html-react-parser@5.2.13:
-    resolution: {integrity: sha512-YMbSV8Ws9SorOPIKAMumGP0GZrOWbIOWmMSuf0dLRjCnppi83PUWQLYRU8XPSQ5h3IphjoTGcuyMWWy5/8AOZw==}
+  html-react-parser@5.2.14:
+    resolution: {integrity: sha512-yiSZHuJq6LwQc450IhpLApug8bKTpHv5oVsClpVS1jEDepifXYcJu0Sw0r7pqEl89q/ZpO0nth6LEDWtz5n6qg==}
     peerDependencies:
       '@types/react': 0.14 || 15 || 16 || 17 || 18 || 19
       react: 0.14 || 15 || 16 || 17 || 18 || 19
@@ -4703,12 +4703,12 @@ snapshots:
     optionalDependencies:
       workerd: 1.20260124.0
 
-  '@cloudflare/vite-plugin@1.22.0(vite@7.3.1(@types/node@25.0.10)(terser@5.46.0)(yaml@2.8.2))(workerd@1.20260124.0)(wrangler@4.61.0)':
+  '@cloudflare/vite-plugin@1.22.0(vite@7.3.1(@types/node@25.1.0)(terser@5.46.0)(yaml@2.8.2))(workerd@1.20260124.0)(wrangler@4.61.0)':
     dependencies:
       '@cloudflare/unenv-preset': 2.11.0(unenv@2.0.0-rc.24)(workerd@1.20260124.0)
       miniflare: 4.20260124.0
       unenv: 2.0.0-rc.24
-      vite: 7.3.1(@types/node@25.0.10)(terser@5.46.0)(yaml@2.8.2)
+      vite: 7.3.1(@types/node@25.1.0)(terser@5.46.0)(yaml@2.8.2)
       wrangler: 4.61.0
       ws: 8.18.0
     transitivePeerDependencies:
@@ -5104,7 +5104,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@nanostores/persistent@1.2.0(nanostores@1.1.0)':
+  '@nanostores/persistent@1.2.1(nanostores@1.1.0)':
     dependencies:
       nanostores: 1.1.0
 
@@ -5308,7 +5308,7 @@ snapshots:
 
   '@types/minimatch@3.0.5': {}
 
-  '@types/node@25.0.10':
+  '@types/node@25.1.0':
     dependencies:
       undici-types: 7.16.0
 
@@ -5396,7 +5396,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
-  '@vitejs/plugin-react@5.1.2(vite@7.3.1(@types/node@25.0.10)(terser@5.46.0)(yaml@2.8.2))':
+  '@vitejs/plugin-react@5.1.2(vite@7.3.1(@types/node@25.1.0)(terser@5.46.0)(yaml@2.8.2))':
     dependencies:
       '@babel/core': 7.28.6
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.6)
@@ -5404,7 +5404,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.53
       '@types/babel__core': 7.20.5
       react-refresh: 0.18.0
-      vite: 7.3.1(@types/node@25.0.10)(terser@5.46.0)(yaml@2.8.2)
+      vite: 7.3.1(@types/node@25.1.0)(terser@5.46.0)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -5587,7 +5587,7 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  baseline-browser-mapping@2.9.18: {}
+  baseline-browser-mapping@2.9.19: {}
 
   blake3-wasm@2.1.5: {}
 
@@ -5606,7 +5606,7 @@ snapshots:
 
   browserslist@4.28.1:
     dependencies:
-      baseline-browser-mapping: 2.9.18
+      baseline-browser-mapping: 2.9.19
       caniuse-lite: 1.0.30001766
       electron-to-chromium: 1.5.279
       node-releases: 2.0.27
@@ -6469,15 +6469,15 @@ snapshots:
     dependencies:
       parse-passwd: 1.0.0
 
-  html-dom-parser@5.1.5:
+  html-dom-parser@5.1.4:
     dependencies:
       domhandler: 5.0.3
       htmlparser2: 10.1.0
 
-  html-react-parser@5.2.13(@types/react@18.3.27)(react@18.3.1):
+  html-react-parser@5.2.14(@types/react@18.3.27)(react@18.3.1):
     dependencies:
       domhandler: 5.0.3
-      html-dom-parser: 5.1.5
+      html-dom-parser: 5.1.4
       react: 18.3.1
       react-property: 2.0.2
       style-to-js: 1.1.21
@@ -7730,18 +7730,18 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  vite-plugin-pwa@1.2.0(vite@7.3.1(@types/node@25.0.10)(terser@5.46.0)(yaml@2.8.2))(workbox-build@7.4.0(@types/babel__core@7.20.5))(workbox-window@7.4.0):
+  vite-plugin-pwa@1.2.0(vite@7.3.1(@types/node@25.1.0)(terser@5.46.0)(yaml@2.8.2))(workbox-build@7.4.0(@types/babel__core@7.20.5))(workbox-window@7.4.0):
     dependencies:
       debug: 4.4.3
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.15
-      vite: 7.3.1(@types/node@25.0.10)(terser@5.46.0)(yaml@2.8.2)
+      vite: 7.3.1(@types/node@25.1.0)(terser@5.46.0)(yaml@2.8.2)
       workbox-build: 7.4.0(@types/babel__core@7.20.5)
       workbox-window: 7.4.0
     transitivePeerDependencies:
       - supports-color
 
-  vite@7.3.1(@types/node@25.0.10)(terser@5.46.0)(yaml@2.8.2):
+  vite@7.3.1(@types/node@25.1.0)(terser@5.46.0)(yaml@2.8.2):
     dependencies:
       esbuild: 0.27.2
       fdir: 6.5.0(picomatch@4.0.3)
@@ -7750,7 +7750,7 @@ snapshots:
       rollup: 4.57.0
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 25.0.10
+      '@types/node': 25.1.0
       fsevents: 2.3.3
       terser: 5.46.0
       yaml: 2.8.2
