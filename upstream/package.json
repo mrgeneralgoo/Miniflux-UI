@@ -22,7 +22,7 @@
     "canvas-confetti": "^1.9.4",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.19",
-    "framer-motion": "^12.30.0",
+    "framer-motion": "^12.31.0",
     "highlight.js": "^11.11.1",
     "hls.js": "^1.6.15",
     "html-react-parser": "^5.2.16",
@@ -45,7 +45,7 @@
     "yet-another-react-lightbox": "^3.28.0"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.22.1",
+    "@cloudflare/vite-plugin": "^1.23.0",
     "@eslint/js": "^9.39.2",
     "@types/node": "^25.2.0",
     "@types/react": "^18.3.27",
@@ -71,7 +71,7 @@
     "vite": "^7.3.1",
     "vite-plugin-pwa": "^1.2.0",
     "workbox-window": "^7.4.0",
-    "wrangler": "^4.61.1"
+    "wrangler": "^4.62.0"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"
