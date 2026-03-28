@@ -45,7 +45,7 @@
     "yet-another-react-lightbox": "^3.30.1"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.30.1",
+    "@cloudflare/vite-plugin": "^1.30.2",
     "@eslint/js": "^9.39.4",
     "@types/node": "^25.5.0",
     "@types/react": "^18.3.28",
@@ -71,7 +71,7 @@
     "vite": "^7.3.1",
     "vite-plugin-pwa": "^1.2.0",
     "workbox-window": "^7.4.0",
-    "wrangler": "^4.77.0"
+    "wrangler": "^4.78.0"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"
