@@ -22,6 +22,7 @@ const defaultValue = {
   pageSize: 100,
   removeDuplicates: "none",
   showDetailedRelativeTime: false,
+  summaryLines: 4,
   showEstimatedReadingTime: false,
   showFeedIcon: true,
   showHiddenFeeds: false,

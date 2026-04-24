@@ -1,4 +1,4 @@
-import { Divider, Select, Switch } from "@arco-design/web-react"
+import { Divider, Select, Slider, Switch } from "@arco-design/web-react"
 import { useStore } from "@nanostores/react"
 
 import SettingItem from "./SettingItem"
@@ -23,6 +23,7 @@ const Appearance = () => {
     showDetailedRelativeTime,
     showEstimatedReadingTime,
     showFeedIcon,
+    summaryLines,
     themeColor,
   } = useStore(settingsState)
   const { polyglot } = useStore(polyglotState)
@@ -138,6 +139,23 @@ const Appearance = () => {
         <Switch
           checked={showFeedIcon}
           onChange={(value) => handleConfigChange({ showFeedIcon: value })}
+        />
+      </SettingItem>
+
+      <Divider />
+
+      <SettingItem
+        description={polyglot.t("appearance.summary_lines_description")}
+        title={polyglot.t("appearance.summary_lines_label")}
+      >
+        <Slider
+          className="input-slider"
+          max={4}
+          min={0}
+          showTicks={true}
+          step={1}
+          value={summaryLines}
+          onChange={(value) => handleConfigChange({ summaryLines: value })}
         />
       </SettingItem>
     </>

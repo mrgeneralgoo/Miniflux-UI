@@ -76,6 +76,7 @@ const ArticleCard = ({ entry, handleEntryClick, children }) => {
     showDetailedRelativeTime,
     showEstimatedReadingTime,
     showFeedIcon,
+    summaryLines,
   } = useStore(settingsState)
   const { activeContent, infoFrom } = useStore(contentState)
   const { hasIntegrations } = useStore(dataState)
@@ -191,11 +192,6 @@ const ArticleCard = ({ entry, handleEntryClick, children }) => {
     }
   }, [entry.coverSource, coverDisplayMode])
 
-  const getLineClamp = () => {
-    const hasSideImage = entry.coverSource && !hasError && !isWideImage
-    return !showEstimatedReadingTime && hasSideImage ? 4 : 3
-  }
-
   const previewContent = useMemo(() => extractTextFromHtml(entry.content), [entry.content])
 
   return (
@@ -307,12 +303,14 @@ const ArticleCard = ({ entry, handleEntryClick, children }) => {
                   <span>{generateReadingTime(entry.reading_time)}</span>
                 </div>
               )}
-              <p
-                className="card-preview"
-                style={{ lineClamp: getLineClamp(), WebkitLineClamp: getLineClamp() }}
-              >
-                {previewContent}
-              </p>
+              {summaryLines > 0 && (
+                <p
+                  className="card-preview"
+                  style={{ lineClamp: summaryLines, WebkitLineClamp: summaryLines }}
+                >
+                  {previewContent}
+                </p>
+              )}
             </div>
             {entry.coverSource && !hasError && isImageLoaded && !isWideImage && (
               <div className="card-image-mini">

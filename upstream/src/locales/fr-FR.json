@@ -291,6 +291,8 @@
     "show_estimated_reading_time_description": "Afficher le temps de lecture estimé dans la carte d'article",
     "show_feed_icon_label": "Afficher l'icône du flux",
     "show_feed_icon_description": "Afficher l'icône du flux dans la liste des flux et la carte d'article",
+    "summary_lines_label": "Lignes de résumé",
+    "summary_lines_description": "Nombre de lignes à afficher dans l'aperçu de l'article (0 pour masquer)",
     "lightbox_animation_label": "Animation de la lightbox",
     "lightbox_animation_description": "Activer les animations de glissement pour le changement d'images",
     "language_label": "Langue",
